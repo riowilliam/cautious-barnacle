@@ -16,10 +16,10 @@ import java.util.Optional;
 public interface TbVendorRepository extends JpaRepository<TbVendor, Long> {
     Optional<TbVendor> findByVendorName(String vendorName);
 
-    @Query("SELECT v.vendorId as vendorId, v.vendorName as vendorName " +
+    @Query("SELECT v " +
             "FROM TbVendor v " +
             "WHERE (:vendorName IS NULL OR v.vendorName LIKE %:vendorName%) ")
-    List<Map<String, Object>> getVendorList(@Param("vendorName") String vendorName);
+    List<TbVendor> getVendorList(@Param("vendorName") String vendorName);
 
     @Query("SELECT v FROM TbVendor v " +
             "WHERE (:vendorName IS NULL OR v.vendorName LIKE %:vendorName%) " +

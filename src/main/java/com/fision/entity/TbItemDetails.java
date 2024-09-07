@@ -18,7 +18,7 @@ public class TbItemDetails {
     @Column(name = "item_details_id")
     private Long itemDetailsId;
 
-    @Column(name = "contract_code", length = 100)
+    @Column(name = "contract_code")
     private String contractCode;
 
     @Column(name = "item_id")

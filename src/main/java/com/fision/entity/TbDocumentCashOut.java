@@ -1,44 +1,43 @@
 package com.fision.entity;
+
 import lombok.Data;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * @author LordDev
- */
-
 @Entity
-@Table(name = "tb_project")
+@Table(name = "tb_document_cash_out")
 @Data
-public class TbProject {
+public class TbDocumentCashOut {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "project_id")
-    private Long projectId;
+    @Column(name = "document_cash_out_id")
+    private Long documentCashOutId;
 
-    @Column(name = "project_name")
-    private String projectName;
+    @Column(name = "document_name", nullable = false)
+    private String documentName;
 
-    @Column(name = "start_date")
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    @Column(name = "total_amount", nullable = false, precision = 20, scale = 3)
+    private BigDecimal totalAmount;
 
     @Column(name = "status", nullable = false)
-    private Integer status; // 1 = Active, 0 = Inactive
+    private int status;
 
-    @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_tm", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;
 
-    @Column(name = "created_by", length = 255)
+    @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "modified_tm", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedTm;
 
-    @Column(name = "modified_by", length = 255)
+    @Column(name = "modified_by")
     private String modifiedBy;
 
     @PrePersist
@@ -52,6 +51,5 @@ public class TbProject {
     protected void onUpdate() {
         this.modifiedTm = new Date();
     }
-
 }
 

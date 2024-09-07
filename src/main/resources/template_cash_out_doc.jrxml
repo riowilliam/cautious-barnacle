@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="yearly_summary" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="378e8ff8-92a2-40d1-884e-28352d036c1d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.100000000000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="imageDir" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="247" y="0" width="305" height="15" uuid="9560f74b-9da8-41d3-a19e-dd715d503d00"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DAFTAR PEMBAYARAN EXTERN & INTERN PT. HAKAASTON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="15" width="305" height="11" uuid="8648bea1-e2bb-47a8-9f86-9eed86175c02"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[TRANSFER DARI REKENING PT. HAKAASTON]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="80" height="33" uuid="90e5344f-06fd-4f13-baac-9246787a0e53"/>
+				<imageExpression><![CDATA[$P{imageDir}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="33" width="80" height="11" uuid="6f546c4e-5a07-4918-a9a4-972a3eea2209"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Calibri" size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[TANGGAL : ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="20" height="14" uuid="c3be3181-358c-43ec-924e-dc420f7ea6e3"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="0" width="100" height="14" uuid="3f1f3037-d7e9-49c4-ad2f-5391f74fef26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Rekanan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="100" height="14" uuid="22e4c8b4-68d1-4162-b773-cb75cd0bfe28"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Invoice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="80" height="14" uuid="3791fb0e-b94d-4297-a9ae-2558febe7412"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="80" height="14" uuid="e4fbba98-fb03-4aee-a44b-480939c967fb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[No. Rekening]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="80" height="14" uuid="ed3da9e0-6db9-4c57-acd7-1ea17fc7d7f1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Atas Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="80" height="14" uuid="f8c63c67-253b-44ea-a286-e1a27a86ea7d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Bank]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="0" width="80" height="14" uuid="f3a99d60-46b5-43c7-81f5-c418a891e8c4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Nominal Transfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="0" width="80" height="14" uuid="4abd51ef-2119-45ad-af40-438b2e2d71d0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Biaya Transfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="80" height="14" uuid="9fda3eae-b968-4059-b5ce-5fe1d15b2328"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Total Pembayaran]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="79" splitType="Stretch"/>
+	</detail>
+	<lastPageFooter>
+		<band height="103">
+			<staticText>
+				<reportElement x="620" y="36" width="80" height="14" uuid="15a41cd6-016b-4b49-b3d1-81bfe818ea7e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hormat Kami]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="49" width="80" height="14" uuid="6226a447-0e03-4b72-a234-4ca902925866"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PT. HAKAASTON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="10" width="80" height="14" uuid="f8d033b2-fe81-470e-a654-0679cf5e3b7f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="10" width="80" height="14" uuid="48cf8835-788a-475e-8b9a-6b21c1dceac3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="10" width="80" height="14" uuid="da645b7e-62cc-4773-b457-22d250ff0b3e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="10" width="80" height="14" uuid="8aebd893-9411-4f21-9bfb-ea98c3a18e9c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

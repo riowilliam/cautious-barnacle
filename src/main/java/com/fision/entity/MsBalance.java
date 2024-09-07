@@ -19,7 +19,7 @@ public class MsBalance {
     @Column(name = "balance_id")
     private Long balanceId;
 
-    @Column(name = "balance_name", nullable = false, length = 100)
+    @Column(name = "balance_name", nullable = false)
     private String balanceName;
 
     @Column(name = "balance_amount", nullable = false, precision = 20, scale = 3)

@@ -19,13 +19,13 @@ public class TbArInvoice {
     @Column(name = "ar_invoice_id")
     private Long arInvoiceId;
 
-    @Column(name = "invoice_no", nullable = false, length = 100)
+    @Column(name = "invoice_no", nullable = false)
     private String invoiceNo;
 
-    @Column(name = "partner_id", nullable = false, length = 100)
+    @Column(name = "partner_id", nullable = false)
     private String partnerId;
 
-    @Column(name = "project_id", nullable = false, length = 100)
+    @Column(name = "project_id", nullable = false)
     private String projectId;
 
     @Column(name = "dpp_amount", nullable = false, precision = 20, scale = 3)
@@ -43,22 +43,22 @@ public class TbArInvoice {
     @Column(name = "total_amount", precision = 20, scale = 3)
     private BigDecimal totalAmount;
 
-    @Column(name = "contract_code", length = 100)
+    @Column(name = "contract_code")
     private String contractCode;
 
-    @Column(name = "paid_item_details", length = 100)
+    @Column(name = "paid_item_details")
     private String paidItemDetails;
 
-    @Column(name = "bapp_no", length = 100)
+    @Column(name = "bapp_no")
     private String bappNo;
 
-    @Column(name = "document_tracking", length = 100, columnDefinition = "varchar(100) COMMENT 'On Process, Submitted'")
+    @Column(name = "document_tracking", columnDefinition = "varchar(100) COMMENT 'On Process, Submitted'")
     private String documentTracking;
 
     @Column(name = "invoice_status", columnDefinition = "int COMMENT '0 = Not Approved, 1 = Approved, 2 = Rejected'")
     private Integer invoiceStatus;
 
-    @Column(name = "payment_status", length = 100, columnDefinition = "varchar(100) COMMENT 'Fully Paid if SUM of cash in from this invoice on tb_cash_in = Total Amount, Partially Paid if SUM of cash in from this invoice on tb_cash_in < Total Amount'")
+    @Column(name = "payment_status", columnDefinition = "varchar(100) COMMENT 'Fully Paid if SUM of cash in from this invoice on tb_cash_in = Total Amount, Partially Paid if SUM of cash in from this invoice on tb_cash_in < Total Amount'")
     private String paymentStatus;
 
     @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

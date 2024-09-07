@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreport_cash_out" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c968ca91-c5a0-4dd9-903b-5a8228d68f4e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="20" height="14" uuid="32e2b4e4-0c9c-4f2f-92c7-9d18a3f6bce0"/>
+				<textElement>
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="0" width="100" height="14" uuid="0fd4750d-6115-4902-a232-3bdfa0bf492b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Rekanan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="100" height="14" uuid="995e5a54-f4e4-4448-b177-c92a1d5e2dd1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Invoice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="80" height="14" uuid="ee00b825-f647-4803-a550-3f3d14f544c8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Unit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="80" height="14" uuid="dbb79093-ba2c-44b5-a3eb-0561d67d1bfb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[No. Rekening]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="80" height="14" uuid="2868cc9a-7310-49c3-b128-c0d803dd6189"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Atas Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="80" height="14" uuid="5fa97f49-7e11-416f-b95c-84841912192b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Bank]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="0" width="80" height="14" uuid="47b69404-f43c-478c-ab3c-42b2dc7354df"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Nominal Transfer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="80" height="14" uuid="1d0f587e-5fa6-4c02-9f94-a630811f78f2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Total Pembayaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="620" y="0" width="80" height="14" uuid="d2ded146-782b-4b36-a849-211af0e8d7fc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<text><![CDATA[Biaya Transfer]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

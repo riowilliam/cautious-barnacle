@@ -19,7 +19,7 @@ public class TbFacilityBalance {
     @Column(name = "facility_balance_id")
     private Long facilityBalanceId;
 
-    @Column(name = "facility_type", nullable = false, length = 100)
+    @Column(name = "facility_type", nullable = false)
     private String facilityType;
 
     @Column(name = "amount", precision = 20, scale = 3)

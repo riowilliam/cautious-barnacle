@@ -7,6 +7,7 @@ import com.fision.dto.VendorRequestDto;
 import com.fision.entity.MsItem;
 import com.fision.entity.TbProject;
 import com.fision.entity.TbVendor;
+import com.fision.service.MsBankService;
 import com.fision.service.VendorService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
@@ -33,6 +34,9 @@ public class VendorController {
 
     @Autowired
     VendorService vendorService;
+
+    @Autowired
+    MsBankService msBankService;
 
     @PostMapping("createVendor")
     public ResponseDto<?> createVendor(@RequestParam String username, @RequestBody String requestDto) {
@@ -91,8 +95,20 @@ public class VendorController {
     @GetMapping("getVendorList")
     public ResponseDto<?> getVendorList(@RequestParam String username, @RequestParam String vendorName) {
         try {
-            List<Map<String, Object>> vendorList = vendorService.getVendorList(vendorName != null && !vendorName.isEmpty() ? vendorName : null);
+            List<TbVendor> vendorList = vendorService.getVendorList(vendorName != null && !vendorName.isEmpty() ? vendorName : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, vendorList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("getBankList")
+    public ResponseDto<?> getBankList(@RequestParam String username, @RequestParam String bankShortName, @RequestParam String bankName) {
+        try {
+            List<Map<String, Object>> bankList = msBankService.getBankList(bankShortName != null && !bankShortName.isEmpty() ? bankShortName : null,
+                    bankName != null && !bankName.isEmpty() ? bankName : null);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, bankList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -17,27 +17,27 @@ public class TbFacilityAssetTransaction {
     @Column(name = "facility_asset_transaction_id")
     private Long facilityAssetTransactionId;
 
-    @Column(name = "vendor_name", length = 100)
+    @Column(name = "vendor_name")
     private String vendorName;
 
     @Column(name = "transaction_date")
     @Temporal(TemporalType.DATE)
     private Date transactionDate;
 
-    @Column(name = "amount", length = 100)
+    @Column(name = "amount")
     private String amount;
 
-    @Column(name = "bank_approval_date", length = 100)
+    @Column(name = "bank_approval_date")
     private String bankApprovalDate;
 
     @Column(name = "tenor_date")
     @Temporal(TemporalType.DATE)
     private Date tenorDate;
 
-    @Column(name = "transaction_type", length = 100)
+    @Column(name = "transaction_type")
     private String transactionType;
 
-    @Column(name = "facility_type", length = 100)
+    @Column(name = "facility_type")
     private String facilityType;
 
     @Column(name = "is_tenor_date_on_weekend")

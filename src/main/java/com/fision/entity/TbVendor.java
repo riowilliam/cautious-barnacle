@@ -19,19 +19,19 @@ public class TbVendor {
     @Column(name = "vendor_id")
     private Long vendorId;
 
-    @Column(name = "vendor_name", nullable = false, length = 100)
+    @Column(name = "vendor_name", nullable = false)
     private String vendorName;
 
     @Column(name = "bank_account_name", nullable = false, length = 255)
     private String bankAccountName;
 
-    @Column(name = "bank_account", nullable = false, length = 100)
+    @Column(name = "bank_account", nullable = false)
     private String bankAccount;
 
-    @Column(name = "bank_name", nullable = false, length = 100)
+    @Column(name = "bank_name", nullable = false)
     private String bankName;
 
-    @Column(name = "bank_code", length = 100)
+    @Column(name = "bank_code")
     private String bankCode;
 
     @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

@@ -17,10 +17,10 @@ public class TxPaidItem {
     @Column(name = "paid_item_id")
     private Long paidItemId;
 
-    @Column(name = "invoice_no", length = 100)
+    @Column(name = "invoice_no")
     private String invoiceNo;
 
-    @Column(name = "contract_code", length = 100)
+    @Column(name = "contract_code")
     private String contractCode;
 
     @Column(name = "item_id")

@@ -69,7 +69,7 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<Map<String, Object>> getVendorList(String vendorName) {
+    public List<TbVendor> getVendorList(String vendorName) {
         return tbVendorRepository.getVendorList(vendorName);
     }
 }

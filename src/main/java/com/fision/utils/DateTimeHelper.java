@@ -47,7 +47,7 @@ public class DateTimeHelper {
     }
 
     public static String nowToString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddhhss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd-hhmmss");
         return dateFormat.format(new Date());
     }
 }

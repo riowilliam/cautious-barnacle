@@ -18,7 +18,7 @@ public class TbContract {
     @Column(name = "contract_id")
     private Long contractId;
 
-    @Column(name = "contract_code", nullable = false, length = 100)
+    @Column(name = "contract_code", nullable = false)
     private String contractCode;
 
     @Column(name = "contract_name", nullable = false)
@@ -27,7 +27,7 @@ public class TbContract {
     @Column(name = "revision", nullable = false)
     private int revision;
 
-    @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_tm", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;
 

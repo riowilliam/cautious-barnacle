@@ -29,7 +29,7 @@ public class TbPartner {
     @Temporal(TemporalType.DATE)
     private Date invalidContractDate;
 
-    @Column(name = "active_project", length = 100)
+    @Column(name = "active_project")
     private String activeProject;
 
     @Column(name = "is_ppn_wapu", nullable = false)

@@ -18,13 +18,16 @@ public class TmpCashOut {
     @Column(name = "cash_out_id")
     private Long cashOutId;
 
-    @Column(name = "vendor_id", nullable = false)
-    private Long vendorId;
+    @Column(name = "vendor_name", nullable = false)
+    private String vendorName;
 
     @Column(name = "amount", precision = 20, scale = 3)
     private BigDecimal amount;
 
-    @Column(name = "invoice_title", length = 100)
+    @Column(name = "project_name")
+    private String projectName;
+
+    @Column(name = "invoice_title")
     private String invoiceTitle;
 
     @Column(name = "transfer_fee", precision = 20, scale = 3)
@@ -33,8 +36,8 @@ public class TmpCashOut {
     @Column(name = "total", precision = 20, scale = 3, columnDefinition = "DECIMAL(20,3) COMMENT 'amount + transfer_fee'")
     private BigDecimal total;
 
-    @Column(name = "document_cash_out_id")
-    private Long documentCashOutId;
+    @Column(name = "document_cash_out_name")
+    private String documentCashOutName;
 
     @Column(name = "created_tm", nullable = true, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
