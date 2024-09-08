@@ -1,6 +1,6 @@
 services:
-  app:
-    image: fision-service-apps:latest
+  fision-service:
+    image: fision-service:latest
     build:
       context: .
       dockerfile: Dockerfile
