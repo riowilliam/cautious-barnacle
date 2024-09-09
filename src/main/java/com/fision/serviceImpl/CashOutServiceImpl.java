@@ -1,7 +1,6 @@
 package com.fision.serviceImpl;
 
-import com.fision.dto.CashOutDetailDto;
-import com.fision.dto.CashOutListDto;
+import com.fision.dto.*;
 import com.fision.entity.TbCashOut;
 import com.fision.entity.TbDocumentCashOut;
 import com.fision.entity.TmpCashOut;
@@ -11,11 +10,14 @@ import com.fision.repository.TmpCashOutRepository;
 import com.fision.service.CashOutService;
 import com.fision.service.DocumentCashOutService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,15 +70,12 @@ public class CashOutServiceImpl implements CashOutService {
     public void approvalCashOutDoc(String username, Integer status, TbDocumentCashOut tbDocumentCashOut) {
         // Copy List from TmpCashOut and save
         List<TmpCashOut> tmpCashOutData = tmpCashOutRepository.findByDocumentCashOutName(tbDocumentCashOut.getDocumentName());
-        if(status == 1) { // Rejected
-            List<TbCashOut> tbCashOutList = tmpCashOutData.stream()
-                    .map(this::mapToTbCashOut)
-                    .collect(Collectors.toList());
+        List<TbCashOut> tbCashOutList = tmpCashOutData.stream()
+                .map(this::mapToTbCashOut)
+                .collect(Collectors.toList());
 
-            tbCashOutRepository.saveAll(tbCashOutList);
-        } else {
-            tmpCashOutRepository.deleteAll(tmpCashOutData);
-        }
+        tbCashOutRepository.saveAll(tbCashOutList);
+        tmpCashOutRepository.deleteAll(tmpCashOutData);
 
         // Set status and save
         tbDocumentCashOut.setStatus(status);
@@ -90,11 +89,35 @@ public class CashOutServiceImpl implements CashOutService {
     }
 
     @Override
-    public CashOutListDto getTmpCashOutListByDocName(String documentName) {
+    public CashOutListDto getCashOutListByDocName(String documentName) {
         List<CashOutDetailDto> cashOutDetailDtoList = tmpCashOutRepository.getTmpCashOutDetailList(documentName);
         BigDecimal subTotal = tmpCashOutRepository.getSubTotal(documentName);
 
         return new CashOutListDto(cashOutDetailDtoList, subTotal, documentName);
+    }
+
+    @Override
+    public Page<CashOutMutationListDto> getCashOutMutationPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String vendorName, String docName, Date startDate, Date endDate) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Page<CashOutMutationDto> cashOutMutationPage = tbCashOutRepository.getCashOutMutationPaging(vendorName, docName, startDate, endDate, pageable);
+
+        BigDecimal subTotal = tbCashOutRepository.getSubTotal(vendorName, docName, startDate, endDate);
+
+        CashOutMutationListDto cashOutMutationListDto = new CashOutMutationListDto(cashOutMutationPage.getContent(), subTotal);
+
+        return new PageImpl<>(Collections.singletonList(cashOutMutationListDto), pageable, cashOutMutationPage.getTotalElements());
+    }
+
+    @Override
+    public Page<CashOutDocListDto> getCashOutDocPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String docName, Integer status, Date startDate, Date endDate) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize,
+                sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
+        Page<TbDocumentCashOut> documentCashOutPage = tbDocumentCashOutRepository.getCashOutDocPaging(docName, status, startDate, endDate, pageable);
+        CashOutDocSummaryDto cashOutDocSummaryDto = tbDocumentCashOutRepository.getSummary(docName, status, startDate, endDate);
+
+        CashOutDocListDto cashOutDocListDto = new CashOutDocListDto(documentCashOutPage.getContent(), cashOutDocSummaryDto);
+        return new PageImpl<>(Collections.singletonList(cashOutDocListDto), pageable, documentCashOutPage.getTotalElements());
     }
 
     private List<TmpCashOut> mapToTmpCashOutList(List<CashOutDetailDto> cashOutDetailDtoList, String username, String documentCashOutName) {
