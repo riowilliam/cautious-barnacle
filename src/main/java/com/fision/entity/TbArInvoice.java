@@ -22,11 +22,11 @@ public class TbArInvoice {
     @Column(name = "invoice_no", nullable = false)
     private String invoiceNo;
 
-    @Column(name = "partner_id", nullable = false)
-    private String partnerId;
+    @Column(name = "partner_name", nullable = false)
+    private String partnerName;
 
-    @Column(name = "project_id", nullable = false)
-    private String projectId;
+    @Column(name = "project_name", nullable = false)
+    private String projectName;
 
     @Column(name = "dpp_amount", nullable = false, precision = 20, scale = 3)
     private BigDecimal dppAmount;

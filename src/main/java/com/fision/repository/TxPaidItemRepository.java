@@ -11,6 +11,6 @@ public interface TxPaidItemRepository extends JpaRepository<TxPaidItem, Long> {
     @Query("SELECT COALESCE(SUM(tx.paidQuantity), 0) " +
             "FROM TxPaidItem tx " +
             "WHERE tx.contractCode = :contractCode " +
-            "AND tx.itemId =:itemId ")
-    Integer getPaidQuantity(@Param("contractCode") String contractCode,@Param("itemId") Long itemId);
+            "AND tx.itemName = :itemName ")
+    Integer getPaidQuantity(@Param("contractCode") String contractCode, @Param("itemName") String itemName);
 }

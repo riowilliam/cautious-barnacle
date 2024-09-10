@@ -46,4 +46,8 @@ public class ConstantsUtils {
 
     // Items
     public final static String TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY = "Total Quantity smaller than total paid quantity, please make sure the new total quantity greater than paid quantity for each item.";
+
+    // ARInvoice
+    public final static String DOC_TRACKING_ON_PROCESS = "On Process";
+    public final static String DOC_TRACKING_SUBMITTED = "Submitted";
 }

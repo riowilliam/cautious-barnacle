@@ -10,6 +10,5 @@ import java.util.Map;
 @Repository
 public interface TbItemDetailsRepository extends JpaRepository<TbItemDetails, Long> {
     List<TbItemDetails> findByContractCodeAndRevision(String contractCode, Integer revision);
-
-    TbItemDetails findByContractCodeAndRevisionAndItemId(String contractCode, Integer revision, Long itemId);
+    TbItemDetails findByContractCodeAndRevisionAndItemName(String contractCode, Integer revision, String itemName);
 }

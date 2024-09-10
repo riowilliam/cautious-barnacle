@@ -21,8 +21,8 @@ public class TbItemDetails {
     @Column(name = "contract_code")
     private String contractCode;
 
-    @Column(name = "item_id")
-    private Long itemId;
+    @Column(name = "item_name")
+    private String itemName;
 
     @Column(name = "total_quantity")
     private Integer totalQuantity;

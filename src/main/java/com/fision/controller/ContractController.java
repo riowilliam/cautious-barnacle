@@ -1,8 +1,8 @@
 package com.fision.controller;
 
 import com.fision.dto.ContractListDto;
+import com.fision.dto.ContractPagingListDto;
 import com.fision.dto.ContractRequestDto;
-import com.fision.dto.PartnerListDto;
 import com.fision.dto.ResponseDto;
 import com.fision.entity.TbContract;
 import com.fision.service.ContractService;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author LordDev
@@ -96,7 +95,7 @@ public class ContractController {
             @RequestParam(required = false) String endDate
     ) {
         try {
-            Page<ContractListDto> contractListPaging = contractService.getContractListPaging(
+            Page<ContractPagingListDto> contractListPaging = contractService.getContractListPaging(
                     pageNo, pageSize, sortBy, sortOrder,
                     contractName != null && !contractName.isEmpty() ? contractName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
@@ -111,7 +110,7 @@ public class ContractController {
     @GetMapping("getContractList")
     public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName) {
         try {
-            List<Map<String, Object>> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null);
+            List<ContractListDto> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());

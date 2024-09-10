@@ -23,8 +23,8 @@ public class TxPaidItem {
     @Column(name = "contract_code")
     private String contractCode;
 
-    @Column(name = "item_id")
-    private Long itemId;
+    @Column(name = "item_name")
+    private String itemName;
 
     @Column(name = "paid_quantity")
     private Integer paidQuantity;
