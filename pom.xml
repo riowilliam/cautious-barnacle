@@ -116,6 +116,13 @@
             <version>5.6</version>
         </dependency>
 
+        <!-- Springdoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
 
     </dependencies>
 

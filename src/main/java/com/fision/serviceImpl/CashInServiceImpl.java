@@ -16,35 +16,6 @@ import java.math.BigDecimal;
 
 @Service
 public class CashInServiceImpl implements CashInService {
-    @Autowired
-    TbArInvoiceRepository tbArInvoiceRepository;
 
-    @Autowired
-    PartnerService partnerService;
-
-    @Override
-    @Transactional
-    public void saveArInvoice(String username, ARInvoiceRequestDto arInvoiceRequestDto) {
-        TbPartner tbPartner = partnerService.getPartnerByName(arInvoiceRequestDto.getPartnerName());
-
-        TbArInvoice tbArInvoice = new TbArInvoice();
-        // Mapping request to TbArInvoice and save
-        tbArInvoice.setInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
-        tbArInvoice.setProjectName(arInvoiceRequestDto.getProjectName());
-        tbArInvoice.setPartnerName(arInvoiceRequestDto.getPartnerName());
-        tbArInvoice.setContractCode(arInvoiceRequestDto.getContractName());
-        tbArInvoice.setBappNo(arInvoiceRequestDto.getBappNo());
-        tbArInvoice.setDppAmount(arInvoiceRequestDto.getAmount());
-        tbArInvoice.setPpnAmount(arInvoiceRequestDto.getPpn());
-        tbArInvoice.setPphAmount(arInvoiceRequestDto.getPph());
-        tbArInvoice.setTotalAmount(arInvoiceRequestDto.getTotalAmount());
-        tbArInvoice.setDeduction(BigDecimal.ZERO); // Default 0 on create
-        tbArInvoice.setPaidItemDetails(JsonHelper.convertListToJsonString(arInvoiceRequestDto.getItemDetails()));
-        tbArInvoice.setInvoiceStatus(0);
-        tbArInvoice.setDocumentTracking(tbPartner.getDocumentTracking() == 1 ? ConstantsUtils.DOC_TRACKING_SUBMITTED : ConstantsUtils.DOC_TRACKING_ON_PROCESS);
-        tbArInvoice.setCreatedBy(username);
-        tbArInvoice.setModifiedBy(username);
-        tbArInvoiceRepository.save(tbArInvoice);
-    }
 
 }

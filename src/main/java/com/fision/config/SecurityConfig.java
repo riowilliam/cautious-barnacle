@@ -62,7 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("/api/login", "/api/getEncryptedPassword", "/api/getOldestData", "/api/sendResetPassword").permitAll()
+                .antMatchers("/api/login", "/api/getEncryptedPassword", "/api/getOldestData", "/api/sendResetPassword",
+                        "/swagger-ui/**", "/v3/api-docs/**", "/api-spec.yml").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to

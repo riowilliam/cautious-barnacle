@@ -1,0 +1,1165 @@
+openapi: 3.0.0
+info:
+  title: FiSion Apps
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+  - url: http://{{base_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Login Page
+  - name: Dashboard
+  - name: Users
+  - name: Project
+  - name: Partner
+  - name: Items
+  - name: Contract
+  - name: Vendor
+  - name: Cash Out
+  - name: Cash In (On Progress)
+paths:
+  /api/getEncryptedPassword:
+    get:
+      tags:
+        - Login Page
+      summary: getEncryptedPassword
+      parameters:
+        - name: password
+          in: query
+          schema:
+            type: string
+          example: password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/sendResetPassword:
+    post:
+      tags:
+        - Login Page
+      summary: Reset Password
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: email
+          in: query
+          schema:
+            type: string
+          example: lorddev.comp@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/login:
+    post:
+      tags:
+        - Login Page
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: username
+                password: password
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/authenticate:
+    post:
+      tags:
+        - Login Page
+      summary: Authenticate JWT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: username
+                password: password
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/changeUsername:
+    post:
+      tags:
+        - Users
+      summary: Change Username
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                oldUsername: username
+                newUsername: lorddev
+                fullName: LordDev Comp
+                password: lorddevganteng
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/changePassword:
+    post:
+      tags:
+        - Users
+      summary: Change Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: username
+                newPassword: password
+                oldPassword: lorddevganteng
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/createUser:
+    post:
+      tags:
+        - Users
+      summary: Create User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: Permadi
+                fullName: Permadi
+                email: permadi@gmail.com
+                contact: '082244862023'
+                roleCode: USR-V
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/editUser:
+    post:
+      tags:
+        - Users
+      summary: Edit User Role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: Gilang
+                fullName: Gilang
+                email: gilang.comp@gmail.com
+                contact: '081234567890'
+                roleCode: ADMN
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/getProfile:
+    get:
+      tags:
+        - Users
+      summary: Get Profile
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/getUserListPaging:
+    get:
+      tags:
+        - Users
+      summary: Get User List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: fullName
+          in: query
+          schema:
+            type: string
+        - name: email
+          in: query
+          schema:
+            type: string
+        - name: roleCode
+          in: query
+          schema:
+            type: string
+        - name: contact
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/getRoleList:
+    get:
+      tags:
+        - Users
+      summary: Get Role List
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/project/getProjectListPaging:
+    get:
+      tags:
+        - Project
+      summary: Get Project List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: projectName
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/project/getProjectList:
+    get:
+      tags:
+        - Project
+      summary: Get Project List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: projectName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/project/createProject:
+    post:
+      tags:
+        - Project
+      summary: Create Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectName: Pembangunan Bendungan Sungai Serayu
+                startDate: '2024-08-01'
+                status: ACTIVE
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/project/editProject:
+    post:
+      tags:
+        - Project
+      summary: Edit Project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                projectName: Pembangunan Jalan Lintas Kabupaten Mukomuko
+                startDate: '2024-08-01'
+                status: INACTIVE
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/partner/getPartnerListPaging:
+    get:
+      tags:
+        - Partner
+      summary: Get Partner List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: integer
+          example: '0'
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: partnerName
+          in: query
+          schema:
+            type: string
+        - name: ppnWapu
+          in: query
+          schema:
+            type: string
+        - name: documentTracking
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/partner/getPartnerList:
+    get:
+      tags:
+        - Partner
+      summary: Get Partner List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: partnerName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/partner/createPartner:
+    post:
+      tags:
+        - Partner
+      summary: Create Partner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                partnerName: PT. Syawargi Stone Crusher
+                validContractDate: '2024-08-01'
+                invalidContractDate: '2030-08-01'
+                documentTracking: 0
+                ppnWapu: 1
+                activeProject: '1'
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/partner/editPartner:
+    post:
+      tags:
+        - Partner
+      summary: Edit Partner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                partnerName: PT. Syawargi Stone Crusher
+                validContractDate: '2024-08-01'
+                invalidContractDate: '2035-08-01'
+                documentTracking: 1
+                ppnWapu: 1
+                activeProject: '1'
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: username
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/item/getItemListPaging:
+    get:
+      tags:
+        - Items
+      summary: Get Item List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: itemName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/item/getItemList:
+    get:
+      tags:
+        - Items
+      summary: Get Item List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: itemName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/item/createItem:
+    post:
+      tags:
+        - Items
+      summary: Create Item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                itemName: Motor
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/item/editItem:
+    post:
+      tags:
+        - Items
+      summary: Edit Item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 1
+                itemName: Truck
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/contract/getContractListPaging:
+    get:
+      tags:
+        - Contract
+      summary: Get Contract List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: contractName
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/contract/getContractList:
+    get:
+      tags:
+        - Contract
+      summary: Get Contract List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: contractName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/contract/createContract:
+    post:
+      tags:
+        - Contract
+      summary: Create Contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                contractName: Penyewaan Kendaraan
+                revision: 1
+                itemDetailList:
+                  - itemName: Mobil
+                    totalQuantity: 10
+                  - itemName: Motor
+                    totalQuantity: 20
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/contract/editContract:
+    post:
+      tags:
+        - Contract
+      summary: Edit Contract
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                contractCode: HK-CC-240910-010315
+                contractName: Penyewaan Kendaraan
+                revision: 2
+                itemDetailList:
+                  - itemName: Mobil
+                    totalQuantity: 15
+                  - itemName: MOtor
+                    totalQuantity: 50
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/getVendorListPaging:
+    get:
+      tags:
+        - Vendor
+      summary: Get Vendor List Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: vendorName
+          in: query
+          schema:
+            type: string
+        - name: bankName
+          in: query
+          schema:
+            type: string
+        - name: bankAccount
+          in: query
+          schema:
+            type: string
+        - name: bankAccountName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/getVendorList:
+    get:
+      tags:
+        - Vendor
+      summary: Get Vendor List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: vendorName
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/getBankList:
+    get:
+      tags:
+        - Vendor
+      summary: Get Bank List
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: bankShortName
+          in: query
+          schema:
+            type: string
+          example: BN
+        - name: bankName
+          in: query
+          schema:
+            type: string
+          example: BN
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/createVendor:
+    post:
+      tags:
+        - Vendor
+      summary: Create Vendor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vendorName: PT. SYAWARGI STONE CRUSHER
+                bankName: BCA
+                bankAccount: '1234567890'
+                bankAccountName: SYAWARGI STONE CRUSHER
+                bankCode: '014'
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/vendor/editVendor:
+    post:
+      tags:
+        - Vendor
+      summary: Edit Vendor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                vendorId: 3
+                vendorName: PT. SYAWARGI STONE CRUSHER
+                bankName: BCA
+                bankAccount: '1234567890'
+                bankAccountName: PT SYAWARGI STONE CRUSHER
+                bankCode: '014'
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/getCashOutMutationPaging:
+    get:
+      tags:
+        - Cash In (On Progress)
+      summary: Get Cash Out Mutation Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: vendorName
+          in: query
+          schema:
+            type: string
+        - name: documentCashOutName
+          in: query
+          schema:
+            type: string
+          example: HK-CO-240909
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/getCashOutDocPaging:
+    get:
+      tags:
+        - Cash In (On Progress)
+      summary: Get Cash Out Doc Paging
+      parameters:
+        - name: pageNo
+          in: query
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          schema:
+            type: string
+        - name: documentName
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/getCashOutDocByName:
+    get:
+      tags:
+        - Cash In (On Progress)
+      summary: Get Cash Out Doc Details
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: docName
+          in: query
+          schema:
+            type: string
+          description: MANDATORY
+          example: HK-CO-240907-041515
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/createCashOutDoc:
+    post:
+      tags:
+        - Cash Out
+      summary: Create Cash Out Doc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                cashOutDetailList:
+                  - vendorName: PT. HUTAMA KARYA
+                    invoice: PBY SPONSORSHIP KKN PPM UNAIR
+                    projectName: Head Office HKA
+                    bankAccount: '137604112'
+                    bankName: BNI
+                    amount: 10000000
+                    transferFee: 0
+                    totalAmount: 10000000
+                  - vendorName: PT. HUTAMA KARYA
+                    invoice: PBY SPONSORSHIP KKN PPM UNIVERSITAS TRISAKTI
+                    projectName: Head Office HKA
+                    bankAccount: '137604112'
+                    bankName: BNI
+                    amount: 10000000
+                    transferFee: 0
+                    totalAmount: 10000000
+                subTotal: 20000000
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/editCashOutDoc:
+    post:
+      tags:
+        - Cash In (On Progress)
+      summary: Edit Cash Out Doc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                cashOutDetailList:
+                  - idTmpCashOut: 7
+                    vendorName: PT. HUTAMA KARYA
+                    invoice: PBY SPONSORSHIP KKN PPM UNY
+                    projectName: Head Office HKA
+                    bankAccount: '137604112'
+                    bankName: BNI
+                    amount: 10000000
+                    transferFee: 0
+                    totalAmount: 10000000
+                  - vendorName: PT. HUTAMA KARYA
+                    invoice: PBY SPONSORSHIP KKN PPM UNDIP
+                    projectName: Head Office HKA
+                    bankAccount: '137604112'
+                    bankName: BNI
+                    amount: 10000000
+                    transferFee: 0
+                    totalAmount: 10000000
+                documentName: HK-CO-240907-041515
+                subTotal: 20000000
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashOut/approvalCashOutDoc:
+    post:
+      tags:
+        - Cash In (On Progress)
+      summary: Approval Cash Out Doc
+      requestBody:
+        content: {}
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+        - name: status
+          in: query
+          schema:
+            type: integer
+          description: 1 = Approve, 2 = Rejected
+          example: '1'
+        - name: docName
+          in: query
+          schema:
+            type: string
+          example: HK-CO-240909-022507
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/cashIn/createARInvoice:
+    post:
+      tags:
+        - Cash In (On Progress)
+      summary: Create AR Invoice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                invoiceNo: HK-INV-20240910
+                partnerName: PT. Syawargi Stone Crusher
+                contractName: HK-CC-240910-095630
+                projectName: Pembangunan Bendungan Sungai Citanduy
+                bappNo: BAPP_NO_12345
+                amount: 800000000
+                ppn: 88000000
+                ppnWapu: 88000000
+                pph: 16000000
+                totalAmount: 816000000
+                note: Penyewaan Alat Berat
+                itemDetails:
+                  - itemName: Bulldozer
+                    paymentQuantity: 5
+                  - itemName: Excavator
+                    paymentQuantity: 5
+      parameters:
+        - name: ''
+          in: header
+          schema:
+            type: string
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: LordDev Comp
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
