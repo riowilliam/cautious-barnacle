@@ -1,0 +1,2139 @@
+{
+	"info": {
+		"_postman_id": "60156950-ea60-46a9-9234-e2e9739d1551",
+		"name": "FiSion Apps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30691662",
+		"_collection_link": "https://gold-escape-331568.postman.co/workspace/My-Workspace~fb6df650-49e1-4307-8f49-eb205c84bc8e/collection/30691662-60156950-ea60-46a9-9234-e2e9739d1551?action=share&source=collection_link&creator=30691662"
+	},
+	"item": [
+		{
+			"name": "Login Page",
+			"item": [
+				{
+					"name": "getEncryptedPassword",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/getEncryptedPassword?password={{password}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getEncryptedPassword"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "{{password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3JkZGV2IiwiZXhwIjoxNjk4NTA3NzYzLCJpYXQiOjE2OTg1MDQxNjN9.XGLFGUgjBp3CtdmCavzImijfpJp4g42mvQLMqwjNStXHq2nxXIT5ZxifYsKFE0izu3GcbItvz5U4h5uZ3OobJA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/sendResetPassword?email=lorddev.comp@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"sendResetPassword"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "lorddev.comp@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the JSON response\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Log the response to verify the structure\r",
+									"console.log(jsonData);\r",
+									"\r",
+									"// Check if the token exists in the response\r",
+									"if (jsonData.data && jsonData.data.jwtToken) {\r",
+									"    // Save the JWT token to the current environment\r",
+									"    pm.environment.set(\"jwtToken\", jsonData.data.jwtToken);\r",
+									"} else {\r",
+									"    console.log(\"JWT token not found in the response\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"{{username}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate JWT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMb3JkRGV2Q29tcCIsImV4cCI6MTcyNDU4MzAwMSwiaWF0IjoxNzI0NTc5NDAxfQ.NLDeiSmejoxtMd0RvAvaMI3NvCqp13e2f_XGkXbmgSe_sH6cjGS-dQmT1u8GpgXo2UbPmdGgESOmxD9JsECUQQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"{{username}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/authenticate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": []
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Change Username",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldUsername\" : \"LordDevComp\",\r\n    \"newUsername\" : \"lorddev\",\r\n    \"fullName\" : \"LordDev Comp\",\r\n    \"password\" : \"lorddevganteng\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/changeUsername",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"changeUsername"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"LordDevComp\",\r\n    \"newPassword\" : \"lorddevganteng1234\",\r\n    \"oldPassword\" : \"lorddevganteng\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user/changePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Permadi\",\r\n    \"fullName\": \"Permadi\",\r\n    \"email\": \"permadi@gmail.com\",\r\n    \"contact\": \"082244862023\",\r\n    \"roleCode\": \"USR-V\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/createUser?username=LordDev",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"createUser"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Gilang\",\r\n    \"fullName\": \"Gilang\",\r\n    \"email\": \"gilang.comp@gmail.com\",\r\n    \"contact\": \"081234567890\",\r\n    \"roleCode\": \"ADMN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/editUser?username=LordDevComp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"editUser"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Mendapatkan response JSON\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Mengambil nilai jwtToken dari response\r",
+									"var jwtToken = jsonData.jwtToken;\r",
+									"\r",
+									"// Menyimpan jwtToken ke dalam variable environment di Postman\r",
+									"pm.environment.set(\"jwtToken\", jwtToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/getProfile?username=LordDevComp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"getProfile"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User List Paging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Mendapatkan response JSON\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"// Mengambil nilai jwtToken dari response\r",
+									"var jwtToken = jsonData.jwtToken;\r",
+									"\r",
+									"// Menyimpan jwtToken ke dalam variable environment di Postman\r",
+									"pm.environment.set(\"jwtToken\", jwtToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/getUserListPaging?pageNo=0&pageSize=10&sortBy&sortOrder&fullName=&email&roleCode&contact",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"getUserListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "fullName",
+									"value": ""
+								},
+								{
+									"key": "email",
+									"value": null
+								},
+								{
+									"key": "roleCode",
+									"value": null
+								},
+								{
+									"key": "contact",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/getRoleList",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getRoleList"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Get Project List Paging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/project/getProjectListPaging?pageNo=0&pageSize=10&sortBy&sortOrder&projectName=&status&startDate=&endDate=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"project",
+								"getProjectListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "projectName",
+									"value": ""
+								},
+								{
+									"key": "status",
+									"value": null
+								},
+								{
+									"key": "startDate",
+									"value": ""
+								},
+								{
+									"key": "endDate",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Project List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/project/getProjectList?username=LordDev Comp&projectName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"getProjectList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "projectName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectName\" : \"Pembangunan Bendungan Sungai Serayu\",\r\n    \"startDate\" : \"2024-08-01\",\r\n    \"status\" : \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/project/createProject?username=LordDevComp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"project",
+								"createProject"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectName\" : \"Pembangunan Jalan Lintas Kabupaten Mukomuko\",\r\n    \"startDate\" : \"2024-08-01\",\r\n    \"status\" : \"INACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/project/editProject?username=LordDevComp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"project",
+								"editProject"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Partner",
+			"item": [
+				{
+					"name": "Get Partner List Paging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/partner/getPartnerListPaging?pageNo=0&pageSize=10&sortBy&sortOrder&partnerName=&ppnWapu&documentTracking&startDate=&endDate=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"partner",
+								"getPartnerListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "partnerName",
+									"value": ""
+								},
+								{
+									"key": "ppnWapu",
+									"value": null
+								},
+								{
+									"key": "documentTracking",
+									"value": null
+								},
+								{
+									"key": "startDate",
+									"value": ""
+								},
+								{
+									"key": "endDate",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Partner List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/partner/getPartnerList?username=LordDev Comp&partnerName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"partner",
+								"getPartnerList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "partnerName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Partner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"partnerName\" : \"PT. Syawargi Stone Crusher\",\r\n    \"validContractDate\" : \"2024-08-01\",\r\n    \"invalidContractDate\" : \"2030-08-01\",\r\n    \"documentTracking\" : 0,\r\n    \"ppnWapu\" : 1,\r\n    \"activeProject\" : \"1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/partner/createPartner?username=LordDevComp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"partner",
+								"createPartner"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Partner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"partnerName\" : \"PT. Syawargi Stone Crusher\",\r\n    \"validContractDate\" : \"2024-08-01\",\r\n    \"invalidContractDate\" : \"2035-08-01\",\r\n    \"documentTracking\" : 1,\r\n    \"ppnWapu\" : 1,\r\n    \"activeProject\" : \"1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/partner/editPartner?username=LordDevComp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"partner",
+								"editPartner"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDevComp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Get Item List Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/item/getItemListPaging?pageNo&pageSize&sortBy&sortOrder&itemName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"item",
+								"getItemListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "itemName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/item/getItemList?username=LordDev Comp&itemName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"item",
+								"getItemList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "itemName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemName\" : \"Motor\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/item/createItem?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"item",
+								"createItem"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n    \"itemName\" : \"Truck\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/item/editItem?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"item",
+								"editItem"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Contract",
+			"item": [
+				{
+					"name": "Get Contract List Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/contract/getContractListPaging?pageNo&pageSize&sortBy&sortOrder&contractName&startDate&endDate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"getContractListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "contractName",
+									"value": null
+								},
+								{
+									"key": "startDate",
+									"value": null
+								},
+								{
+									"key": "endDate",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contract List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/contract/getContractList?username=LordDev Comp&contractName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"getContractList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "contractName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contractName\": \"Penyewaan Kendaraan\",\r\n    \"revision\": 1,\r\n    \"itemDetailList\": [\r\n        {\r\n            \"itemName\": \"Mobil\",\r\n            \"totalQuantity\": 10\r\n        },\r\n        {\r\n            \"itemName\": \"Motor\",\r\n            \"totalQuantity\": 20\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contract/createContract?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"createContract"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Contract",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contractCode\": \"HK-CC-240910-010315\",\r\n    \"contractName\": \"Penyewaan Kendaraan\",\r\n    \"revision\": 2,\r\n    \"itemDetailList\": [\r\n        {\r\n            \"itemName\": \"Mobil\",\r\n            \"totalQuantity\": 15\r\n        },\r\n        {\r\n            \"itemName\": \"MOtor\",\r\n            \"totalQuantity\": 50\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/contract/editContract?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"contract",
+								"editContract"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Vendor",
+			"item": [
+				{
+					"name": "Get Vendor List Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vendor/getVendorListPaging?pageNo&pageSize&sortBy&sortOrder&vendorName&bankName&bankAccount&bankAccountName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendor",
+								"getVendorListPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "vendorName",
+									"value": null
+								},
+								{
+									"key": "bankName",
+									"value": null
+								},
+								{
+									"key": "bankAccount",
+									"value": null
+								},
+								{
+									"key": "bankAccountName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vendor List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vendor/getVendorList?username=LordDev Comp&vendorName",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendor",
+								"getVendorList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "vendorName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Bank List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/vendor/getBankList?username=LordDev Comp&bankShortName=BN&bankName=BN",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendor",
+								"getBankList"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "bankShortName",
+									"value": "BN"
+								},
+								{
+									"key": "bankName",
+									"value": "BN"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vendorName\": \"PT. SYAWARGI STONE CRUSHER\",\r\n    \"bankName\": \"BCA\",\r\n    \"bankAccount\": \"1234567890\",\r\n    \"bankAccountName\": \"SYAWARGI STONE CRUSHER\",\r\n    \"bankCode\": \"014\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/vendor/createVendor?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendor",
+								"createVendor"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Vendor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vendorId\" : 3,\r\n    \"vendorName\": \"PT. SYAWARGI STONE CRUSHER\",\r\n    \"bankName\": \"BCA\",\r\n    \"bankAccount\": \"1234567890\",\r\n    \"bankAccountName\": \"PT SYAWARGI STONE CRUSHER\",\r\n    \"bankCode\": \"014\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/vendor/editVendor?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"vendor",
+								"editVendor"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cash Out",
+			"item": [
+				{
+					"name": "Get Cash Out Mutation Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/getCashOutMutationPaging?pageNo&pageSize&sortBy&sortOrder&vendorName&documentCashOutName=HK-CO-240909&startDate=&endDate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"getCashOutMutationPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "vendorName",
+									"value": null
+								},
+								{
+									"key": "documentCashOutName",
+									"value": "HK-CO-240909"
+								},
+								{
+									"key": "startDate",
+									"value": ""
+								},
+								{
+									"key": "endDate",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cash Out Doc Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/getCashOutDocPaging?pageNo&pageSize&sortBy&sortOrder&documentName=&status=&startDate=&endDate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"getCashOutDocPaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "documentName",
+									"value": ""
+								},
+								{
+									"key": "status",
+									"value": ""
+								},
+								{
+									"key": "startDate",
+									"value": ""
+								},
+								{
+									"key": "endDate",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cash Out Doc Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/getCashOutDocByName?username=LordDev Comp&docName=HK-CO-240909-022507",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"getCashOutDocByName"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "docName",
+									"value": "HK-CO-240909-022507",
+									"description": "MANDATORY"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cash Out Doc",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cashOutDetailList\": [\r\n        {\r\n            \"vendorName\": \"PT. HUTAMA KARYA\",\r\n            \"invoice\": \"PBY SPONSORSHIP KKN PPM UNAIR\",\r\n            \"projectName\": \"Head Office HKA\",\r\n            \"bankAccount\": \"137604112\",\r\n            \"bankName\": \"BNI\",\r\n            \"amount\": 10000000,\r\n            \"transferFee\": 0,\r\n            \"totalAmount\": 10000000\r\n        },\r\n        {\r\n            \"vendorName\": \"PT. HUTAMA KARYA\",\r\n            \"invoice\": \"PBY SPONSORSHIP KKN PPM UNIVERSITAS TRISAKTI\",\r\n            \"projectName\": \"Head Office HKA\",\r\n            \"bankAccount\": \"137604112\",\r\n            \"bankName\": \"BNI\",\r\n            \"amount\": 10000000,\r\n            \"transferFee\": 0,\r\n            \"totalAmount\": 10000000\r\n        }\r\n    ],\r\n    \"subTotal\": 20000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/createCashOutDoc?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"createCashOutDoc"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Cash Out Doc",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cashOutDetailList\": [\r\n        {\r\n            \"idTmpCashOut\": 7,\r\n            \"vendorName\": \"PT. HUTAMA KARYA\",\r\n            \"invoice\": \"PBY SPONSORSHIP KKN PPM UNY\",\r\n            \"projectName\": \"Head Office HKA\",\r\n            \"bankAccount\": \"137604112\",\r\n            \"bankName\": \"BNI\",\r\n            \"amount\": 10000000.000,\r\n            \"transferFee\": 0.000,\r\n            \"totalAmount\": 10000000.000\r\n        },\r\n        {\r\n            \"vendorName\": \"PT. HUTAMA KARYA\",\r\n            \"invoice\": \"PBY SPONSORSHIP KKN PPM UNDIP\",\r\n            \"projectName\": \"Head Office HKA\",\r\n            \"bankAccount\": \"137604112\",\r\n            \"bankName\": \"BNI\",\r\n            \"amount\": 10000000.000,\r\n            \"transferFee\": 0.000,\r\n            \"totalAmount\": 10000000.000\r\n        }\r\n    ],\r\n    \"documentName\": \"HK-CO-240907-041515\",\r\n    \"subTotal\": 20000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/editCashOutDoc?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"editCashOutDoc"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approval Cash Out Doc",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/cashOut/approvalCashOutDoc?username=LordDev Comp&status=1&docName=HK-CO-240909-022507",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cashOut",
+								"approvalCashOutDoc"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"description": "1 = Approve, 2 = Rejected"
+								},
+								{
+									"key": "docName",
+									"value": "HK-CO-240909-022507"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "AR Invoice Monitoring",
+			"item": [
+				{
+					"name": "Get AR Invoice Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/arInvoice/getArInvoicePaging?pageNo&pageSize&sortBy&sortOrder&partnerName=&projectName=&startDate=&endDate&invoiceStatus",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"arInvoice",
+								"getArInvoicePaging"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": null
+								},
+								{
+									"key": "pageSize",
+									"value": null
+								},
+								{
+									"key": "sortBy",
+									"value": null
+								},
+								{
+									"key": "sortOrder",
+									"value": null
+								},
+								{
+									"key": "partnerName",
+									"value": ""
+								},
+								{
+									"key": "projectName",
+									"value": ""
+								},
+								{
+									"key": "startDate",
+									"value": ""
+								},
+								{
+									"key": "endDate",
+									"value": null
+								},
+								{
+									"key": "invoiceStatus",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create AR Invoice",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"invoiceNo\": \"HK-INV-20240910\",\r\n    \"partnerName\": \"PT. Syawargi Stone Crusher\",\r\n    \"contractName\": \"HK-CC-240910-095630\",\r\n    \"projectName\": \"Pembangunan Bendungan Sungai Citanduy\",\r\n    \"bappNo\": \"BAPP_NO_12345\",\r\n    \"amount\": 800000000,\r\n    \"ppn\": 88000000,\r\n    \"ppnWapu\": 88000000,\r\n    \"pph\": 16000000,\r\n    \"totalAmount\": 816000000,\r\n    \"note\": \"Penyewaan Alat Berat\",\r\n    \"itemDetails\": [\r\n        {\r\n            \"itemName\": \"Bulldozer\",\r\n            \"paymentQuantity\" : 5\r\n        },\r\n        {\r\n            \"itemName\": \"Excavator\",\r\n            \"paymentQuantity\" : 5\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/arInvoice/createARInvoice?username=LordDev Comp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"arInvoice",
+								"createARInvoice"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approval AR Invoice",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/arInvoice/approvalARInvoice?username=LordDev Comp&status=1&invoiceNo=HK-INV-20240910",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"arInvoice",
+								"approvalARInvoice"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "LordDev Comp"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"description": "1 = Approve, 2 = Rejected"
+								},
+								{
+									"key": "invoiceNo",
+									"value": "HK-INV-20240910"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwtToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"// Get the JWT token from the current environment\r",
+							"var token = pm.environment.get(\"jwtToken\");\r",
+							"\r",
+							"// Log the token to ensure it's retrieved correctly\r",
+							"console.log(\"JWT Token from environment:\", token);\r",
+							"\r",
+							"// Set the Authorization header for the current request\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: \"Bearer \" + token\r",
+							"});\r",
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwtToken",
+			"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsb3JkZGV2IiwiZXhwIjoxNjk5NzAyOTUxLCJpYXQiOjE2OTk2OTkzNTF9.hB8WaQGtcix96_UxOXEnUvt8yzPOv9Go8wM8Lm0tUDd5XMVmhd5ybVHfwI9QPFLR7b5_biWDwq4tT4-iBmPHlw"
+		}
+	]
+}
