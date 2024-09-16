@@ -1,9 +1,6 @@
 package com.fision.serviceImpl;
 
-import com.fision.dto.ContractListDto;
-import com.fision.dto.ContractPagingListDto;
-import com.fision.dto.ContractRequestDto;
-import com.fision.dto.ItemDetailsListDto;
+import com.fision.dto.*;
 import com.fision.entity.TbContract;
 import com.fision.entity.TbItemDetails;
 import com.fision.repository.TbContractRepository;
@@ -116,34 +113,82 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractListDto> getContractList(String contractName) {
-        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(contractName);
+    public List<ContractListDto> getContractList(String contractNameParam, String contractCodeParam) {
+        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(contractNameParam, contractCodeParam);
 
-        Map<String, List<ItemDetailsListDto>> contractItemMap = new HashMap<>();
+        // Map to store item details by contract code
+        Map<String, ContractListDto> contractMap = new HashMap<>();
 
         for (Object[] result : results) {
             String contractCode = (String) result[0];
-            String itemName = (String) result[1];
-            Integer totalQuantity = (Integer) result[2];
-            Integer remainingQuantity = (Integer) result[3];
-            Integer paidQuantity = (Integer) result[4];
+            String contractName = (String) result[1];
+            String itemName = (String) result[2];
+            Integer totalQuantity = (Integer) result[3];
+            Integer remainingQuantity = (Integer) result[4];
+            Integer paidQuantity = (Integer) result[5];
 
+            // Create ItemDetailsListDto for each item
             ItemDetailsListDto itemDetails = new ItemDetailsListDto();
             itemDetails.setItemName(itemName);
             itemDetails.setTotalQuantity(totalQuantity);
             itemDetails.setRemainingQuantity(remainingQuantity);
             itemDetails.setPaidQuantity(paidQuantity);
 
-            contractItemMap.computeIfAbsent(contractCode, k -> new ArrayList<>()).add(itemDetails);
+            // If the contract is already in the map, retrieve it, otherwise create a new entry
+            ContractListDto contractListDto = contractMap.get(contractCode);
+            if (contractListDto == null) {
+                // If not in the map, create a new ContractListDto
+                contractListDto = new ContractListDto(contractCode, contractName, new ArrayList<>());
+                contractMap.put(contractCode, contractListDto);
+            }
+
+            // Add item details to the contract's itemList
+            contractListDto.getItemList().add(itemDetails);
         }
 
-        List<ContractListDto> contractList = new ArrayList<>();
-        for (Map.Entry<String, List<ItemDetailsListDto>> entry : contractItemMap.entrySet()) {
-            contractList.add(new ContractListDto(entry.getKey(), entry.getValue()));
-        }
-
-        return contractList;
+        // Convert the map values to a list of ContractListDto and return
+        return new ArrayList<>(contractMap.values());
     }
+
+    @Override
+    public List<ContractRevisionListDto> getContractRevisionList(String contractCodeParam) {
+        List<Object[]> results = tbContractRepository.findContractRevisionList(contractCodeParam);
+
+        Map<Integer, ContractRevisionListDto> revisionMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            Integer revision = (Integer) result[0];
+            String createdBy = (String) result[1];
+            Date createdDate = (Date) result[2]; // Adjust the date conversion if needed
+            String itemName = (String) result[3];
+            Integer totalQuantity = (Integer) result[4];
+            Integer remainingQuantity = (Integer) result[5];
+            Integer paidQuantity = (Integer) result[6];
+
+            // Create ItemDetailsListDto for each item
+            ItemDetailsListDto itemDetails = new ItemDetailsListDto();
+            itemDetails.setItemName(itemName);
+            itemDetails.setTotalQuantity(totalQuantity);
+            itemDetails.setRemainingQuantity(remainingQuantity);
+            itemDetails.setPaidQuantity(paidQuantity);
+
+            // If the revision already exists, retrieve it, otherwise create a new entry
+            ContractRevisionListDto revisionListDto = revisionMap.get(revision);
+            if (revisionListDto == null) {
+                // If not in the map, create a new ContractRevisionListDto
+                revisionListDto = new ContractRevisionListDto(revision, createdBy, createdDate, new ArrayList<>());
+                revisionMap.put(revision, revisionListDto);
+            }
+
+            // Add item details to the revision's itemList
+            revisionListDto.getItemList().add(itemDetails);
+        }
+
+        // Convert the map values to a list of ContractRevisionListDto and return
+        return new ArrayList<>(revisionMap.values());
+    }
+
+
 
     private String generateContractCode(){
         return contractCodePrefix + DateTimeHelper.nowToString();

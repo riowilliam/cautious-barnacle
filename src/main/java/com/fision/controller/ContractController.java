@@ -1,9 +1,6 @@
 package com.fision.controller;
 
-import com.fision.dto.ContractListDto;
-import com.fision.dto.ContractPagingListDto;
-import com.fision.dto.ContractRequestDto;
-import com.fision.dto.ResponseDto;
+import com.fision.dto.*;
 import com.fision.entity.TbContract;
 import com.fision.service.ContractService;
 import com.fision.utils.ConstantsUtils;
@@ -108,9 +105,21 @@ public class ContractController {
     }
 
     @GetMapping("getContractList")
-    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName) {
+    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName,@RequestParam String contractCode) {
         try {
-            List<ContractListDto> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null);
+            List<ContractListDto> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null,
+                    contractCode != null && !contractCode.isEmpty() ? contractCode : null);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("getContractRevisionList")
+    public ResponseDto<?> getContractRevisionList(@RequestParam String username, @RequestParam(required = true) String contractCode) {
+        try {
+            List<ContractRevisionListDto> itemList = contractService.getContractRevisionList(contractCode != null && !contractCode.isEmpty() ? contractCode : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());

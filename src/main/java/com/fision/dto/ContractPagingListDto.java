@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 public class ContractPagingListDto {
     private String contractCode;
+    private String contractName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdDate;
     private String createdBy;
@@ -18,8 +19,9 @@ public class ContractPagingListDto {
     private Date modifiedDate;
     private String modifiedBy;
 
-    public ContractPagingListDto(String contractCode, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy) {
+    public ContractPagingListDto(String contractCode, String contractName, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy) {
         this.contractCode = contractCode;
+        this.contractName = contractName;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
         this.modifiedDate = modifiedDate;

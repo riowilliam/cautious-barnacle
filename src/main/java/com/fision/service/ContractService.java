@@ -1,9 +1,6 @@
 package com.fision.service;
 
-import com.fision.dto.ContractListDto;
-import com.fision.dto.ContractPagingListDto;
-import com.fision.dto.ContractRequestDto;
-import com.fision.dto.ItemDetailsListDto;
+import com.fision.dto.*;
 import com.fision.entity.TbContract;
 import org.springframework.data.domain.Page;
 
@@ -18,5 +15,7 @@ public interface ContractService {
 
     TbContract getContractByCode(String contractCode);
     Boolean checkRemainingQuantity(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract);
-    List<ContractListDto> getContractList(String contractName);
+    List<ContractListDto> getContractList(String contractName, String contractCode);
+    List<ContractRevisionListDto> getContractRevisionList(String contractCode);
+
 }
