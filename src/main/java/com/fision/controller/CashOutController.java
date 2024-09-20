@@ -99,7 +99,7 @@ public class CashOutController {
     public ResponseDto<?> getCashOutMutationPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "documentCashOutName") String sortBy,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String vendorName,
             @RequestParam(required = false) String documentCashOutName,
@@ -107,7 +107,7 @@ public class CashOutController {
             @RequestParam(required = false) String endDate
     ) {
         try {
-            Page<CashOutMutationListDto> cashOutMutationListDtoPage = cashOutService.getCashOutMutationPaging(pageNo, pageSize, sortBy, sortOrder,
+            Page<CashOutMutationListDto> cashOutMutationListDtoPage = cashOutService.getCashOutMutationPaging(pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     vendorName != null && !vendorName.isEmpty() ? vendorName : null,
                     documentCashOutName != null && !documentCashOutName.isEmpty() ? documentCashOutName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
@@ -124,7 +124,7 @@ public class CashOutController {
     public ResponseDto<?> getCashOutDocPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "documentName") String sortBy,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String documentName,
             @RequestParam(required = false) Integer status,
@@ -132,9 +132,9 @@ public class CashOutController {
             @RequestParam(required = false) String endDate
     ) {
         try {
-            Page<CashOutDocListDto> cashOutMutationListDtoPage = cashOutService.getCashOutDocPaging(pageNo, pageSize, sortBy, sortOrder,
+            Page<CashOutDocListDto> cashOutMutationListDtoPage = cashOutService.getCashOutDocPaging(pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     documentName != null && !documentName.isEmpty() ? documentName : null,
-                    status != null ? status : null,
+                    status,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
 

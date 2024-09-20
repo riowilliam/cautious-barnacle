@@ -134,8 +134,8 @@ public class UserController {
     public ResponseDto<?> getUserListPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "fullName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String fullName,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String roleCode,
@@ -143,7 +143,7 @@ public class UserController {
     ) {
         try {
             Page<UserListDto> userListDtos = userService.getUserListPaging(
-                    pageNo, pageSize, sortBy, sortOrder,
+                    pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     fullName != null && !fullName.isEmpty() ? fullName : null, email != null && !email.isEmpty() ? email : null,
                     roleCode != null && !roleCode.isEmpty() ? roleCode : null, contact != null && !contact.isEmpty() ? contact : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, userListDtos, HttpStatus.OK);

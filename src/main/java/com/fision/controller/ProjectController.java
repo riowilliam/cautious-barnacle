@@ -35,8 +35,8 @@ public class ProjectController {
     public ResponseDto<?> getProjectListPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "projectName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String projectName,
             @RequestParam(required = false) Integer status,
             @RequestParam(required = false) String startDate,
@@ -44,7 +44,7 @@ public class ProjectController {
     ) {
         try {
             Page<ProjectListDto> projectListPaging = projectService.getProjectListPaging(
-                    pageNo, pageSize, sortBy, sortOrder,
+                    pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     projectName != null && !projectName.isEmpty() ? projectName : null, status,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);

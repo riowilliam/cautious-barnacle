@@ -97,7 +97,7 @@ public class LoginServiceImpl implements LoginService {
         message.setTo(user.getEmail());
         message.setSubject(ConstantsUtils.RESET_PASSWORD);
         message.setText(ConstantsUtils.EMAIL_BODY_TMPL + newPassword);
-        message.setFrom("noreply@fision.com");
+//        message.setFrom("noreply@fision.com");
         emailSender.send(message);
 
         tbUserRepository.save(user);

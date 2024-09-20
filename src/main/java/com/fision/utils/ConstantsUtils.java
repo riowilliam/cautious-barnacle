@@ -34,7 +34,8 @@ public class ConstantsUtils {
 
 
     // Email
-    public final static String RESET_PASSWORD = "Reset Password E-Reconcile Apps";
+    public final static String RESET_PASSWORD = "Reset Password for FiSion Apps";
+    public final static String NEW_ACCOUNT_PASSWORD = "Login Password for FiSion Apps";
     public final static String EMAIL_BODY_TMPL = "Silahkan login dengan kembali dengan password berikut : ";
 
     // Data Desc
@@ -43,6 +44,7 @@ public class ConstantsUtils {
     public final static String PROJECT_NAME_ALREADY_USED = "Project name already used, please try another name.";
     public final static String ITEM_NAME_ALREADY_USED = "Item name already used, please try another name.";
     public final static String VENDOR_NAME_ALREADY_USED = "Vendor name already used, please try another name.";
+    public final static String INVOICE_NO_DUPLICATE = "Invoice no already generated and the status is approved/not approved.";
 
     // Items
     public final static String TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY = "Total Quantity smaller than total paid quantity, please make sure the new total quantity greater than paid quantity for each item.";

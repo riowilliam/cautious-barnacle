@@ -33,8 +33,8 @@ public class PartnerController {
     public ResponseDto<?> getProjectListPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "partnerName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) Integer documentTracking,
             @RequestParam(required = false) Integer ppnWapu,
@@ -43,7 +43,7 @@ public class PartnerController {
     ) {
         try {
             Page<PartnerListDto> partnerListDtoPage = partnerService.getPartnerListPaging(
-                    pageNo, pageSize, sortBy, sortOrder,
+                    pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     documentTracking,
                     ppnWapu,

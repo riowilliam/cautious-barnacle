@@ -129,11 +129,10 @@ public class UserServiceImpl implements UserService {
         String newPassword = loginService.generateRandomPassword();
         user.setPassword(BCrypt.hashpw(newPassword , BCrypt.gensalt(12)));
 
-/*        message.setTo(user.getEmail());
-        message.setSubject(ConstantsUtils.RESET_PASSWORD);
+        message.setTo(user.getEmail());
+        message.setSubject(ConstantsUtils.NEW_ACCOUNT_PASSWORD);
         message.setText(ConstantsUtils.EMAIL_BODY_TMPL + newPassword);
-        message.setFrom("E-ReconcileApps");
-        emailSender.send(message);*/
+        emailSender.send(message);
 
         tbUserRepository.save(user);
     }

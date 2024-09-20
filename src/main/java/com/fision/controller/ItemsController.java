@@ -34,8 +34,8 @@ public class ItemsController {
     @GetMapping("getItemListPaging")
     public ResponseDto<?> getItemListPaging(@RequestParam(defaultValue = "0") int pageNo,
                                             @RequestParam(defaultValue = "10") int pageSize,
-                                            @RequestParam(defaultValue = "itemName") String sortBy,
-                                            @RequestParam(defaultValue = "asc") String sortOrder,
+                                            @RequestParam(defaultValue = "createdTm") String sortBy,
+                                            @RequestParam(defaultValue = "desc") String sortOrder,
                                             @RequestParam(required = false) String itemName) {
         try {
             Pageable pageable = PageRequest.of(pageNo, pageSize,

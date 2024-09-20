@@ -76,7 +76,6 @@ public class ContractController {
 
         } catch (Exception e) {
             logger.info(e.getMessage());
-            e.printStackTrace();
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -85,15 +84,15 @@ public class ContractController {
     public ResponseDto<?> getContractListPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "contractName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String contractName,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
     ) {
         try {
             Page<ContractPagingListDto> contractListPaging = contractService.getContractListPaging(
-                    pageNo, pageSize, sortBy, sortOrder,
+                    pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     contractName != null && !contractName.isEmpty() ? contractName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
@@ -117,7 +116,7 @@ public class ContractController {
     }
 
     @GetMapping("getContractRevisionList")
-    public ResponseDto<?> getContractRevisionList(@RequestParam String username, @RequestParam(required = true) String contractCode) {
+    public ResponseDto<?> getContractRevisionList(@RequestParam String username, @RequestParam String contractCode) {
         try {
             List<ContractRevisionListDto> itemList = contractService.getContractRevisionList(contractCode != null && !contractCode.isEmpty() ? contractCode : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);

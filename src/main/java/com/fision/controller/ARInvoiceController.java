@@ -38,6 +38,10 @@ public class ARInvoiceController {
             Gson gson = new Gson();
             ARInvoiceRequestDto arInvoiceRequestDto = gson.fromJson(requestDto, ARInvoiceRequestDto.class);
             if(arInvoiceRequestDto != null) {
+                TbArInvoice sameInvoiceNo = arInvoiceService.getInvoiceByInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
+                if(sameInvoiceNo.getInvoiceStatus() != 2) {
+                    return new ResponseDto<>(ConstantsUtils.INVOICE_NO_DUPLICATE, null, HttpStatus.BAD_REQUEST);
+                }
                 arInvoiceService.saveArInvoice(username, arInvoiceRequestDto);
                 return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
             } else {
@@ -48,27 +52,6 @@ public class ARInvoiceController {
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @PostMapping("editARInvoice")
-//    public ResponseDto<?> editARInvoice(@RequestParam String username, @RequestBody String requestDto) {
-//        try {
-//            if(requestDto == null || requestDto.isEmpty()) {
-//                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
-//            }
-//
-//            Gson gson = new Gson();
-//            ARInvoiceRequestDto arInvoiceRequestDto = gson.fromJson(requestDto, ARInvoiceRequestDto.class);
-//            if(arInvoiceRequestDto != null) {
-//                arInvoiceService.saveArInvoice(username, arInvoiceRequestDto);
-//                return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
-//            } else {
-//                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
-//            }
-//        } catch (Exception e) {
-//            logger.info(e.getMessage());
-//            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     @PostMapping("approvalARInvoice")
     public ResponseDto<?> approvalARInvoice(@RequestParam String username, @RequestParam Integer status, @RequestParam String invoiceNo) {
@@ -93,7 +76,7 @@ public class ARInvoiceController {
     public ResponseDto<?> getArInvoicePaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "invoiceNo") String sortBy,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) String projectName,
@@ -102,7 +85,7 @@ public class ARInvoiceController {
             @RequestParam(required = false) String endDate
     ) {
         try {
-            Page<ARInvoiceListDto> arInvoiceListDtoPage = arInvoiceService.getArInvoiceListPaging(pageNo, pageSize, sortBy, sortOrder,
+            Page<ARInvoiceListDto> arInvoiceListDtoPage = arInvoiceService.getArInvoiceListPaging(pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     projectName != null && !projectName.isEmpty() ? projectName : null,
                     invoiceStatus,

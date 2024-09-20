@@ -75,7 +75,7 @@ public class VendorController {
             Gson gson = new Gson();
             VendorRequestDto vendorRequestDto = gson.fromJson(requestDto, VendorRequestDto.class);
             TbVendor tbVendor = vendorService.getVendorById(vendorRequestDto.getVendorId());
-            if (vendorRequestDto != null && tbVendor != null) {
+            if (tbVendor != null) {
                 boolean vendorDataCheck = vendorService.vendorDataCheck(vendorRequestDto, tbVendor);
                 if(vendorDataCheck) {
                     return new ResponseDto<>(ConstantsUtils.VENDOR_NAME_ALREADY_USED, HttpStatus.OK);
@@ -119,8 +119,8 @@ public class VendorController {
     public ResponseDto<?> getVendorListPaging(
             @RequestParam(defaultValue = "0") int pageNo,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "vendorName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "createdTm") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String vendorName,
             @RequestParam(required = false) String bankName,
             @RequestParam(required = false) String bankAccount,
@@ -128,7 +128,7 @@ public class VendorController {
     ) {
         try {
             Page<TbVendor> vendorListPage = vendorService.getVendorListPaging(
-                    pageNo, pageSize, sortBy, sortOrder,
+                    pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     vendorName != null && !vendorName.isEmpty() ? vendorName : null,
                     bankName != null && !bankName.isEmpty() ? bankName : null,
                     bankAccount != null && !bankAccount.isEmpty() ? bankAccount : null,
