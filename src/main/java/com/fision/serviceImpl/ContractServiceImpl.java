@@ -101,6 +101,11 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public TbContract getContractByCodeAndRevision(String contractCode, Integer revision) {
+        return tbContractRepository.findByContractCodeAndRevision(contractCode, revision);
+    }
+
+    @Override
     public Boolean checkRemainingQuantity(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract) {
         Boolean isAvailable = null;
         Integer paidQuantity = 0;
@@ -108,6 +113,17 @@ public class ContractServiceImpl implements ContractService {
             paidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractCode(), detailList.getItemName());
             isAvailable = detailList.getTotalQuantity() >= paidQuantity ? Boolean.TRUE : Boolean.FALSE;
             if(!isAvailable) break;
+        }
+        return isAvailable;
+    }
+
+    @Override
+    public Boolean checkExistingItemDetails(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract) {
+        Boolean isAvailable = null;
+        for (ItemDetailsListDto detailList : itemDetailsListDto) {
+            TbItemDetails tbItemDetails = tbItemDetailsRepository.findByContractCodeAndRevisionAndItemName(tbContract.getContractCode(), tbContract.getRevision(), detailList.getItemName());
+            isAvailable = tbItemDetails.getTotalQuantity() != null && !tbItemDetails.getTotalQuantity().equals(detailList.getTotalQuantity()) ? Boolean.TRUE : Boolean.FALSE;
+            if(isAvailable) break;
         }
         return isAvailable;
     }
@@ -187,8 +203,6 @@ public class ContractServiceImpl implements ContractService {
         // Convert the map values to a list of ContractRevisionListDto and return
         return new ArrayList<>(revisionMap.values());
     }
-
-
 
     private String generateContractCode(){
         return contractCodePrefix + DateTimeHelper.nowToString();

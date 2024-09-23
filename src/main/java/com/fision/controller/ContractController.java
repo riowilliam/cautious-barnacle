@@ -58,16 +58,17 @@ public class ContractController {
             Gson gson = new Gson();
             ContractRequestDto requestContract = gson.fromJson(requestDto, ContractRequestDto.class);
             if (requestContract.getContractCode() != null && !requestContract.getContractCode().isEmpty()) {
-                TbContract tbContract = contractService.getContractByCode(requestContract.getContractCode());
+                TbContract tbContract = contractService.getContractByCodeAndRevision(requestContract.getContractCode(), requestContract.getRevision() - 1);
                 if(tbContract == null) {
                     return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);
                 } else {
+                    Boolean isDataDiff = contractService.checkExistingItemDetails(requestContract.getItemDetailList(), tbContract);
                     Boolean isAvailable =  contractService.checkRemainingQuantity(requestContract.getItemDetailList(), tbContract);
-                    if(isAvailable != null && isAvailable) {
+                    if((isDataDiff != null && isDataDiff) && (isAvailable != null && isAvailable)) {
                         contractService.updateContract(username, tbContract, requestContract);
                         return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
                     } else {
-                        return new ResponseDto<>(ConstantsUtils.TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY, HttpStatus.BAD_REQUEST);
+                        return new ResponseDto<>(Boolean.FALSE.equals(isDataDiff) ? ConstantsUtils.TOTAL_QUANTITY_EQUALS_WITH_EXISTING : ConstantsUtils.TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY, HttpStatus.BAD_REQUEST);
                     }
                 }
             } else {

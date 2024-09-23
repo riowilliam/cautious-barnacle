@@ -14,7 +14,9 @@ public interface ContractService {
     void updateContract(String username, TbContract tbContract, ContractRequestDto contractRequest);
 
     TbContract getContractByCode(String contractCode);
+    TbContract getContractByCodeAndRevision(String contractCode, Integer revision);
     Boolean checkRemainingQuantity(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract);
+    Boolean  checkExistingItemDetails(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract);
     List<ContractListDto> getContractList(String contractName, String contractCode);
     List<ContractRevisionListDto> getContractRevisionList(String contractCode);
 

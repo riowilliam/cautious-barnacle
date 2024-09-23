@@ -15,7 +15,6 @@ public class ConstantsUtils {
     public final static String SUCCESS = "Success";
     public final static String ERROR_SYSTEM = "System error";
     public final static String INVALID_REQUEST = "Invalid Request";
-    public final static String RECON_TYPE_NOT_FOUND = "Reconcile Type Not Found";
     public final static String INVALID_USERNAME_OR_PASS = "Invalid username or password";
     public final static String INVALID_EMAIL = "Invalid Email";
     public final static String EMAIL_NOT_REGISTERED = "Email not registered";
@@ -48,6 +47,7 @@ public class ConstantsUtils {
 
     // Items
     public final static String TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY = "Total Quantity smaller than total paid quantity, please make sure the new total quantity greater than paid quantity for each item.";
+    public final static String TOTAL_QUANTITY_EQUALS_WITH_EXISTING = "Total Quantity are same with existing quantity, please make sure the new total quantity are different with existing quantity if you wanna change.";
 
     // ARInvoice
     public final static String DOC_TRACKING_ON_PROCESS = "On Process";
