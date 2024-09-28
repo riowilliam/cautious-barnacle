@@ -14,6 +14,7 @@ public class CashOutMutationDto {
     private String projectName;
     private String documentName;
     private String bankAccount;
+    private String bankAccountName;
     private String bankName;
     private BigDecimal amount;
     private BigDecimal transferFee;
@@ -23,13 +24,14 @@ public class CashOutMutationDto {
     private Date createdDate;
     private String createdBy;
 
-    public CashOutMutationDto(Long idTmpCashOut, String vendorName, String invoice, String projectName, String documentName, String bankAccount, String bankName, BigDecimal amount, BigDecimal transferFee, BigDecimal totalAmount, Date createdDate, String createdBy) {
+    public CashOutMutationDto(Long idTmpCashOut, String vendorName, String invoice, String projectName, String documentName, String bankAccount, String bankAccountName, String bankName, BigDecimal amount, BigDecimal transferFee, BigDecimal totalAmount, Date createdDate, String createdBy) {
         this.idTmpCashOut = idTmpCashOut;
         this.vendorName = vendorName;
         this.invoice = invoice;
         this.projectName = projectName;
         this.documentName = documentName;
         this.bankAccount = bankAccount;
+        this.bankAccountName = bankAccountName;
         this.bankName = bankName;
         this.amount = amount;
         this.transferFee = transferFee;

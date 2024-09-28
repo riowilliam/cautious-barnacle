@@ -16,7 +16,7 @@ import java.util.Date;
 public interface TbCashOutRepository extends JpaRepository<TbCashOut, Long> {
 
     @Query("SELECT new com.fision.dto.CashOutMutationDto(tco.cashOutId, tco.vendorName, tco.invoiceTitle, tco.projectName, tco.documentCashOutName, " +
-            "v.bankAccount, v.bankName, tco.amount, tco.transferFee, tco.total, tco.createdTm, tco.createdBy) " +
+            "v.bankAccount, v.bankAccountName, v.bankName, tco.amount, tco.transferFee, tco.total, tco.createdTm, tco.createdBy) " +
             "FROM TbCashOut tco " +
             "LEFT JOIN TbVendor v ON v.vendorName = tco.vendorName " +
             "WHERE (:vendorName IS NULL OR tco.vendorName LIKE %:vendorName%) " +
