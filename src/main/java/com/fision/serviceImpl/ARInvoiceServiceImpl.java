@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author LordDev
@@ -98,6 +99,11 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
 
         ARInvoiceListDto arInvoiceListDto = new ARInvoiceListDto(arInvoicePaging.getContent(), arInvoiceSummaryDto);
         return new PageImpl<>(Collections.singletonList(arInvoiceListDto), pageable, arInvoicePaging.getTotalElements());
+    }
+
+    @Override
+    public List<ARInvoiceDetailDto> getArInvoiceList() {
+        return tbArInvoiceRepository.getArInvoiceDetailList();
     }
 
 }

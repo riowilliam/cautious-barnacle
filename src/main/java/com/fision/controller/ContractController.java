@@ -105,7 +105,7 @@ public class ContractController {
     }
 
     @GetMapping("getContractList")
-    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName,@RequestParam String contractCode) {
+    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName, @RequestParam String contractCode) {
         try {
             List<ContractListDto> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null,
                     contractCode != null && !contractCode.isEmpty() ? contractCode : null);

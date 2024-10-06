@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> {
@@ -57,5 +58,13 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
 
 
 
-
+    @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
+            "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
+            "tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.totalAmount, " +
+            "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
+            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
+            "FROM TbArInvoice tba " +
+            "WHERE tba.invoiceStatus = 1 " +
+            "AND tba.paymentStatus <> 'Fully Paid' " )
+    List<ARInvoiceDetailDto> getArInvoiceDetailList();
 }

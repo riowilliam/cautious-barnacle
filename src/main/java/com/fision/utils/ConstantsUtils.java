@@ -52,4 +52,9 @@ public class ConstantsUtils {
     // ARInvoice
     public final static String DOC_TRACKING_ON_PROCESS = "On Process";
     public final static String DOC_TRACKING_SUBMITTED = "Submitted";
+
+    // Payment Type
+    public final static String FULLY_PAYMENT = "Fully Payment";
+    public final static String PARTIALLY_PAYMENT = "Partially Payment";
+
 }

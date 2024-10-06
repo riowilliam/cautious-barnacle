@@ -90,8 +90,17 @@ public class CashOutServiceImpl implements CashOutService {
 
     @Override
     public CashOutListDto getCashOutListByDocName(String documentName) {
-        List<CashOutDetailDto> cashOutDetailDtoList = tmpCashOutRepository.getTmpCashOutDetailList(documentName);
-        BigDecimal subTotal = tmpCashOutRepository.getSubTotal(documentName);
+        TbDocumentCashOut tbDocumentCashOut = tbDocumentCashOutRepository.findByDocumentName(documentName);
+        List<CashOutDetailDto> cashOutDetailDtoList = null;
+        BigDecimal subTotal = null;
+
+        if(tbDocumentCashOut.getStatus() == 0) {
+            cashOutDetailDtoList = tmpCashOutRepository.getTmpCashOutDetailList(documentName);
+            subTotal = tmpCashOutRepository.getSubTotal(documentName);
+        } else {
+            cashOutDetailDtoList = tbCashOutRepository.getCashOutDetailList(documentName);
+            subTotal = tbCashOutRepository.getSubTotalDetail(documentName);
+        }
 
         return new CashOutListDto(cashOutDetailDtoList, subTotal, documentName);
     }

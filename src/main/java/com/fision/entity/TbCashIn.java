@@ -34,6 +34,10 @@ public class TbCashIn {
     @Column(name = "cash_in_status", columnDefinition = "varchar(100) COMMENT 'Completed, Incompleted'")
     private String cashInStatus;
 
+    @Column(name = "payment_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date paymentDate;
+
     @Column(name = "created_tm", nullable = true, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;

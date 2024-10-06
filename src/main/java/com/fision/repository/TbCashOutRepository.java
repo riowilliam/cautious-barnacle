@@ -1,5 +1,6 @@
 package com.fision.repository;
 
+import com.fision.dto.CashOutDetailDto;
 import com.fision.dto.CashOutMutationDto;
 import com.fision.entity.TbCashOut;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface TbCashOutRepository extends JpaRepository<TbCashOut, Long> {
@@ -38,4 +40,14 @@ public interface TbCashOutRepository extends JpaRepository<TbCashOut, Long> {
                            @Param("docName") String docName,
                            @Param("startDate")Date startDate,
                            @Param("endDate")Date endDate);
+
+    @Query("SELECT new com.fision.dto.CashOutDetailDto(tco.cashOutId, tco.vendorName, tco.invoiceTitle, tco.projectName, v.bankAccount, " +
+            "v.bankName, tco.amount, tco.transferFee, tco.total) " +
+            "FROM TbCashOut tco " +
+            "LEFT JOIN TbVendor v ON v.vendorName = tco.vendorName " +
+            "WHERE tco.documentCashOutName = :docName")
+    List<CashOutDetailDto> getCashOutDetailList(@Param("docName") String docName);
+
+    @Query("SELECT SUM(tco.total) FROM TbCashOut tco WHERE tco.documentCashOutName = :docName ")
+    BigDecimal getSubTotalDetail(@Param("docName") String docName);
 }
