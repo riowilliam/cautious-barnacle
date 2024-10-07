@@ -39,7 +39,7 @@ public class ARInvoiceController {
             ARInvoiceRequestDto arInvoiceRequestDto = gson.fromJson(requestDto, ARInvoiceRequestDto.class);
             if(arInvoiceRequestDto != null) {
                 TbArInvoice sameInvoiceNo = arInvoiceService.getInvoiceByInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
-                if(sameInvoiceNo.getInvoiceStatus() != 2) {
+                if(sameInvoiceNo != null && sameInvoiceNo.getInvoiceStatus() != 2) {
                     return new ResponseDto<>(ConstantsUtils.INVOICE_NO_DUPLICATE, null, HttpStatus.BAD_REQUEST);
                 }
                 arInvoiceService.saveArInvoice(username, arInvoiceRequestDto);

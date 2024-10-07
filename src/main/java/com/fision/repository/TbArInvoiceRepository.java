@@ -65,6 +65,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
             "FROM TbArInvoice tba " +
             "WHERE tba.invoiceStatus = 1 " +
-            "AND tba.paymentStatus <> 'Fully Paid' " )
-    List<ARInvoiceDetailDto> getArInvoiceDetailList();
+            "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
+            "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " )
+    List<ARInvoiceDetailDto> getArInvoiceDetailList(@Param("invoiceNo") String invoiceNo);
 }

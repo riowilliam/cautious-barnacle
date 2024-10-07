@@ -102,8 +102,8 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     }
 
     @Override
-    public List<ARInvoiceDetailDto> getArInvoiceList() {
-        return tbArInvoiceRepository.getArInvoiceDetailList();
+    public List<ARInvoiceDetailDto> getArInvoiceList(String invoiceNo) {
+        return tbArInvoiceRepository.getArInvoiceDetailList(invoiceNo);
     }
 
 }

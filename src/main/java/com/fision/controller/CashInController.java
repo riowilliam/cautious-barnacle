@@ -79,9 +79,9 @@ public class CashInController {
     }
 
     @GetMapping("getArInvoiceList")
-    public ResponseDto<?> getArInvoiceList() {
+    public ResponseDto<?> getArInvoiceList(@RequestParam String username, @RequestParam String invoiceNo) {
         try {
-            List<ARInvoiceDetailDto> arInvoiceDetailList = arInvoiceService.getArInvoiceList();
+            List<ARInvoiceDetailDto> arInvoiceDetailList = arInvoiceService.getArInvoiceList(invoiceNo != null && !invoiceNo.isEmpty() ? invoiceNo : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, arInvoiceDetailList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());

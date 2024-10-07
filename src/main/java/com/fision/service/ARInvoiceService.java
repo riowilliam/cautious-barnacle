@@ -20,5 +20,5 @@ public interface ARInvoiceService {
     TbArInvoice getInvoiceByInvoiceNo(String invoiceNo);
     Page<ARInvoiceListDto> getArInvoiceListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
                                                   String partnerName, String projectName, Integer invoiceStatus, Date startDate, Date endDate);
-    List<ARInvoiceDetailDto> getArInvoiceList();
+    List<ARInvoiceDetailDto> getArInvoiceList(String invoiceNo);
 }
