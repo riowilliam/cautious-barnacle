@@ -36,26 +36,26 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
                                                 Pageable pageable);
 
     @Query("SELECT new com.fision.dto.ARInvoiceSummaryDto ( " +
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0), " +  // Approved total
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 0 THEN tba.totalAmount ELSE 0 END), 0), " +  // Not approved total
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 2 THEN tba.totalAmount ELSE 0 END), 0), " +  // Rejected total
-            "COALESCE((SELECT SUM(tci.paymentAmount) FROM TbCashIn tci WHERE tci.invoiceNo = tba.invoiceNo AND tci.cashInStatus = 'Completed'), 0), " +  // Total payment amount paid
+            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 0 THEN tba.totalAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 2 THEN tba.totalAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
             "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0) - " +
-            "(SELECT COALESCE(SUM(tci.paymentAmount), 0) FROM TbCashIn tci WHERE tci.invoiceNo = tba.invoiceNo AND tci.cashInStatus = 'Completed') " +  // Total unpaid amount
+            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0) " +
             ")" +
             "FROM TbArInvoice tba " +
+            "LEFT JOIN TbCashIn tci ON tci.invoiceNo = tba.invoiceNo " +
             "WHERE (:partnerName IS NULL OR tba.partnerName LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.projectName LIKE %:projectName%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.createdTm >= :startDate) " +
             "AND (:endDate IS NULL OR tba.createdTm <= :endDate) " +
-            "GROUP BY tba.partnerName, tba.projectName, tba.invoiceNo")
+            "GROUP BY tba.partnerName, tba.projectName")
     ARInvoiceSummaryDto getArInvoiceSummary(@Param("partnerName") String partnerName,
                                             @Param("projectName") String projectName,
                                             @Param("invoiceStatus") Integer invoiceStatus,
                                             @Param("startDate") Date startDate,
                                             @Param("endDate") Date endDate);
-
 
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
