@@ -19,7 +19,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
             "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
-            "tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.totalAmount, " +
+            "tba.dppAmount, tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
             "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
             "FROM TbArInvoice tba " +
@@ -60,7 +60,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
             "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
-            "tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.totalAmount, " +
+            "tba.dppAmount, tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
             "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
             "FROM TbArInvoice tba " +

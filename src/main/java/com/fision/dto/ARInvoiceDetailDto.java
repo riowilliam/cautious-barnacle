@@ -19,6 +19,7 @@ public class ARInvoiceDetailDto {
     private BigDecimal amount;
     private BigDecimal ppn;
     private BigDecimal pph;
+    private BigDecimal deduction;
     private BigDecimal totalAmount;
     private String documentTracking;
     private Integer invoiceStatus;
@@ -30,7 +31,7 @@ public class ARInvoiceDetailDto {
     private Date modifiedDate;
     private String modifiedBy;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal ppn, BigDecimal pph, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy) {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy) {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
         this.contractName = contractName;
@@ -39,6 +40,7 @@ public class ARInvoiceDetailDto {
         this.amount = amount;
         this.ppn = ppn;
         this.pph = pph;
+        this.deduction = deduction;
         this.totalAmount = totalAmount;
         this.documentTracking = documentTracking;
         this.invoiceStatus = invoiceStatus;
