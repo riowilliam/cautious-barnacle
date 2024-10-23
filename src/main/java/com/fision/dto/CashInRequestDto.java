@@ -8,7 +8,8 @@ public class CashInRequestDto {
     private String invoiceNo;
     private String partnerName;
     private BigDecimal invoiceAmount;
-    private String projecName;
+    private String projectName;
+    private String contractName;
     private BigDecimal deduction;
     private BigDecimal paymentAmount;
     private Integer paymentType;

@@ -16,6 +16,7 @@ import java.util.List;
 public interface ARInvoiceService {
     void saveArInvoice(String username, ARInvoiceRequestDto arInvoiceRequestDto);
     void editArInvoice(String username, TbArInvoice tbArInvoice, ARInvoiceRequestDto arInvoiceRequestDto);
+    void save(TbArInvoice tbArInvoice);
     void approvalInvoice(String username, Integer status, TbArInvoice arInvoice);
     TbArInvoice getInvoiceByInvoiceNo(String invoiceNo);
     Page<ARInvoiceListDto> getArInvoiceListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,

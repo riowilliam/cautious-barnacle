@@ -35,27 +35,28 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
                                                 @Param("endDate") Date endDate,
                                                 Pageable pageable);
 
-    @Query("SELECT new com.fision.dto.ARInvoiceSummaryDto ( " +
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 0 THEN tba.totalAmount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 2 THEN tba.totalAmount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0) - " +
-            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0) " +
-            ")" +
-            "FROM TbArInvoice tba " +
-            "LEFT JOIN TbCashIn tci ON tci.invoiceNo = tba.invoiceNo " +
-            "WHERE (:partnerName IS NULL OR tba.partnerName LIKE %:partnerName%) " +
-            "AND (:projectName IS NULL OR tba.projectName LIKE %:projectName%) " +
-            "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
-            "AND (:startDate IS NULL OR tba.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.createdTm <= :endDate) " +
-            "GROUP BY tba.partnerName, tba.projectName")
-    ARInvoiceSummaryDto getArInvoiceSummary(@Param("partnerName") String partnerName,
-                                            @Param("projectName") String projectName,
-                                            @Param("invoiceStatus") Integer invoiceStatus,
-                                            @Param("startDate") Date startDate,
-                                            @Param("endDate") Date endDate);
+    @Query(value = "SELECT " +
+            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0), " +
+            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 0 THEN tba.total_amount ELSE 0 END), 0), " +
+            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 2 THEN tba.total_amount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount + tci.deduction ELSE 0 END), 0), " +
+            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0) - " +
+            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount + tci.deduction ELSE 0 END), 0) " +
+            "FROM tb_ar_invoice tba " +
+            "LEFT JOIN tb_cash_in tci ON tci.invoice_no = tba.invoice_no " +
+            "WHERE (:partnerName IS NULL OR tba.partner_name LIKE %:partnerName%) " +
+            "AND (:projectName IS NULL OR tba.project_name LIKE %:projectName%) " +
+            "AND (:invoiceStatus IS NULL OR tba.invoice_status = :invoiceStatus) " +
+            "AND (:startDate IS NULL OR tba.created_tm >= :startDate) " +
+            "AND (:endDate IS NULL OR tba.created_tm <= :endDate) ",
+            nativeQuery = true)
+    Object getArInvoiceSummary (
+            @Param("partnerName") String partnerName,
+            @Param("projectName") String projectName,
+            @Param("invoiceStatus") Integer invoiceStatus,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
+
 
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +

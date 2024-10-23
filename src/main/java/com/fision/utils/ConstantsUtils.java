@@ -57,4 +57,12 @@ public class ConstantsUtils {
     public final static String FULLY_PAYMENT = "Fully Payment";
     public final static String PARTIALLY_PAYMENT = "Partially Payment";
 
+    public final static String FULLY_PAID = "Fully Paid";
+    public final static String PARTIALLY_PAID = "Partially Paid";
+
+    // Cash In
+    public final static String COMPLETED = "Completed";
+    public final static String INCOMPLETED = "Incompleted";
+    public final static String PAYMENT_TOTAL_LESS_THAN_AMOUNT = "Can not create cash in because total amount of invoice less than payment amount.";
+    public final static String THERE_ARE_INCOMPLETE_PAYMENT = "Please complete the previously cash in for this invoice first.";
 }

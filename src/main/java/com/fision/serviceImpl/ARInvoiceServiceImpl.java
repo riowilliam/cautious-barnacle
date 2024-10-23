@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -78,6 +79,11 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     }
 
     @Override
+    public void save(TbArInvoice tbArInvoice) {
+        tbArInvoiceRepository.save(tbArInvoice);
+    }
+
+    @Override
     public void approvalInvoice(String username, Integer status, TbArInvoice arInvoice) {
         arInvoice.setInvoiceStatus(status);
         arInvoice.setModifiedBy(username);
@@ -95,7 +101,7 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
 
         Page<ARInvoiceDetailDto> arInvoicePaging = tbArInvoiceRepository.getArInvoicePaging(partnerName, projectName, invoiceStatus, startDate, endDate, pageable);
-        ARInvoiceSummaryDto arInvoiceSummaryDto = tbArInvoiceRepository.getArInvoiceSummary(partnerName, projectName, invoiceStatus, startDate, endDate);
+        ARInvoiceSummaryDto arInvoiceSummaryDto = getARInvoiceSummary(partnerName, projectName, invoiceStatus, startDate, endDate);
 
         ARInvoiceListDto arInvoiceListDto = new ARInvoiceListDto(arInvoicePaging.getContent(), arInvoiceSummaryDto);
         return new PageImpl<>(Collections.singletonList(arInvoiceListDto), pageable, arInvoicePaging.getTotalElements());
@@ -106,4 +112,15 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         return tbArInvoiceRepository.getArInvoiceDetailList(invoiceNo);
     }
 
+    private ARInvoiceSummaryDto getARInvoiceSummary(String partnerName, String projectName, Integer invoiceStatus,
+                                                         Date startDate, Date endDate) {
+        Object[] resultArray = (Object[]) tbArInvoiceRepository.getArInvoiceSummary(partnerName, projectName, invoiceStatus, startDate, endDate);
+        return new ARInvoiceSummaryDto(
+                (BigDecimal) resultArray[0],  // total for invoice_status = 1
+                (BigDecimal) resultArray[1],  // total for invoice_status = 0
+                (BigDecimal) resultArray[2],  // total for invoice_status = 2
+                (BigDecimal) resultArray[3],  // total completed payments
+                (BigDecimal) resultArray[4]   // difference between totalAmount and incompleted payments
+        );
+    }
 }

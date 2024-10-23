@@ -58,20 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
         httpSecurity.cors().and().csrf().disable()
-                // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("/api/login", "/api/getEncryptedPassword", "/api/getOldestData", "/api/sendResetPassword",
-                        "/swagger-ui/**", "/v3/api-docs/**", "/api-spec.yml").permitAll()
-                // all other requests need to be authenticated
+                .antMatchers("/api/login", "/api/getEncryptedPassword", "/api/getOldestData", "/api/sendResetPassword").permitAll()
                 .anyRequest().authenticated().and().
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
-                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

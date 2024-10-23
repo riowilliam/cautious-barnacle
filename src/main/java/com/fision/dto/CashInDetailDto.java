@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 public class CashInDetailDto {
+    private Long cashInId;
     private String projectName;
     private String invoiceNo;
     private String partnerName;
@@ -23,12 +24,14 @@ public class CashInDetailDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date modifiedDate;
     private String modifiedBy;
-    private String CashInStatus;
+    private String cashInStatus;
 
-    public CashInDetailDto(String projectName, String invoiceNo, String partnerName, String contractName, BigDecimal paymentAmount, Date paymentDate, Integer paymentType, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String cashInStatus) {
+    public CashInDetailDto(Long cashInId, String projectName, String invoiceNo, String partnerName, String contractName, BigDecimal paymentAmount, Date paymentDate, Integer paymentType, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String cashInStatus) {
+        this.cashInId = cashInId;
         this.projectName = projectName;
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
+        this.contractName = contractName;
         this.paymentAmount = paymentAmount;
         this.paymentDate = paymentDate;
         this.paymentType = paymentType == 1 ? ConstantsUtils.FULLY_PAYMENT : ConstantsUtils.PARTIALLY_PAYMENT;
@@ -36,6 +39,6 @@ public class CashInDetailDto {
         this.createdBy = createdBy;
         this.modifiedDate = modifiedDate;
         this.modifiedBy = modifiedBy;
-        CashInStatus = cashInStatus;
+        this.cashInStatus = cashInStatus;
     }
 }
