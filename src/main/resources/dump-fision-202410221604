@@ -1,0 +1,610 @@
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+--
+-- Host: localhost    Database: fision
+-- ------------------------------------------------------
+-- Server version	8.0.29
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ms_balance`
+--
+
+DROP TABLE IF EXISTS `ms_balance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ms_balance` (
+  `balance_id` bigint NOT NULL AUTO_INCREMENT,
+  `balance_name` varchar(100) NOT NULL,
+  `balance_amount` decimal(20,3) NOT NULL,
+  `created_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `modified_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`balance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ms_balance`
+--
+
+LOCK TABLES `ms_balance` WRITE;
+/*!40000 ALTER TABLE `ms_balance` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ms_balance` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ms_bank`
+--
+
+DROP TABLE IF EXISTS `ms_bank`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ms_bank` (
+  `ms_bank_id` bigint NOT NULL AUTO_INCREMENT,
+  `bank_name` varchar(250) NOT NULL,
+  `bank_short_name` varchar(100) NOT NULL,
+  `bank_code` varchar(100) NOT NULL,
+  `created_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Admin',
+  `modified_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Admin',
+  PRIMARY KEY (`ms_bank_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ms_bank`
+--
+
+LOCK TABLES `ms_bank` WRITE;
+/*!40000 ALTER TABLE `ms_bank` DISABLE KEYS */;
+INSERT INTO `ms_bank` VALUES (1,'Bank Mandiri','Mandiri',' 008','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(2,'Bank Rakyat Indonesia','BRI',' 002','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(3,'Bank Negara Indonesia ','BNI',' 009','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(4,'Bank Central Asia','BCA',' 014','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(5,'Bank Danamon','Danamon',' 011','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(6,'Bank CIMB Niaga','CIMB',' 022','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(7,'Bank Permata','Permata',' 013','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(8,'Bank BTPN','BTPN',' 213','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(9,'Bank Bukopin','Bukopin',' 441','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(10,'Bank Syariah Indonesia','BSI',' 451','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(11,'Bank Mega','Bank Mega',' 426','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(12,'Bank Lippo','Bank Lippo',' 026','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(13,'Bank Jabar Banten','BJB',' 110','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(14,'Bank Muamalat Indonesia','Muamalat',' 147','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(15,'Bank Panin','Panin',' 019','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(16,'Bank Artha Graha','Artha Graha',' 020','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(17,'Bank DKI','Bank DKI',' 111','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(18,'Bank BRI Agro','BRI Agro',' 429','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(19,'Bank Mandiri Taspen','Mandiri Taspen',' 482','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(20,'Bank Pembangunan Daerah Jawa Tengah','Bank Jateng',' 113','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(21,'Bank Pembangunan Daerah Jawa Timur ','Bank Jatim',' 114','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(22,'Bank Pembangunan Daerah Sumatera Utara','Bank Sumut',' 116','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(23,'Bank Pembangunan Daerah Sumatera Barat','Bank Sumbar',' 117','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(24,'Bank Pembangunan Daerah Kalimantan Selatan','Bank Kalsel',' 118','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(25,'Bank Pembangunan Daerah Kalimantan Timur','Bank Kaltim',' 119','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(26,'Bank Pembangunan Daerah Sulawesi Utara','Bank SulutGo',' 120','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(27,'Bank Pembangunan Daerah Sulawesi Selatan','Bank Sulsel',' 121','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(28,'Bank Pembangunan Daerah Sulawesi Tengah ','Bank Sulteng',' 122','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(29,'Bank Pembangunan Daerah Nusa Tenggara Barat','Bank NTB',' 123','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(30,'Bank Pembangunan Daerah Nusa Tenggara Timur','Bank NTT',' 124','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(31,'Bank Pembangunan Daerah Maluku','Bank Maluku',' 125','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(32,'Bank Pembangunan Daerah Papua','Bank Papua',' 126','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(33,'Bank Negara Indonesia Syariah','BNI Syariah',' 427','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(34,'Bank Central Asia Syariah','BCA Syariah',' 426','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(35,'Bank Rakyat Indonesia Syariah','BRI Syariah',' 422','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(36,'Bank Pembiayaan Rakyat Syariah','BPRS',' 423','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(37,'Bank Sinarmas','Sinarmas',' 153','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin'),(38,'Bank UOB Indonesia','UOB',' 023','2024-09-05 16:21:40','Admin','2024-09-05 16:21:40','Admin');
+/*!40000 ALTER TABLE `ms_bank` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ms_item`
+--
+
+DROP TABLE IF EXISTS `ms_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ms_item` (
+  `item_id` bigint NOT NULL AUTO_INCREMENT,
+  `item_name` varchar(255) DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`item_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ms_item`
+--
+
+LOCK TABLES `ms_item` WRITE;
+/*!40000 ALTER TABLE `ms_item` DISABLE KEYS */;
+INSERT INTO `ms_item` VALUES (1,'Mobil','2024-09-02 17:24:07','LordDev Comp','2024-09-02 17:24:07','LordDev Comp'),(2,'Truk','2024-09-02 17:24:10','LordDev Comp','2024-09-02 17:24:11','LordDev Comp'),(3,'Excavator','2024-09-02 17:24:14','LordDev Comp','2024-09-02 17:24:14','LordDev Comp'),(4,'Bulldozer','2024-09-02 17:24:24','LordDev Comp','2024-09-02 17:24:24','LordDev Comp'),(5,'Motor','2024-09-02 17:59:01','LordDev Comp','2024-09-02 17:59:01','LordDev Comp');
+/*!40000 ALTER TABLE `ms_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_ar_invoice`
+--
+
+DROP TABLE IF EXISTS `tb_ar_invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_ar_invoice` (
+  `ar_invoice_id` bigint NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(100) NOT NULL,
+  `partner_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `dpp_amount` decimal(20,3) NOT NULL DEFAULT '0.000',
+  `ppn_amount` decimal(20,3) NOT NULL DEFAULT '0.000',
+  `pph_amount` decimal(20,3) NOT NULL DEFAULT '0.000',
+  `deduction` decimal(20,3) NOT NULL DEFAULT '0.000',
+  `total_amount` decimal(20,3) DEFAULT NULL,
+  `contract_code` varchar(100) DEFAULT NULL,
+  `paid_item_details` varchar(100) DEFAULT NULL,
+  `bapp_no` varchar(100) DEFAULT NULL,
+  `document_tracking` varchar(100) DEFAULT NULL COMMENT 'On Process, Submitted',
+  `invoice_status` int DEFAULT NULL COMMENT '0 = Not Approve, 1 = Approved, 2 = Rejected',
+  `payment_status` varchar(100) DEFAULT NULL COMMENT 'Fully Paid if SUM of cash in from this invoice on tb_cash_in = Total Amount, Partially Paid if SUM of cash in from this invoice on tb_cash_in < Total Amount',
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ar_invoice_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_ar_invoice`
+--
+
+LOCK TABLES `tb_ar_invoice` WRITE;
+/*!40000 ALTER TABLE `tb_ar_invoice` DISABLE KEYS */;
+INSERT INTO `tb_ar_invoice` VALUES (3,'HK-INV-20241007','PT. Syawargi Stone Crusher','Pembangunan Bendungan Sungai Citanduy',800000000.000,88000000.000,16000000.000,0.000,816000000.000,'HK-CC-240910-095630','[{\"itemName\":\"Bulldozer\",\"paymentQuantity\":5},{\"itemName\":\"Excavator\",\"paymentQuantity\":5}]','BAPP_NO_12346','On Process',1,NULL,'2024-10-21 08:19:04','LordDev Comp','2024-10-21 08:26:56','LordDev Comp');
+/*!40000 ALTER TABLE `tb_ar_invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_cash_in`
+--
+
+DROP TABLE IF EXISTS `tb_cash_in`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_cash_in` (
+  `cash_in_id` bigint NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(100) NOT NULL,
+  `payment_amount` decimal(20,3) DEFAULT NULL,
+  `payment_type` int DEFAULT NULL COMMENT '1 = Fully Payment, 2 = Partially Payment',
+  `deduction` decimal(20,3) DEFAULT NULL,
+  `cash_in_status` varchar(100) DEFAULT NULL COMMENT 'Completed, Incompleted',
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `payment_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`cash_in_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_cash_in`
+--
+
+LOCK TABLES `tb_cash_in` WRITE;
+/*!40000 ALTER TABLE `tb_cash_in` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_cash_in` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_cash_out`
+--
+
+DROP TABLE IF EXISTS `tb_cash_out`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_cash_out` (
+  `cash_out_id` bigint NOT NULL AUTO_INCREMENT,
+  `vendor_name` varchar(19) NOT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `invoice_title` varchar(100) DEFAULT NULL,
+  `transfer_fee` decimal(20,3) DEFAULT NULL,
+  `total` decimal(20,3) DEFAULT NULL COMMENT 'amount + transfer_fee',
+  `document_cash_out_name` varchar(19) NOT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `project_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`cash_out_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_cash_out`
+--
+
+LOCK TABLES `tb_cash_out` WRITE;
+/*!40000 ALTER TABLE `tb_cash_out` DISABLE KEYS */;
+INSERT INTO `tb_cash_out` VALUES (1,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNY',0.000,10000000.000,'HK-CO-240907-041515','2024-09-07 16:20:48','LordDev Comp','2024-09-07 16:20:48','LordDev Comp','Head Office HKA'),(2,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNDIP',0.000,10000000.000,'HK-CO-240907-041515','2024-09-07 16:20:48','LordDev Comp','2024-09-07 16:20:48','LordDev Comp','Head Office HKA'),(3,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM ITB',0.000,10000000.000,'HK-CO-240909-022507','2024-09-09 07:27:10','LordDev Comp','2024-09-09 07:27:10','LordDev Comp','Head Office HKA'),(4,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM ITS',0.000,10000000.000,'HK-CO-240909-022507','2024-09-09 07:27:10','LordDev Comp','2024-09-09 07:27:10','LordDev Comp','Head Office HKA'),(5,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNAIR',0.000,10000000.000,'HK-CO-240909-035450','2024-09-09 08:56:16','LordDev Comp','2024-09-09 08:56:16','LordDev Comp','Head Office HKA'),(6,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNIVERSITAS TRISAKTI',0.000,10000000.000,'HK-CO-240909-035450','2024-09-09 08:56:16','LordDev Comp','2024-09-09 08:56:16','LordDev Comp','Head Office HKA');
+/*!40000 ALTER TABLE `tb_cash_out` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_contract`
+--
+
+DROP TABLE IF EXISTS `tb_contract`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_contract` (
+  `contract_id` bigint NOT NULL AUTO_INCREMENT,
+  `contract_code` varchar(100) NOT NULL,
+  `revision` int NOT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `contract_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`contract_id`),
+  UNIQUE KEY `tb_contract_unique_1` (`contract_code`,`revision`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_contract`
+--
+
+LOCK TABLES `tb_contract` WRITE;
+/*!40000 ALTER TABLE `tb_contract` DISABLE KEYS */;
+INSERT INTO `tb_contract` VALUES (5,'HK-CC-2409031244',1,'2024-09-02 17:57:44','LordDev Comp','2024-09-02 17:57:45','LordDev Comp','Penyewaan Kendaraan'),(6,'HK-CC-2409031237',1,'2024-09-02 17:58:37','LordDev Comp','2024-09-02 17:58:37','LordDev Comp','Penyewaan Alat Berat'),(7,'HK-CC-2409031237',2,'2024-09-03 06:42:49','LordDev Comp','2024-09-03 06:42:50','LordDev Comp','Penyewaan Alat Berat');
+/*!40000 ALTER TABLE `tb_contract` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_document_cash_out`
+--
+
+DROP TABLE IF EXISTS `tb_document_cash_out`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_document_cash_out` (
+  `document_cash_out_id` bigint NOT NULL AUTO_INCREMENT,
+  `document_name` varchar(100) NOT NULL,
+  `total_amount` decimal(20,3) NOT NULL,
+  `status` int NOT NULL COMMENT '0 = Not Approve , 1 = Approved, 2 = Rejected',
+  `created_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(100) NOT NULL,
+  `modified_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(100) NOT NULL,
+  PRIMARY KEY (`document_cash_out_id`),
+  UNIQUE KEY `tb_document_cash_out_unique` (`document_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_document_cash_out`
+--
+
+LOCK TABLES `tb_document_cash_out` WRITE;
+/*!40000 ALTER TABLE `tb_document_cash_out` DISABLE KEYS */;
+INSERT INTO `tb_document_cash_out` VALUES (1,'HK-CO-2409070924',20000000.000,2,'2024-09-07 02:00:25','LordDev Comp','2024-09-07 17:36:47','LordDev Comp'),(2,'HK-CO-240907-041515',20000000.000,1,'2024-09-07 09:15:15','LordDev Comp','2024-09-07 16:20:48','LordDev Comp'),(3,'HK-CO-240909-022507',20000000.000,1,'2024-09-09 07:25:07','LordDev Comp','2024-09-09 07:27:10','LordDev Comp'),(4,'HK-CO-240909-035450',20000000.000,1,'2024-09-09 08:54:51','LordDev Comp','2024-09-09 08:56:16','LordDev Comp');
+/*!40000 ALTER TABLE `tb_document_cash_out` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_facility_asset_transaction`
+--
+
+DROP TABLE IF EXISTS `tb_facility_asset_transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_facility_asset_transaction` (
+  `facility_asset_transaction_id` bigint NOT NULL AUTO_INCREMENT,
+  `vendor_name` varchar(100) DEFAULT NULL,
+  `transaction_date` date DEFAULT NULL,
+  `amount` varchar(100) DEFAULT NULL,
+  `bank_approval_date` varchar(100) DEFAULT NULL,
+  `tenor_date` date DEFAULT NULL,
+  `transaction_type` varchar(100) DEFAULT NULL COMMENT 'Return -> auto add from system, Payment -> Get Data from MONAP Database',
+  `facility_type` varchar(100) DEFAULT NULL,
+  `is_tenor_date_on_weekend` tinyint(1) DEFAULT NULL COMMENT 'True -> if tenor date on Saturday or Sunday',
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`facility_asset_transaction_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_facility_asset_transaction`
+--
+
+LOCK TABLES `tb_facility_asset_transaction` WRITE;
+/*!40000 ALTER TABLE `tb_facility_asset_transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_facility_asset_transaction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_facility_balance`
+--
+
+DROP TABLE IF EXISTS `tb_facility_balance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_facility_balance` (
+  `facility_balance_id` bigint NOT NULL AUTO_INCREMENT,
+  `facility_type` varchar(100) NOT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`facility_balance_id`),
+  UNIQUE KEY `tb_facility_balance_unique` (`facility_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_facility_balance`
+--
+
+LOCK TABLES `tb_facility_balance` WRITE;
+/*!40000 ALTER TABLE `tb_facility_balance` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_facility_balance` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_item_details`
+--
+
+DROP TABLE IF EXISTS `tb_item_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_item_details` (
+  `item_details_id` bigint NOT NULL AUTO_INCREMENT,
+  `contract_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `item_id` bigint NOT NULL,
+  `total_quantity` int NOT NULL,
+  `remaining_quantity` int NOT NULL,
+  `created_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `modified_tm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `revision` int NOT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`item_details_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_item_details`
+--
+
+LOCK TABLES `tb_item_details` WRITE;
+/*!40000 ALTER TABLE `tb_item_details` DISABLE KEYS */;
+INSERT INTO `tb_item_details` VALUES (3,'HK-CC-2409031244',1,20,20,'2024-09-02 17:57:44','LordDev Comp','2024-09-02 17:57:45','LordDev Comp',1,NULL),(4,'HK-CC-2409031244',2,10,10,'2024-09-02 17:57:44','LordDev Comp','2024-09-02 17:57:45','LordDev Comp',1,NULL),(5,'HK-CC-2409031237',3,5,5,'2024-09-02 17:58:37','LordDev Comp','2024-09-02 17:58:37','LordDev Comp',1,NULL),(6,'HK-CC-2409031237',4,5,5,'2024-09-02 17:58:37','LordDev Comp','2024-09-02 17:58:37','LordDev Comp',1,NULL),(7,'HK-CC-2409031237',3,3,3,'2024-09-03 06:42:49','LordDev Comp','2024-09-03 06:42:50','LordDev Comp',2,NULL),(8,'HK-CC-2409031237',4,5,5,'2024-09-03 06:42:49','LordDev Comp','2024-09-03 06:42:50','LordDev Comp',2,NULL);
+/*!40000 ALTER TABLE `tb_item_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_partner`
+--
+
+DROP TABLE IF EXISTS `tb_partner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_partner` (
+  `partner_id` bigint NOT NULL AUTO_INCREMENT,
+  `partner_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `valid_contract_date` date DEFAULT NULL,
+  `invalid_contract_date` date DEFAULT NULL,
+  `active_project` varchar(100) DEFAULT NULL,
+  `is_ppn_wapu` tinyint(1) NOT NULL,
+  `document_tracking` tinyint(1) NOT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`partner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_partner`
+--
+
+LOCK TABLES `tb_partner` WRITE;
+/*!40000 ALTER TABLE `tb_partner` DISABLE KEYS */;
+INSERT INTO `tb_partner` VALUES (1,'PT. Tri Mulia','2024-08-01','2030-08-01','2',1,0,'2024-09-03 05:12:38','LordDevComp','2024-09-03 05:12:39','LordDevComp'),(2,'PT. Syawargi Stone Crusher','2024-08-01','2030-08-01','1',1,0,'2024-09-03 05:12:50','LordDevComp','2024-09-03 05:12:51','LordDevComp');
+/*!40000 ALTER TABLE `tb_partner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_project`
+--
+
+DROP TABLE IF EXISTS `tb_project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_project` (
+  `project_id` bigint NOT NULL AUTO_INCREMENT,
+  `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `status` int NOT NULL COMMENT '1 = Active, 0 = Inactive',
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`project_id`),
+  UNIQUE KEY `tb_project_unique` (`project_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_project`
+--
+
+LOCK TABLES `tb_project` WRITE;
+/*!40000 ALTER TABLE `tb_project` DISABLE KEYS */;
+INSERT INTO `tb_project` VALUES (1,'Pembangunan Bendungan Sungai Citanduy','2024-08-01',1,'2024-08-27 19:51:19','LordDevComp','2024-08-27 19:51:19','LordDevComp'),(2,'Pembangunan Jalan Lintas Kabupaten Mukomuko','2024-08-01',1,'2024-08-27 19:53:52','LordDevComp','2024-08-27 19:53:52','LordDevComp'),(3,'Head Office HKA','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(4,'AMP Palindra','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(5,'Perawang','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(6,'Muara Fajar','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(7,'Dumai','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(8,'Duri','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(9,'Tebing Tinggi','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(10,'Padang - Sicincin','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(11,'Aceh Sigli','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(12,'Binjai Stabat','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(13,'Indralaya Prabumulih','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(14,'Indrapura Kisaran','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(15,'Pekanbaru Bangkinang','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(16,'Kandis','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(17,'Bengkulu Taba P','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(18,'Serbelawan S','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(19,'Tol Junction TT','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(20,'AMP Indralaya','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(21,'AMP Prabumulih','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(22,'Maintenance Bakter','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(23,'AMP Tanjung Pura','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(24,'Maintenance?edbin','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(25,'AMP Baleno Jambi','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(26,'AMP Jabar','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(27,'AMP Sei Langsat','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(28,'AMP  Bandara Soetta','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(29,'Facade','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(30,'AMP Pattimura-Ambon','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(31,'Rentang','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(32,'Leuwikeris','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(33,'AMP Gunung Putri','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(34,'Sumur Serapan','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(35,'Suralaya','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(36,'AMP Jabodetabek','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(37,'UP  Bojonegara','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(38,'UP Aneka Bisnis','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(39,'OJT Pekanbaru Bngkng','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(40,'OJT Bengkulu Taba P','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(41,'Rest Area TBPPKA','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(42,'OJT Pekanbaru-Dumai','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(43,'OJT Sigli-Banda Aceh','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(44,'OJT Bakauheni-Terban','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(45,'OJT TBPPKA','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(46,'OJT Medan - Binjai','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(47,'OJT Ruas Binj Stabat','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(48,'OJT Ruas ATP','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(49,'OJT TeKuPa','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(50,'OJT Indrapura Kisara','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(51,'OJT PALINDRA','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(52,'Rest Area Indraprabu','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(53,'OJT Jorrs','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(54,'SC Bahorok','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp'),(55,'SC Sebertung','2024-08-01',1,'2024-09-04 06:32:00','LordDevComp','2024-09-04 06:32:00','LordDevComp');
+/*!40000 ALTER TABLE `tb_project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_user`
+--
+
+DROP TABLE IF EXISTS `tb_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_user` (
+  `user_id` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `full_name` varchar(500) DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(100) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(100) DEFAULT NULL,
+  `role_code` varchar(100) DEFAULT NULL,
+  `contact` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `tb_user_un` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_user`
+--
+
+LOCK TABLES `tb_user` WRITE;
+/*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
+INSERT INTO `tb_user` VALUES (1,'LordDevComp','lorddev.comp@gmail.com','LordDev','$2a$12$YUqBwMSVkpgKelCikRzvPeSh5xH5UwCYZSQPlG3g/Th21tGpVNwsq','2024-08-25 09:35:01','Super Admin','2024-08-25 09:35:01','LordDevComp','S-ADM','082244862020'),(2,'Gilang','gilang.comp@gmail.com','Gilang','$2a$12$r8yR0/7Ag0nnzEb8a5cLIej9U66zaVfM0F3qrW6m4xaloinDGFqzW','2024-08-26 13:12:14','LordDevComp','2024-08-26 17:51:01','LordDevComp','ADMN','082244862021'),(3,'Ramadhan','ramadhan.comp@gmail.com','Ramadhan','$2a$12$r8yR0/7Ag0nnzEb8a5cLIej9U66zaVfM0F3qrW6m4xaloinDGFqzW','2024-08-26 13:12:37','LordDevComp','2024-08-26 13:12:37','LordDevComp','USER','082244862022'),(5,'Permadi','permadi@gmail.com','Permadi','$2a$12$jbpiRB/vlGCaXXRA3qxvvu9SsCvF4IZqQFXaF6weqgIHpb1wm0xDC','2024-08-26 13:33:51','LordDev','2024-08-26 13:33:51','LordDev','USR-V','082244862023');
+/*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_vendor`
+--
+
+DROP TABLE IF EXISTS `tb_vendor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_vendor` (
+  `vendor_id` bigint NOT NULL AUTO_INCREMENT,
+  `vendor_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `bank_account_name` varchar(255) NOT NULL,
+  `bank_account` varchar(100) NOT NULL,
+  `bank_name` varchar(100) NOT NULL,
+  `bank_code` varchar(100) DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`vendor_id`),
+  UNIQUE KEY `tb_vendor_unique` (`vendor_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_vendor`
+--
+
+LOCK TABLES `tb_vendor` WRITE;
+/*!40000 ALTER TABLE `tb_vendor` DISABLE KEYS */;
+INSERT INTO `tb_vendor` VALUES (1,'PT. HUTAMA KARYA','PT HUTAMA KARYA','137604112','BNI','009','2024-09-03 09:53:18','LordDev Comp','2024-09-03 09:53:19','LordDev Comp'),(2,'PT. AUTOFIT SEJAHTERA','PT AUTOFIT SEJAHTERA','23003040030','BCA','014','2024-09-03 10:08:40','LordDev Comp','2024-09-03 10:08:41','LordDev Comp'),(3,'PT. SYAWARGI STONE CRUSHER','PT SYAWARGI STONE CRUSHER','1234567890','BCA','014','2024-09-03 16:53:08','LordDev Comp','2024-09-03 17:08:44','LordDev Comp');
+/*!40000 ALTER TABLE `tb_vendor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tm_role`
+--
+
+DROP TABLE IF EXISTS `tm_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tm_role` (
+  `role_id` bigint NOT NULL AUTO_INCREMENT,
+  `role_code` varchar(50) DEFAULT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
+  `status` int DEFAULT '1' COMMENT '0 = Innactive, 1 = Active',
+  `created_by` varchar(255) DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `tm_role_unique` (`role_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tm_role`
+--
+
+LOCK TABLES `tm_role` WRITE;
+/*!40000 ALTER TABLE `tm_role` DISABLE KEYS */;
+INSERT INTO `tm_role` VALUES (1,'S-ADM','Super Admin',1,'Super Admin','2024-08-25 09:44:09','Super Admin','2024-08-25 09:44:09'),(4,'ADMN','Admin',1,'Admin','2024-08-26 09:44:09','Super Admin','2024-08-26 09:44:09'),(5,'USER','User',1,'User','2024-08-26 09:44:09','Super Admin','2024-08-26 09:44:09'),(6,'USR-V','User View Only',1,'User View Only','2024-08-26 09:44:09','Admin','2024-08-26 09:44:09');
+/*!40000 ALTER TABLE `tm_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tmp_cash_out`
+--
+
+DROP TABLE IF EXISTS `tmp_cash_out`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tmp_cash_out` (
+  `cash_out_id` bigint NOT NULL AUTO_INCREMENT,
+  `vendor_name` varchar(19) NOT NULL,
+  `amount` decimal(20,3) DEFAULT NULL,
+  `invoice_title` varchar(100) DEFAULT NULL,
+  `transfer_fee` decimal(20,3) DEFAULT NULL,
+  `total` decimal(20,3) DEFAULT NULL COMMENT 'amount + transfer_fee',
+  `document_cash_out_name` varchar(19) NOT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`cash_out_id`),
+  KEY `tmp_cash_out_document_cash_out_name_IDX` (`document_cash_out_name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tmp_cash_out`
+--
+
+LOCK TABLES `tmp_cash_out` WRITE;
+/*!40000 ALTER TABLE `tmp_cash_out` DISABLE KEYS */;
+INSERT INTO `tmp_cash_out` VALUES (7,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNY',0.000,10000000.000,'HK-CO-240907-041515','2024-09-07 09:15:15','LordDev Comp','2024-09-07 15:31:06','LordDev Comp','Head Office HKA'),(9,'PT. HUTAMA KARYA',10000000.000,'PBY SPONSORSHIP KKN PPM UNDIP',0.000,10000000.000,'HK-CO-240907-041515','2024-09-07 15:31:06','LordDev Comp','2024-09-07 15:31:06','LordDev Comp','Head Office HKA');
+/*!40000 ALTER TABLE `tmp_cash_out` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tx_paid_item`
+--
+
+DROP TABLE IF EXISTS `tx_paid_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tx_paid_item` (
+  `paid_item_id` bigint NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(100) DEFAULT NULL,
+  `contract_code` varchar(100) DEFAULT NULL,
+  `item_id` bigint DEFAULT NULL,
+  `paid_quantity` int DEFAULT NULL,
+  `created_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` varchar(255) DEFAULT NULL,
+  `modified_tm` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified_by` varchar(255) DEFAULT NULL,
+  `item_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`paid_item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tx_paid_item`
+--
+
+LOCK TABLES `tx_paid_item` WRITE;
+/*!40000 ALTER TABLE `tx_paid_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tx_paid_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'fision'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-10-22 16:04:03

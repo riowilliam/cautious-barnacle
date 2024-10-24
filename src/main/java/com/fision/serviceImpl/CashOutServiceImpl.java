@@ -37,7 +37,7 @@ public class CashOutServiceImpl implements CashOutService {
 
     @Override
     @Transactional
-    public void saveTmpCashOut(String username, CashOutListDto cashOutListDto) {
+    public String saveTmpCashOut(String username, CashOutListDto cashOutListDto) {
         String documentCashOutName = documentCashOutService.generateDocumentName();
         // Save tmpCashOutList
         List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, documentCashOutName);
@@ -45,6 +45,8 @@ public class CashOutServiceImpl implements CashOutService {
 
         //Save documentCashOut
         documentCashOutService.saveDocumentCashOut(username, documentCashOutName, cashOutListDto.getSubTotal());
+
+        return documentCashOutName;
     }
 
     @Override
@@ -140,10 +142,10 @@ public class CashOutServiceImpl implements CashOutService {
         if(dto.getIdTmpCashOut() != null) tmpCashOut.setCashOutId(dto.getIdTmpCashOut());
         tmpCashOut.setVendorName(dto.getVendorName());
         tmpCashOut.setProjectName(dto.getProjectName());
-        tmpCashOut.setAmount(dto.getAmount());
+        tmpCashOut.setAmount(dto.getTransferAmount());
         tmpCashOut.setInvoiceTitle(dto.getInvoice());
         tmpCashOut.setTransferFee(dto.getTransferFee());
-        tmpCashOut.setTotal(dto.getTotalAmount());
+        tmpCashOut.setTotal(dto.getPaymentAmount());
         tmpCashOut.setDocumentCashOutName(documentCashOutName);
         tmpCashOut.setCreatedBy(username);
         tmpCashOut.setModifiedBy(username);

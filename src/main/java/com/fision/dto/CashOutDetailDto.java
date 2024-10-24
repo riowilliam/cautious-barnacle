@@ -15,11 +15,11 @@ public class CashOutDetailDto {
     private String bankAccount;
     private String bankAccountName;
     private String bankName;
-    private BigDecimal amount;
+    private BigDecimal transferAmount;
     private BigDecimal transferFee;
-    private BigDecimal totalAmount;
+    private BigDecimal paymentAmount;
 
-    public CashOutDetailDto(Long idTmpCashOut, String vendorName, String invoice, String projectName, String bankAccount, String bankAccountName, String bankName, BigDecimal amount, BigDecimal transferFee, BigDecimal totalAmount) {
+    public CashOutDetailDto(Long idTmpCashOut, String vendorName, String invoice, String projectName, String bankAccount, String bankAccountName, String bankName, BigDecimal transferAmount, BigDecimal transferFee, BigDecimal paymentAmount) {
         this.idTmpCashOut = idTmpCashOut;
         this.vendorName = vendorName;
         this.invoice = invoice;
@@ -27,8 +27,8 @@ public class CashOutDetailDto {
         this.bankAccount = bankAccount;
         this.bankAccountName = bankAccountName;
         this.bankName = bankName;
-        this.amount = amount;
+        this.transferAmount = transferAmount;
         this.transferFee = transferFee;
-        this.totalAmount = totalAmount;
+        this.paymentAmount = paymentAmount;
     }
 }

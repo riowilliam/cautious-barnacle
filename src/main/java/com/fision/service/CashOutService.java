@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface CashOutService {
-    void saveTmpCashOut(String username, CashOutListDto cashOutListDto);
+    String saveTmpCashOut(String username, CashOutListDto cashOutListDto);
     void editCashOutDoc(String username, CashOutListDto cashOutListDto);
     void approvalCashOutDoc(String username, Integer status, TbDocumentCashOut tbDocumentCashOut);
     TbDocumentCashOut getDocumentCashOut(String docName);
