@@ -1,8 +1,6 @@
 package com.fision.service;
 
-import com.fision.dto.ProjectListDto;
-import com.fision.dto.ProjectRequestDto;
-import com.fision.dto.UserListDto;
+import com.fision.dto.*;
 import com.fision.entity.TbProject;
 import org.springframework.data.domain.Page;
 
@@ -20,4 +18,6 @@ public interface ProjectService {
     void saveProject(String username, ProjectRequestDto projectRequestDto);
     void updateProject(String username, TbProject project, ProjectRequestDto projectRequestDto);
     List<Map<String, Object>> getProjectList(String projectName);
+    List<ProjectMonitoringDetailDto> getProjectMonitoringDetailList();
+    ProjectMonitoringSummaryDto getProjectMonitoringSummary();
 }

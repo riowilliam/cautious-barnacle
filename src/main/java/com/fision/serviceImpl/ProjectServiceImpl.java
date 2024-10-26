@@ -1,6 +1,8 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.ProjectListDto;
+import com.fision.dto.ProjectMonitoringDetailDto;
+import com.fision.dto.ProjectMonitoringSummaryDto;
 import com.fision.dto.ProjectRequestDto;
 import com.fision.entity.TbProject;
 import com.fision.repository.TbProjectRepository;
@@ -61,5 +63,18 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Map<String, Object>> getProjectList(String projectName) {
         return tbProjectRepository.getProjectList(projectName);
+    }
+
+    @Override
+    public List<ProjectMonitoringDetailDto> getProjectMonitoringDetailList() {
+        return tbProjectRepository.getProjectMonitoringList();
+    }
+
+    @Override
+    public ProjectMonitoringSummaryDto getProjectMonitoringSummary() {
+        String mostCashInProject = tbProjectRepository.findMostCashInProject();
+        String mostCashOutProject = tbProjectRepository.findMostCashOutProject();
+        String mostMvpProject = tbProjectRepository.findMvpProject();
+        return new ProjectMonitoringSummaryDto(mostMvpProject, mostCashInProject, mostCashOutProject);
     }
 }

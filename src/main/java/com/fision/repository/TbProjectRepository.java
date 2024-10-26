@@ -1,6 +1,7 @@
 package com.fision.repository;
 
 import com.fision.dto.ProjectListDto;
+import com.fision.dto.ProjectMonitoringDetailDto;
 import com.fision.entity.TbProject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,4 +43,46 @@ public interface TbProjectRepository extends JpaRepository<TbProject, Long> {
     List<Map<String, Object>> getProjectList(@Param("projectName") String projectName);
 
     TbProject findByProjectName(String projectName);
+
+    @Query("SELECT new com.fision.dto.ProjectMonitoringDetailDto(pr.projectName, " +
+            "COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0), " +
+            "COALESCE(SUM(COALESCE(co.amount, 0)), 0)) " +
+            "FROM TbProject pr " +
+            "LEFT JOIN TbArInvoice ai ON pr.projectName = ai.projectName " +
+            "LEFT JOIN TbCashIn ci ON ai.invoiceNo = ci.invoiceNo AND ci.cashInStatus = 'Completed' " +
+            "LEFT JOIN TbCashOut co ON pr.projectName = co.projectName " +
+            "GROUP BY pr.projectName ")
+    List<ProjectMonitoringDetailDto> getProjectMonitoringList();
+
+    // Proyek dengan total cash in terbanyak
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_ar_invoice ai ON pr.project_name = ai.project_name " +
+            "LEFT JOIN tb_cash_in ci ON ai.invoice_no = ci.invoice_no AND ci.cash_in_status = 'Completed' " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY COALESCE(SUM(ci.payment_amount), 0) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMostCashInProject();
+
+    // Proyek dengan total cash out terbanyak
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_cash_out co ON pr.project_name = co.project_name " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY COALESCE(SUM(co.amount), 0) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMostCashOutProject();
+
+
+    // Proyek MVP berdasarkan selisih cash in dan cash out tertinggi
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_ar_invoice ai ON pr.project_name = ai.project_name " +
+            "LEFT JOIN tb_cash_in ci ON ai.invoice_no = ci.invoice_no AND ci.cash_in_status = 'Completed' " +
+            "LEFT JOIN tb_cash_out co ON pr.project_name = co.project_name " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY (COALESCE(SUM(ci.payment_amount), 0) - COALESCE(SUM(co.amount), 0)) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMvpProject();
+
 }
