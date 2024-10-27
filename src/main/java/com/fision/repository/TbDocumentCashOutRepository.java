@@ -1,6 +1,7 @@
 package com.fision.repository;
 
 import com.fision.dto.CashOutDocSummaryDto;
+import com.fision.dto.DashboardCardDetailsDto;
 import com.fision.entity.TbDocumentCashOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,4 +41,14 @@ public interface TbDocumentCashOutRepository extends JpaRepository<TbDocumentCas
                                     @Param("status") Integer status,
                                     @Param("startDate") Date startDate,
                                     @Param("endDate") Date endDate);
+
+    @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +
+            "'Cash Out Document', " +
+            "COALESCE(SUM(CASE WHEN dco.status = 1 THEN dco.totalAmount ELSE 0 END), 0), " +
+            "CAST(SUM(CASE WHEN dco.status = 1 THEN 1 ELSE 0 END) AS int), " +
+            "CAST(SUM(CASE WHEN dco.status = 0 THEN 1 ELSE 0 END) AS int)) " +
+            "FROM TbDocumentCashOut dco " +
+            "WHERE (:startDate IS NULL OR dco.createdTm >= :startDate) " +
+            "AND (:endDate IS NULL OR dco.createdTm <= :endDate)")
+    DashboardCardDetailsDto getCashOutDocCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

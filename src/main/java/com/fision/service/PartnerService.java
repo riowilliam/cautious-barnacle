@@ -19,4 +19,5 @@ public interface PartnerService {
     void savePartner(String username, PartnerRequestDto partnerRequestDto);
     void updatePartner(String username, TbPartner partner, PartnerRequestDto partnerRequestDto);
     List<Map<String, Object>> getPartnerList(String partnerName);
+    List<Map<String, Object>> getPphList();
 }

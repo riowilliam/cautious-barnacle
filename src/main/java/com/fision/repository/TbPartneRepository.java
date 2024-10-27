@@ -45,7 +45,8 @@ public interface TbPartneRepository extends JpaRepository<TbPartner, Long> {
 
     @Query("SELECT new map(pt.partnerId as partnerId, pt.partnerName as partnerName, " +
             "CASE WHEN pt.isPpnWapu = 1 THEN true ELSE false END as ppnWapu," +
-            "CASE WHEN pt.documentTracking = 1 THEN true ELSE false END as documentTracking) " +
+            "CASE WHEN pt.documentTracking = 1 THEN true ELSE false END as documentTracking," +
+            "pt.ppnValue as ppnValue) " +
             "FROM TbPartner pt " +
             "WHERE (:partnerName IS NULL OR pt.partnerName LIKE %:partnerName%) ")
     List<Map<String, Object>> getPartnerList(@Param("partnerName") String partnerName);

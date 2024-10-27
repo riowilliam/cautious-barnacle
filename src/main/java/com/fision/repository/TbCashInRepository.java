@@ -2,6 +2,7 @@ package com.fision.repository;
 
 import com.fision.dto.CashInDetailDto;
 import com.fision.dto.CashInSummaryDto;
+import com.fision.dto.DashboardCardDetailsDto;
 import com.fision.entity.TbCashIn;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,4 +54,15 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
             "WHERE tci.invoiceNo = :invoiceNo " +
             "AND tci.cashInStatus = 'Incompleted' ")
     BigDecimal getTotalIncompletedCashIByInvoiceNo(@Param("invoiceNo") String invoiceNo);
+
+    @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +
+            "'Cash In', " +
+            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
+            "CAST(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN 1 ELSE 0 END) AS int), " +
+            "CAST(SUM(CASE WHEN tci.cashInStatus = 'Incompleted' THEN 1 ELSE 0 END) AS int)) " +
+            "FROM TbCashIn tci " +
+            "WHERE (:startDate IS NULL OR tci.createdTm >= :startDate) " +
+            "AND (:endDate IS NULL OR tci.createdTm <= :endDate)")
+    DashboardCardDetailsDto getCashInCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
 }

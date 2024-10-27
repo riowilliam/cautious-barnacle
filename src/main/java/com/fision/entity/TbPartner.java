@@ -2,6 +2,7 @@ package com.fision.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -37,6 +38,9 @@ public class TbPartner {
 
     @Column(name = "document_tracking", nullable = false)
     private Integer documentTracking;
+
+    @Column(name = "ppn_value", nullable = false)
+    private BigDecimal ppnValue;
 
     @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)

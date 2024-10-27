@@ -3,8 +3,10 @@ package com.fision.serviceImpl;
 import com.fision.dto.PartnerListDto;
 import com.fision.dto.PartnerRequestDto;
 import com.fision.entity.TbPartner;
+import com.fision.repository.TbConfigRepository;
 import com.fision.repository.TbPartneRepository;
 import com.fision.service.PartnerService;
+import com.fision.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +23,11 @@ import java.util.Map;
  */
 @Service
 public class PartnerServiceImpl implements PartnerService {
-
     @Autowired
     TbPartneRepository tbPartneRepository;
+
+    @Autowired
+    TbConfigRepository tbConfigRepository;
 
     @Override
     public Page<PartnerListDto> getPartnerListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
@@ -70,5 +74,10 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public List<Map<String, Object>> getPartnerList(String partnerName) {
         return tbPartneRepository.getPartnerList(partnerName);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPphList() {
+        return tbConfigRepository.findValueAndDescByKey(ConstantsUtils.PPH_LIST);
     }
 }

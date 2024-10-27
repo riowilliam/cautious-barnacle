@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,7 +105,11 @@ public class PartnerController {
     public ResponseDto<?> getPartnerList(@RequestParam String username, @RequestParam String partnerName) {
         try {
             List<Map<String, Object>> partnerList = partnerService.getPartnerList(partnerName != null && !partnerName.isEmpty() ? partnerName : null);
-            return new ResponseDto<>(ConstantsUtils.SUCCESS, partnerList, HttpStatus.OK);
+            List<Map<String, Object>> pphList = partnerService.getPphList();
+            Map<String, Object> response = new HashMap<>();
+            response.put("partnerList", partnerList);
+            response.put("pphList", pphList);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, response, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);

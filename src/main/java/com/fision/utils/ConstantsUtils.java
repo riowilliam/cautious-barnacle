@@ -65,4 +65,16 @@ public class ConstantsUtils {
     public final static String INCOMPLETED = "Incompleted";
     public final static String PAYMENT_TOTAL_LESS_THAN_AMOUNT = "Can not create cash in because total amount of invoice less than payment amount.";
     public final static String THERE_ARE_INCOMPLETE_PAYMENT = "Please complete the previously cash in for this invoice first.";
+
+    // Dashboard
+    public final static String DAILY = "Daily";
+    public final static String WEEKLY = "Weekly";
+    public final static String MONTHLY = "Monthly";
+    public final static String YEARLY = "Yearly";
+    public final static String ALL = "All";
+    public final static String INIT_BALANCE = "INIT_BALANCE";
+
+    // Config
+    public final static String PPH_LIST = "PPH_LIST";
+
 }

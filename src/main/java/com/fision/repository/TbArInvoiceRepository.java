@@ -2,6 +2,7 @@ package com.fision.repository;
 
 import com.fision.dto.ARInvoiceDetailDto;
 import com.fision.dto.ARInvoiceSummaryDto;
+import com.fision.dto.DashboardCardDetailsDto;
 import com.fision.entity.TbArInvoice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,8 +58,6 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
 
-
-
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
             "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
@@ -69,4 +68,16 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
             "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " )
     List<ARInvoiceDetailDto> getArInvoiceDetailList(@Param("invoiceNo") String invoiceNo);
+
+    @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +
+            "'AR Invoice', " +
+            "COALESCE(SUM(CASE WHEN tba.invoiceStatus = 1 THEN tba.totalAmount ELSE 0 END), 0), " +
+            "CAST(SUM(CASE WHEN tba.invoiceStatus = 1 THEN 1 ELSE 0 END) AS int), " +
+            "CAST(SUM(CASE WHEN tba.invoiceStatus = 0 THEN 1 ELSE 0 END) AS int)) " +
+            "FROM TbArInvoice tba " +
+            "WHERE (:startDate IS NULL OR tba.createdTm >= :startDate) " +
+            "AND (:endDate IS NULL OR tba.createdTm <= :endDate)")
+    DashboardCardDetailsDto getARInvoiceCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+
 }
