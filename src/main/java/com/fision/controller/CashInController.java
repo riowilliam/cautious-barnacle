@@ -125,4 +125,15 @@ public class CashInController {
         }
     }
 
+    @GetMapping("getCashInListByInvoiceNo")
+    public ResponseDto<?> getCashInListByInvoiceNo(@RequestParam String username, @RequestParam String invoiceNo) {
+        try {
+            List<CashInDetailDto> cashInDetailDtoList = cashInService.getCashInListByInvoiceNo(invoiceNo);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, cashInDetailDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

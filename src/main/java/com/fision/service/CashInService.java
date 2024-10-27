@@ -10,9 +10,10 @@ import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public interface CashInService {
-   Page<CashInDetailDto> getCashInDetailsPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
+    Page<CashInDetailDto> getCashInDetailsPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
                                                    String partnerName, String projectName, Integer paymentType, Date startDate, Date endDate);
     Page<CashInListDto> getCashInListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
                                             String partnerName, String projectName, Integer paymentType, Date startDate, Date endDate);
@@ -20,4 +21,5 @@ public interface CashInService {
     void save(TbCashIn tbCashIn);
     BigDecimal getTotalIncompletedCashIByInvoiceNo(String invoiceNo);
     TbCashIn getTbCashInById(Long id);
+    List<CashInDetailDto> getCashInListByInvoiceNo(String invoiceNo);
 }

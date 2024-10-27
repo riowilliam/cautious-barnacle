@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CashInServiceImpl implements CashInService {
@@ -24,9 +25,6 @@ public class CashInServiceImpl implements CashInService {
 
     @Autowired
     ARInvoiceService arInvoiceService;
-
-    @Autowired
-    MsBalanceService msBalanceService;
 
 
     @Override
@@ -87,5 +85,10 @@ public class CashInServiceImpl implements CashInService {
     @Override
     public TbCashIn getTbCashInById(Long id) {
         return tbCashInRepository.findByCashInId(id);
+    }
+
+    @Override
+    public List<CashInDetailDto> getCashInListByInvoiceNo(String invoiceNo) {
+        return tbCashInRepository.getCashInListByInvoiceNo(invoiceNo);
     }
 }

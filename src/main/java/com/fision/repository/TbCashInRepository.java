@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
     TbCashIn findByCashInId(Long id);
@@ -30,6 +31,13 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
                                           @Param("startDate") Date startDate,
                                           @Param("endDate") Date endDate,
                                           Pageable pageable);
+
+    @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractCode," +
+            "tci.paymentAmount, tci.paymentDate, tci.paymentType, tci.createdTm, tci.createdBy, tci.modifiedTm, tci.modifiedBy, tci.cashInStatus) " +
+            "FROM TbCashIn tci " +
+            "LEFT JOIN TbArInvoice tai ON tci.invoiceNo = tai.invoiceNo " +
+            "WHERE tci.invoiceNo = :invoiceNo ")
+    List<CashInDetailDto> getCashInListByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 
     @Query("SELECT new com.fision.dto.CashInSummaryDto ( " +
             "COALESCE(SUM(CASE WHEN tci.paymentType = 1 AND tci.cashInStatus = 'Completed' THEN (tci.paymentAmount + tci.deduction) ELSE 0 END), 0), " +
