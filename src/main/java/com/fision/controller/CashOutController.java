@@ -60,6 +60,7 @@ public class CashOutController {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
+            parameters.put("REPORT_CLASS_PATH", getClass().getResource("/").getPath());
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
