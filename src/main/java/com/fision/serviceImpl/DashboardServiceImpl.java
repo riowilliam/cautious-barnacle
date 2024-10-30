@@ -9,6 +9,7 @@ import com.fision.repository.TbCashInRepository;
 import com.fision.repository.TbDocumentCashOutRepository;
 import com.fision.service.DashboardService;
 import com.fision.utils.ConstantsUtils;
+import com.fision.utils.DateTimeHelper;
 import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +54,12 @@ public class DashboardServiceImpl implements DashboardService {
         DashboardCardDetailsDto arInvoiceSummary = tbArInvoiceRepository.getARInvoiceCardDetail(startDate, endDate);
         DashboardCardDetailsDto cashInSummary = tbCashInRepository.getCashInCardDetail(startDate, endDate);
         DashboardCardDetailsDto cashOutDocsSummary = tbDocumentCashOutRepository.getCashOutDocCardDetail(startDate, endDate);
+        Date addOneDay = DateTimeHelper.addOneDay(endDate);
         switch (filterType) {
             case ConstantsUtils.DAILY:
-                statsDetails = msBalanceRepository.getDailyStats(startDate, endDate);
+                BigDecimal cashInToday = msBalanceRepository.getTotalCashInToday(startDate, addOneDay);
+                BigDecimal cashOutToday = msBalanceRepository.getTotalCashOutToday(startDate, addOneDay);
+                statsDetails = new StatisticsDetailsDto(ConstantsUtils.DAILY, cashInToday, cashOutToday);
                 detailsList = new ArrayList<>();
                 detailsList.add(statsDetails);
                 totalOverallCashIn = statsDetails.getTotalCashIn();
@@ -116,8 +120,8 @@ public class DashboardServiceImpl implements DashboardService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 break;
             default:
-                BigDecimal totalCashInTillToday = msBalanceRepository.getTotalCashInToday(endDate);
-                BigDecimal totalCashOutTillToday = msBalanceRepository.getTotalCashOutToday(endDate);
+                BigDecimal totalCashInTillToday = msBalanceRepository.getTotalCashInTillToday(addOneDay);
+                BigDecimal totalCashOutTillToday = msBalanceRepository.getTotalCashOutTillToday(addOneDay);
                 statsDetails = new StatisticsDetailsDto(ConstantsUtils.ALL, totalCashInTillToday, totalCashOutTillToday);
                 detailsList = new ArrayList<>();
                 detailsList.add(statsDetails);
