@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentReport" pageWidth="1000" pageHeight="595" columnWidth="805" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d2540ff5-b755-4802-a6a5-dca2b2f3bd07">
-	<property name="ireport.zoom" value="0.9090909090909108"/>
+	<property name="ireport.zoom" value="1.4641000000000035"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="docDate" class="java.lang.String"/>
+	<parameter name="imgDir" class="java.lang.String"/>
 	<field name="vendorName" class="java.lang.String"/>
 	<field name="invoice" class="java.lang.String"/>
 	<field name="projectName" class="java.lang.String"/>
@@ -173,15 +174,8 @@
 				</textElement>
 				<text><![CDATA[Transfer dari rekening PT. HAKAASTON]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="35" width="37" height="14" uuid="114c3ccd-b7d2-4b48-9698-3cc57ed2668d"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tanggal : ]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="37" y="35" width="113" height="13" uuid="4ba77c3b-43c0-4aa2-8d78-9ed4e6b8ff64"/>
+				<reportElement x="0" y="36" width="113" height="13" uuid="4ba77c3b-43c0-4aa2-8d78-9ed4e6b8ff64"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -189,7 +183,7 @@
 			</textField>
 			<image>
 				<reportElement x="0" y="0" width="70" height="35" uuid="04d27c51-25db-44bf-b65b-1d1f315a8975"/>
-				<imageExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("REPORT_CLASS_PATH") + "/HKA_Logos.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{imgDir}]]></imageExpression>
 			</image>
 		</band>
 	</title>

@@ -61,7 +61,7 @@ public class CashOutController {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
-            parameters.put("REPORT_CLASS_PATH", getClass().getResource("/").getPath());
+            parameters.put("imgDir", this.getClass().getResource("/").getPath() + "HKA_Logos.png");
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
@@ -105,6 +105,7 @@ public class CashOutController {
             return responseEntity;
         } catch (Exception e) {
             logger.error("Error creating cash out document: ", e);
+            e.printStackTrace();
             return new ResponseEntity<>(new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
