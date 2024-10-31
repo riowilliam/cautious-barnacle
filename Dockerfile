@@ -13,5 +13,6 @@ RUN apk add --no-cache \
     && echo "Asia/Bangkok" > /etc/timezone
 
 COPY --from=build /app/target/fision-service-1.0-SNAPSHOT.jar /app/myapp.jar
+COPY src/main/resources/application.properties /app
 ENV TZ=Asia/Bangkok
 ENTRYPOINT ["java", "-jar", "/app/myapp.jar"]
