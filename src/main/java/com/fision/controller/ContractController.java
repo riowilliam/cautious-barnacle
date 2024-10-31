@@ -77,6 +77,7 @@ public class ContractController {
 
         } catch (Exception e) {
             logger.info(e.getMessage());
+            e.printStackTrace();
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

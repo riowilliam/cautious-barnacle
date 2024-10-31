@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
@@ -44,6 +45,7 @@ public class CashOutController {
     CashOutService cashOutService;
 
     @PostMapping("createCashOutDoc")
+    @Transactional
     public ResponseEntity<?> createCashOutDoc(@RequestParam String username, @RequestBody String requestDto) {
         String csvOutputFile = null;
         String zipOutputFile = null;
@@ -82,7 +84,6 @@ public class CashOutController {
                     outputStream.write(buffer, 0, bytesRead);
                 }
             }
-
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();

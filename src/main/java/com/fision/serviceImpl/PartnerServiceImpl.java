@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class PartnerServiceImpl implements PartnerService {
         partner.setActiveProject(partnerRequestDto.getActiveProject());
         partner.setValidContractDate(partnerRequestDto.getValidContractDate());
         partner.setInvalidContractDate(partnerRequestDto.getInvalidContractDate());
+        partner.setPpnValue(new BigDecimal(0.11));
         partner.setCreatedBy(username);
         partner.setModifiedBy(username);
 

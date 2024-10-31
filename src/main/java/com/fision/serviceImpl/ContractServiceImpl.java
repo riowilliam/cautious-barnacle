@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -119,13 +120,38 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Boolean checkExistingItemDetails(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract) {
-        Boolean isAvailable = null;
-        for (ItemDetailsListDto detailList : itemDetailsListDto) {
-            TbItemDetails tbItemDetails = tbItemDetailsRepository.findByContractCodeAndRevisionAndItemName(tbContract.getContractCode(), tbContract.getRevision(), detailList.getItemName());
-            isAvailable = tbItemDetails.getTotalQuantity() != null && !tbItemDetails.getTotalQuantity().equals(detailList.getTotalQuantity()) ? Boolean.TRUE : Boolean.FALSE;
-            if(isAvailable) break;
+        List<TbItemDetails> existingTbItemDetailsList = tbItemDetailsRepository.findByContractCodeAndRevision(tbContract.getContractCode(), tbContract.getRevision());
+
+        // Convert itemDetailsListDto to a set of item names for easy lookup
+        Set<String> dtoItemNames = itemDetailsListDto.stream()
+                .map(ItemDetailsListDto::getItemName)
+                .collect(Collectors.toSet());
+
+        // If sizes differ, determine items to delete and set isDiff to true
+        if (itemDetailsListDto.size() < existingTbItemDetailsList.size()) {
+            List<TbItemDetails> itemsToDelete = existingTbItemDetailsList.stream()
+                    .filter(item -> !dtoItemNames.contains(item.getItemName()))
+                    .collect(Collectors.toList());
+
+            // Delete items not present in itemDetailsListDto
+            tbItemDetailsRepository.deleteAll(itemsToDelete);
+            return Boolean.TRUE;
         }
-        return isAvailable;
+
+        // If sizes are the same, compare quantities
+        Map<String, Integer> existingItemQuantities = existingTbItemDetailsList.stream()
+                .collect(Collectors.toMap(TbItemDetails::getItemName, TbItemDetails::getTotalQuantity));
+
+        for (ItemDetailsListDto dtoItem : itemDetailsListDto) {
+            Integer existingQuantity = existingItemQuantities.get(dtoItem.getItemName());
+
+            // If any item’s quantity doesn’t match, return true (indicating a difference)
+            if (existingQuantity == null || !existingQuantity.equals(dtoItem.getTotalQuantity())) {
+                return Boolean.TRUE;
+            }
+        }
+
+        return Boolean.FALSE; // All items match in size and quantity, no deletions needed
     }
 
     @Override
@@ -175,7 +201,7 @@ public class ContractServiceImpl implements ContractService {
         for (Object[] result : results) {
             Integer revision = (Integer) result[0];
             String createdBy = (String) result[1];
-            Date createdDate = (Date) result[2]; // Adjust the date conversion if needed
+            Date createdDate = (Date) result[2];
             String itemName = (String) result[3];
             Integer totalQuantity = (Integer) result[4];
             Integer remainingQuantity = (Integer) result[5];
