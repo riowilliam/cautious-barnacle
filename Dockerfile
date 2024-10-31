@@ -13,6 +13,8 @@ RUN apk add --no-cache \
     && echo "Asia/Bangkok" > /etc/timezone
 
 COPY --from=build /app/target/fision-service-1.0-SNAPSHOT.jar /app/myapp.jar
-COPY src/main/resources/application.properties /app
+COPY src/main/resources/application.properties /app/config
 ENV TZ=Asia/Bangkok
-ENTRYPOINT ["java", "-jar", "/app/myapp.jar", "--spring.config.location=file:/app/application.properties"]
+
+ENTRYPOINT ["java", "-jar", "/app/myapp.jar", "--spring.config.location=file:/app/config/application.properties"]
+
