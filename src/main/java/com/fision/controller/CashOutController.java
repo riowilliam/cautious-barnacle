@@ -19,9 +19,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -61,7 +63,26 @@ public class CashOutController {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
-            parameters.put("imgDir", this.getClass().getResource("/").getPath() + "HKA_Logos.png");
+
+            // Copy image temp
+            InputStream inputStream = ResourceUtils.class.getResourceAsStream("/" + "HKA_Logos.png");
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
+            }
+
+            File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
+            tempFile.deleteOnExit();
+            parameters.put("imgDir", tempFile.getAbsolutePath());
+
+            // Menyalin isi dari InputStream ke file sementara
+            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
