@@ -17,3 +17,4 @@ COPY src/main/resources/application.properties /app/config
 ENV TZ=Asia/Bangkok
 
 ENTRYPOINT ["java", "-jar", "/app/myapp.jar", "--spring.config.location=file:/app/config/application.properties"]
+
