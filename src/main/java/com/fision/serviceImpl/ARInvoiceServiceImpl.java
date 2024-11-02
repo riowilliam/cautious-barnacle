@@ -1,10 +1,15 @@
 package com.fision.serviceImpl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fision.dto.*;
-import com.fision.entity.TbArInvoice;
-import com.fision.entity.TbPartner;
+import com.fision.entity.*;
 import com.fision.repository.TbArInvoiceRepository;
+import com.fision.repository.TbItemDetailsRepository;
+import com.fision.repository.TxPaidItemRepository;
 import com.fision.service.ARInvoiceService;
+import com.fision.service.ContractService;
 import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.JsonHelper;
@@ -29,6 +34,12 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
 
     @Autowired
     PartnerService partnerService;
+
+    @Autowired
+    TbItemDetailsRepository tbItemDetailsRepository;
+
+    @Autowired
+    TxPaidItemRepository txPaidItemRepository;
 
     @Override
     @Transactional
@@ -84,7 +95,19 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     }
 
     @Override
-    public void approvalInvoice(String username, Integer status, TbArInvoice arInvoice) {
+    @Transactional
+    public void approvalInvoice(String username, Integer status, TbArInvoice arInvoice) throws JsonProcessingException {
+        if(status == 1) {
+            // Insert item to tx_paid_item
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<ItemDetailsRequestDto> paymentItemDetails = objectMapper.readValue(
+                    arInvoice.getPaidItemDetails(),
+                    new TypeReference<List<ItemDetailsRequestDto>>() {}
+            );
+            updateAndSaveTxPaidItems(paymentItemDetails, arInvoice, username);
+        }
+
+        // Update tb_ar_invoice
         arInvoice.setInvoiceStatus(status);
         arInvoice.setModifiedBy(username);
         tbArInvoiceRepository.save(arInvoice);
@@ -122,5 +145,34 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
                 (BigDecimal) resultArray[3],  // total completed payments
                 (BigDecimal) resultArray[4]   // difference between totalAmount and incompleted payments
         );
+    }
+
+    private void updateAndSaveTxPaidItems(List<ItemDetailsRequestDto> itemDetailList, TbArInvoice tbArInvoice, String username) {
+        List<TxPaidItem> paidItemList = new ArrayList<>();
+        List<TbItemDetails> tbItemDetailsList = new ArrayList<>();
+        for(ItemDetailsRequestDto dto : itemDetailList) {
+            TxPaidItem txPaidItem = txPaidItemRepository.findByContractCodeAndItemName(tbArInvoice.getContractCode(), dto.getItemName());
+            TbItemDetails tbItemDetails = tbItemDetailsRepository.findByContractCodeAndMaxRevision(tbArInvoice.getContractCode(), dto.getItemName());
+            if (txPaidItem != null) {
+                txPaidItem.setPaidQuantity(txPaidItem.getPaidQuantity() + dto.getPaymentQuantity());
+                txPaidItem.setModifiedBy(username);
+            } else {
+                txPaidItem = new TxPaidItem();
+                txPaidItem.setInvoiceNo(tbArInvoice.getInvoiceNo());
+                txPaidItem.setContractCode(tbArInvoice.getContractCode());
+                txPaidItem.setPaidQuantity(dto.getPaymentQuantity());
+                txPaidItem.setItemName(dto.getItemName());
+                txPaidItem.setCreatedBy(username);
+                txPaidItem.setModifiedBy(username);
+            }
+
+            tbItemDetails.setRemainingQuantity(tbItemDetails.getRemainingQuantity() - dto.getPaymentQuantity());
+            tbItemDetails.setModifiedBy(username);
+
+            paidItemList.add(txPaidItem);
+            tbItemDetailsList.add(tbItemDetails);
+        }
+
+        txPaidItemRepository.saveAll(paidItemList);
     }
 }

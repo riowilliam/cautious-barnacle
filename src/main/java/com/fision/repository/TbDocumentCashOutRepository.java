@@ -49,6 +49,6 @@ public interface TbDocumentCashOutRepository extends JpaRepository<TbDocumentCas
             "CAST(SUM(CASE WHEN dco.status = 0 THEN 1 ELSE 0 END) AS int)) " +
             "FROM TbDocumentCashOut dco " +
             "WHERE (:startDate IS NULL OR dco.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR dco.createdTm <= :endDate)")
+            "AND (:endDate IS NULL OR dco.createdTm < :endDate)")
     DashboardCardDetailsDto getCashOutDocCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

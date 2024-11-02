@@ -40,10 +40,10 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
     List<CashInDetailDto> getCashInListByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 
     @Query("SELECT new com.fision.dto.CashInSummaryDto ( " +
-            "COALESCE(SUM(CASE WHEN tci.paymentType = 1 AND tci.cashInStatus = 'Completed' THEN (tci.paymentAmount + tci.deduction) ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.paymentType = 2 AND tci.cashInStatus = 'Completed' THEN (tci.paymentAmount + tci.deduction) ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN (tci.paymentAmount + tci.deduction) ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Incompleted' THEN (tci.paymentAmount + tci.deduction) ELSE 0 END), 0)) " +
+            "COALESCE(SUM(CASE WHEN tci.paymentType = 1 AND tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.paymentType = 2 AND tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Incompleted' THEN tci.paymentAmount ELSE 0 END), 0)) " +
             "FROM TbCashIn tci " +
             "LEFT JOIN TbArInvoice tai ON tci.invoiceNo = tai.invoiceNo " +
             "WHERE (:partnerName IS NULL OR tai.partnerName LIKE %:partnerName%) " +
@@ -70,7 +70,7 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
             "CAST(SUM(CASE WHEN tci.cashInStatus = 'Incompleted' THEN 1 ELSE 0 END) AS int)) " +
             "FROM TbCashIn tci " +
             "WHERE (:startDate IS NULL OR tci.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR tci.createdTm <= :endDate)")
+            "AND (:endDate IS NULL OR tci.createdTm < :endDate)")
     DashboardCardDetailsDto getCashInCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

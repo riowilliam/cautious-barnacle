@@ -120,10 +120,10 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
     @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM tb_cash_out co WHERE DATE(co.created_tm) <= DATE(:paramDate)", nativeQuery = true)
     BigDecimal getTotalCashOutTillToday(@Param("paramDate") Date paramDate);
 
-    @Query(value = "SELECT COALESCE(SUM(ci.payment_amount), 0) FROM tb_cash_in ci WHERE DATE(ci.created_tm) >= DATE(:startDate) AND DATE(ci.created_tm) <= DATE(:endDate) AND ci.cash_in_status = 'Completed'", nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(ci.payment_amount), 0) FROM tb_cash_in ci WHERE DATE(ci.created_tm) >= DATE(:startDate) AND DATE(ci.created_tm) < DATE(:endDate) AND ci.cash_in_status = 'Completed'", nativeQuery = true)
     BigDecimal getTotalCashInToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM tb_cash_out co WHERE DATE(co.created_tm) >= DATE(:startDate) AND DATE(co.created_tm) <= DATE(:endDate)", nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM tb_cash_out co WHERE DATE(co.created_tm) >= DATE(:startDate) AND DATE(co.created_tm) < DATE(:endDate)", nativeQuery = true)
     BigDecimal getTotalCashOutToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     MsBalance findByBalanceName(String balanceName);

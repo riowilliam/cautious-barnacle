@@ -13,8 +13,8 @@ public class DashboardCardDetailsDto {
 
     public DashboardCardDetailsDto(String cardTitle, BigDecimal totalApprovedAmountCreated, Integer totalApprovedCountCreated, Integer totalPendingCountCreated) {
         this.cardTitle = cardTitle;
-        this.totalApprovedAmountCreated = totalApprovedAmountCreated;
-        this.totalApprovedCountCreated = totalApprovedCountCreated;
-        this.totalPendingCountCreated = totalPendingCountCreated;
+        this.totalApprovedAmountCreated = totalApprovedAmountCreated != null ? totalApprovedAmountCreated : BigDecimal.ZERO;
+        this.totalApprovedCountCreated = totalApprovedCountCreated != null ? totalApprovedCountCreated : 0;
+        this.totalPendingCountCreated = totalPendingCountCreated != null ? totalPendingCountCreated : 0;
     }
 }
