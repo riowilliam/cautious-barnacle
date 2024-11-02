@@ -47,6 +47,9 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
 
 
     TbContract findByContractCode(String contractCode);
+    @Query("SELECT t FROM TbContract t WHERE t.contractCode = :contractCode AND t.revision = " +
+            "(SELECT MAX(t2.revision) FROM TbContract t2 WHERE t2.contractCode = :contractCode)")
+    TbContract findByContractCodeAndMaxRevision(@Param("contractCode") String contractCode);
 
     @Query("SELECT c.revision, c.createdBy, c.createdTm, i.itemName, i.totalQuantity, i.remainingQuantity, COALESCE(p.paidQuantity, 0) " +
             "FROM TbContract c " +

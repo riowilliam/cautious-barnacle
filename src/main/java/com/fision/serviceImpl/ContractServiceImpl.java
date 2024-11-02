@@ -97,8 +97,8 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public TbContract getContractByCode(String contractCode) {
-        return tbContractRepository.findByContractCode(contractCode);
+    public TbContract getContractByCodeWithLatestRevision(String contractCode) {
+        return tbContractRepository.findByContractCodeAndMaxRevision(contractCode);
     }
 
     @Override

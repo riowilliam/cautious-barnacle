@@ -100,10 +100,21 @@ public class CashInController {
                 return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
             }
             TbCashIn tbCashIn = cashInService.getTbCashInById(cashInId);
+            TbArInvoice tbArInvoice = arInvoiceService.getInvoiceByInvoiceNo(tbCashIn.getInvoiceNo());
             if(tbCashIn != null) {
                 tbCashIn.setCashInStatus(ConstantsUtils.COMPLETED);
                 tbCashIn.setModifiedBy(username);
                 cashInService.save(tbCashIn);
+
+                if((tbCashIn.getPaymentAmount().add(tbCashIn.getDeduction())).compareTo(tbArInvoice.getTotalAmount()) == 0
+                        && tbCashIn.getPaymentType() == 1) {
+                    tbArInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
+                } else {
+                    tbArInvoice.setPaymentStatus(ConstantsUtils.PARTIALLY_PAYMENT);
+                }
+                tbArInvoice.setModifiedBy(username);
+                arInvoiceService.save(tbArInvoice);
+
                 return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
             } else {
                 return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);

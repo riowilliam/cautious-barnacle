@@ -13,4 +13,6 @@ public interface TxPaidItemRepository extends JpaRepository<TxPaidItem, Long> {
             "WHERE tx.contractCode = :contractCode " +
             "AND tx.itemName = :itemName ")
     Integer getPaidQuantity(@Param("contractCode") String contractCode, @Param("itemName") String itemName);
+
+    TxPaidItem findByContractCodeAndItemName(String contractCode, String itemName);
 }

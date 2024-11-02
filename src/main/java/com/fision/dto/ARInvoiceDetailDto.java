@@ -1,10 +1,13 @@
 package com.fision.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author LordDev
@@ -30,8 +33,9 @@ public class ARInvoiceDetailDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date modifiedDate;
     private String modifiedBy;
+    private List<ItemDetailsRequestDto> itemDetails;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy) {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
         this.contractName = contractName;
@@ -49,5 +53,7 @@ public class ARInvoiceDetailDto {
         this.createdBy = createdBy;
         this.modifiedDate = modifiedDate;
         this.modifiedBy = modifiedBy;
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.itemDetails = objectMapper.readValue(itemDetails, List.class);
     }
 }

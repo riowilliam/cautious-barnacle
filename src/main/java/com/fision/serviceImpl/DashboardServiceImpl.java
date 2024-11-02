@@ -51,12 +51,10 @@ public class DashboardServiceImpl implements DashboardService {
         BigDecimal currentCashDifference;
         BigDecimal startingBalance = msBalanceRepository.findByBalanceName(ConstantsUtils.INIT_BALANCE).getBalanceAmount();
         BigDecimal endingBalance;
-        DashboardCardDetailsDto arInvoiceSummary = tbArInvoiceRepository.getARInvoiceCardDetail(startDate, endDate);
-        DashboardCardDetailsDto cashInSummary = tbCashInRepository.getCashInCardDetail(startDate, endDate);
-        DashboardCardDetailsDto cashOutDocsSummary = tbDocumentCashOutRepository.getCashOutDocCardDetail(startDate, endDate);
-        Date addOneDay = DateTimeHelper.addOneDay(endDate);
+        Date addOneDay;
         switch (filterType) {
             case ConstantsUtils.DAILY:
+                addOneDay = DateTimeHelper.addOneDay(endDate);
                 BigDecimal cashInToday = msBalanceRepository.getTotalCashInToday(startDate, addOneDay);
                 BigDecimal cashOutToday = msBalanceRepository.getTotalCashOutToday(startDate, addOneDay);
                 statsDetails = new StatisticsDetailsDto(ConstantsUtils.DAILY, cashInToday, cashOutToday);
@@ -66,6 +64,7 @@ public class DashboardServiceImpl implements DashboardService {
                 totalOverallCashOut = statsDetails.getTotalCashOut();
                 break;
             case ConstantsUtils.WEEKLY:
+                addOneDay = DateTimeHelper.addOneDay(new Date());
                 results = msBalanceRepository.getWeeklyStats(startDate);
                 detailsList = results.stream()
                         .map(result -> new StatisticsDetailsDto(
@@ -84,6 +83,7 @@ public class DashboardServiceImpl implements DashboardService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 break;
             case ConstantsUtils.MONTHLY:
+                addOneDay = DateTimeHelper.addOneDay(new Date());
                 results = msBalanceRepository.getMonthlyStats(startDate);
                 detailsList = results.stream()
                         .map(result -> new StatisticsDetailsDto(
@@ -102,6 +102,7 @@ public class DashboardServiceImpl implements DashboardService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 break;
             case ConstantsUtils.YEARLY:
+                addOneDay = DateTimeHelper.addOneDay(new Date());
                 results = msBalanceRepository.getYearlyStats(startDate);
                 detailsList = results.stream()
                         .map(result -> new StatisticsDetailsDto(
@@ -120,6 +121,7 @@ public class DashboardServiceImpl implements DashboardService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                 break;
             default:
+                addOneDay = DateTimeHelper.addOneDay(new Date());
                 BigDecimal totalCashInTillToday = msBalanceRepository.getTotalCashInTillToday(addOneDay);
                 BigDecimal totalCashOutTillToday = msBalanceRepository.getTotalCashOutTillToday(addOneDay);
                 statsDetails = new StatisticsDetailsDto(ConstantsUtils.ALL, totalCashInTillToday, totalCashOutTillToday);
@@ -145,6 +147,10 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         // Build CardDetailsList
+        DashboardCardDetailsDto arInvoiceSummary = tbArInvoiceRepository.getARInvoiceCardDetail(startDate, addOneDay);
+        DashboardCardDetailsDto cashInSummary = tbCashInRepository.getCashInCardDetail(startDate, addOneDay);
+        DashboardCardDetailsDto cashOutDocsSummary = tbDocumentCashOutRepository.getCashOutDocCardDetail(startDate, addOneDay);
+
         List<DashboardCardDetailsDto> summaryList = new ArrayList<>();
         summaryList.add(arInvoiceSummary);
         summaryList.add(cashInSummary);

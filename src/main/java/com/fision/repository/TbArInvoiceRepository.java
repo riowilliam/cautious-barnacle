@@ -22,7 +22,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
             "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
+            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "WHERE (:partnerName IS NULL OR tba.partnerName LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.projectName LIKE %:projectName%) " +
@@ -62,7 +62,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
             "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy) " +
+            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "WHERE tba.invoiceStatus = 1 " +
             "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
@@ -76,7 +76,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "CAST(SUM(CASE WHEN tba.invoiceStatus = 0 THEN 1 ELSE 0 END) AS int)) " +
             "FROM TbArInvoice tba " +
             "WHERE (:startDate IS NULL OR tba.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.createdTm <= :endDate)")
+            "AND (:endDate IS NULL OR tba.createdTm < :endDate)")
     DashboardCardDetailsDto getARInvoiceCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 

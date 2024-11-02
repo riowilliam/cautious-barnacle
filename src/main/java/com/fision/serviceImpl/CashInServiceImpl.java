@@ -68,6 +68,7 @@ public class CashInServiceImpl implements CashInService {
             }
         }
         arInvoice.setDeduction(cashInRequestDto.getDeduction());
+        arInvoice.setTotalAmount(arInvoice.getTotalAmount().subtract(cashInRequestDto.getDeduction()));
         arInvoice.setModifiedBy(username);
         arInvoiceService.save(arInvoice);
     }
