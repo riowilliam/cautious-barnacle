@@ -41,6 +41,8 @@ public class ConstantsUtils {
     public final static String DATA_SAVED = "Data has been saved.";
     public final static String DATA_NOT_FOUND = "Data not found.";
     public final static String PROJECT_NAME_ALREADY_USED = "Project name already used, please try another name.";
+    public final static String PARTNER_NAME_ALREADY_USED = "Partner name already used, please try another name.";
+
     public final static String ITEM_NAME_ALREADY_USED = "Item name already used, please try another name.";
     public final static String VENDOR_NAME_ALREADY_USED = "Vendor name already used, please try another name.";
     public final static String INVOICE_NO_DUPLICATE = "Invoice no already generated and the status is approved/not approved.";

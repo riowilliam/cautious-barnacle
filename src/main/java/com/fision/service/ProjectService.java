@@ -17,7 +17,7 @@ public interface ProjectService {
     TbProject getProjectByProjectName(String projectName);
     void saveProject(String username, ProjectRequestDto projectRequestDto);
     void updateProject(String username, TbProject project, ProjectRequestDto projectRequestDto);
-    List<Map<String, Object>> getProjectList(String projectName);
+    List<Map<String, Object>> getProjectList(String projectName, String partnerName);
     List<ProjectMonitoringDetailDto> getProjectMonitoringDetailList();
     ProjectMonitoringSummaryDto getProjectMonitoringSummary();
 }

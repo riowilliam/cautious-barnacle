@@ -4,7 +4,9 @@ import com.fision.dto.ProjectListDto;
 import com.fision.dto.ProjectMonitoringDetailDto;
 import com.fision.dto.ProjectMonitoringSummaryDto;
 import com.fision.dto.ProjectRequestDto;
+import com.fision.entity.TbPartner;
 import com.fision.entity.TbProject;
+import com.fision.repository.TbPartneRepository;
 import com.fision.repository.TbProjectRepository;
 import com.fision.service.ProjectService;
 import com.fision.utils.ConstantsUtils;
@@ -15,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author LordDev
@@ -27,6 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     TbProjectRepository tbProjectRepository;
 
+    @Autowired
+    TbPartneRepository tbPartneRepository;
 
     @Override
     public Page<ProjectListDto> getProjectListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String projectName, Integer status, Date startDate, Date endDate) {
@@ -61,8 +67,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Map<String, Object>> getProjectList(String projectName) {
-        return tbProjectRepository.getProjectList(projectName);
+    public List<Map<String, Object>> getProjectList(String projectName, String partnerName) {
+        TbPartner tbPartner = partnerName != null ? tbPartneRepository.findByPartnerName(partnerName) : null;
+        List<Long> projectIdList = tbPartner != null ? Arrays.stream(tbPartner.getActiveProject().split(","))
+                .map(String::trim)
+                .map(Long::valueOf)
+                .collect(Collectors.toList()) : null;
+        return tbProjectRepository.getProjectList(projectName, projectIdList);
     }
 
     @Override
