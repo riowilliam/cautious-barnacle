@@ -103,7 +103,7 @@ public class DashboardServiceImpl implements DashboardService {
                 break;
             case ConstantsUtils.YEARLY:
                 addOneDay = DateTimeHelper.addOneDay(new Date());
-                results = msBalanceRepository.getYearlyStats(startDate);
+                results = msBalanceRepository.getYearlyStats(addOneDay);
                 detailsList = results.stream()
                         .map(result -> new StatisticsDetailsDto(
                                 (String) result.get("statsHeader"),
