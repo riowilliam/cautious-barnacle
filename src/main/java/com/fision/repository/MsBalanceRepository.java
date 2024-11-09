@@ -43,7 +43,7 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "ORDER BY days.n ASC ", nativeQuery = true )
     List<Map<String, Object>> getWeeklyStats(@Param("startDate") Date startDate);
 
-    @Query(value = "SELECT DATE_FORMAT(DATE(:startDate) + INTERVAL day.n DAY, '%d %b') AS statsHeader, " +
+    @Query(value = "SELECT DATE_FORMAT(DATE_SUB(DATE(:startDate), INTERVAL DAY(:startDate) - 1 DAY) + INTERVAL day.n DAY, '%d %b') AS statsHeader, " +
             "COALESCE(SUM(ci.payment_amount), 0) AS totalCashIn, " +
             "COALESCE(SUM(co.amount), 0) AS totalCashOut " +
             "FROM (SELECT 0 AS n " +
@@ -78,11 +78,11 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "      UNION ALL SELECT 29 " +
             "      UNION ALL SELECT 30 " +
             "      UNION ALL SELECT 31) AS day " +
-            "LEFT JOIN tb_cash_in ci ON DATE(ci.created_tm) = DATE(:startDate) + INTERVAL day.n DAY AND ci.cash_in_status = 'Completed' " +
-            "LEFT JOIN tb_cash_out co ON DATE(co.created_tm) = DATE(:startDate) + INTERVAL day.n DAY " +
-            "WHERE MONTH(DATE(:startDate) + INTERVAL day.n DAY) = MONTH(:startDate) " +
-            "AND YEAR(DATE(:startDate) + INTERVAL day.n DAY) = YEAR(:startDate) " +
-            "AND day.n < DAY(LAST_DAY(:startDate)) + 1 " +
+            "LEFT JOIN tb_cash_in ci ON DATE(ci.created_tm) = DATE_SUB(DATE(:startDate), INTERVAL DAY(:startDate) - 1 DAY) + INTERVAL day.n DAY AND ci.cash_in_status = 'Completed' " +
+            "LEFT JOIN tb_cash_out co ON DATE(co.created_tm) = DATE_SUB(DATE(:startDate), INTERVAL DAY(:startDate) - 1 DAY) + INTERVAL day.n DAY " +
+            "WHERE MONTH(DATE(:startDate)) = MONTH(DATE_SUB(DATE(:startDate), INTERVAL DAY(:startDate) - 1 DAY) + INTERVAL day.n DAY) " +
+            "AND YEAR(DATE(:startDate)) = YEAR(DATE_SUB(DATE(:startDate), INTERVAL DAY(:startDate) - 1 DAY) + INTERVAL day.n DAY) " +
+            "AND day.n < DAY(LAST_DAY(DATE(:startDate))) + 1 " +
             "GROUP BY day.n " +
             "ORDER BY day.n ASC", nativeQuery = true)
     List<Map<String, Object>> getMonthlyStats(@Param("startDate") Date startDate);
@@ -120,10 +120,15 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
     @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM tb_cash_out co WHERE DATE(co.created_tm) <= DATE(:paramDate)", nativeQuery = true)
     BigDecimal getTotalCashOutTillToday(@Param("paramDate") Date paramDate);
 
-    @Query(value = "SELECT COALESCE(SUM(ci.payment_amount), 0) FROM tb_cash_in ci WHERE DATE(ci.created_tm) >= DATE(:startDate) AND DATE(ci.created_tm) < DATE(:endDate) AND ci.cash_in_status = 'Completed'", nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(ci.paymentAmount), 0) FROM TbCashIn ci " +
+            "WHERE ci.createdTm >= :startDate " +
+            "AND ci.createdTm < :endDate " +
+            "AND ci.cashInStatus = 'Completed' ")
     BigDecimal getTotalCashInToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM tb_cash_out co WHERE DATE(co.created_tm) >= DATE(:startDate) AND DATE(co.created_tm) < DATE(:endDate)", nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(co.amount), 0) FROM TbCashOut co " +
+            "WHERE co.createdTm >= :startDate " +
+            "AND co.createdTm < :endDate ")
     BigDecimal getTotalCashOutToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     MsBalance findByBalanceName(String balanceName);
