@@ -40,9 +40,9 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0), " +
             "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 0 THEN tba.total_amount ELSE 0 END), 0), " +
             "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 2 THEN tba.total_amount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount + tci.deduction ELSE 0 END), 0), " +
+            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount ELSE 0 END), 0), " +
             "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0) - " +
-            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount + tci.deduction ELSE 0 END), 0) " +
+            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount ELSE 0 END), 0) " +
             "FROM tb_ar_invoice tba " +
             "LEFT JOIN tb_cash_in tci ON tci.invoice_no = tba.invoice_no " +
             "WHERE (:partnerName IS NULL OR tba.partner_name LIKE %:partnerName%) " +

@@ -106,7 +106,7 @@ public class CashInController {
                 tbCashIn.setModifiedBy(username);
                 cashInService.save(tbCashIn);
 
-                if((tbCashIn.getPaymentAmount().add(tbCashIn.getDeduction())).compareTo(tbArInvoice.getTotalAmount()) == 0
+                if(tbCashIn.getPaymentAmount().compareTo(tbArInvoice.getTotalAmount()) == 0
                         && tbCashIn.getPaymentType() == 1) {
                     tbArInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
                 } else {
