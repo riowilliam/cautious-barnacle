@@ -83,11 +83,12 @@ public class ContractServiceImpl implements ContractService {
         /* Save Item Details */
         List<TbItemDetails> tbItemDetailsList = new LinkedList<>();
         for(ItemDetailsListDto itemDetail : contractRequest.getItemDetailList()) {
+            TbItemDetails existingTbItem = tbItemDetailsRepository.findByContractCodeAndRevisionAndItemName(tbContract.getContractCode(), tbContract.getRevision(), itemDetail.getItemName());
             TbItemDetails tbItemDetails = new TbItemDetails();
             tbItemDetails.setItemName(itemDetail.getItemName());
             tbItemDetails.setContractCode(tbContract.getContractCode());
             tbItemDetails.setTotalQuantity(itemDetail.getTotalQuantity());
-            tbItemDetails.setRemainingQuantity(itemDetail.getTotalQuantity());
+            tbItemDetails.setRemainingQuantity(existingTbItem != null ? existingTbItem.getRemainingQuantity() : itemDetail.getTotalQuantity());
             tbItemDetails.setRevision(contractRequest.getRevision());
             tbItemDetails.setCreatedBy(username);
             tbItemDetails.setModifiedBy(username);
