@@ -68,12 +68,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Map<String, Object>> getProjectList(String projectName, String partnerName) {
-        TbPartner tbPartner = partnerName != null ? tbPartneRepository.findByPartnerName(partnerName) : null;
-        List<Long> projectIdList = tbPartner != null ? Arrays.stream(tbPartner.getActiveProject().split(","))
-                .map(String::trim)
-                .map(Long::valueOf)
-                .collect(Collectors.toList()) : null;
-        return tbProjectRepository.getProjectList(projectName, projectIdList);
+        if(partnerName != null) {
+            TbPartner tbPartner = tbPartneRepository.findByPartnerName(partnerName);
+            List<Long> projectIdList = tbPartner != null ? Arrays.stream(tbPartner.getActiveProject().split(","))
+                    .map(String::trim)
+                    .map(Long::valueOf)
+                    .collect(Collectors.toList()) : null;
+            return projectIdList != null ? tbProjectRepository.getProjectListWithProjectId(projectName, projectIdList) : null;
+        } else {
+            return tbProjectRepository.getProjectList(projectName);
+        }
+
     }
 
     @Override
