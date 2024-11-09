@@ -100,9 +100,10 @@ public class ProjectController {
     }
 
     @GetMapping("getProjectList")
-    public ResponseDto<?> getProjectList(@RequestParam String username, @RequestParam String projectName) {
+    public ResponseDto<?> getProjectList(@RequestParam String username, @RequestParam String projectName, @RequestParam(required = false) String partnerName) {
         try {
-            List<Map<String, Object>> partnerList = projectService.getProjectList(projectName != null && !projectName.isEmpty() ? projectName : null);
+            List<Map<String, Object>> partnerList = projectService.getProjectList(projectName != null && !projectName.isEmpty() ? projectName : null,
+                    partnerName != null && !partnerName.isEmpty() ? partnerName : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, partnerList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());

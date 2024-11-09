@@ -68,7 +68,7 @@ public class PartnerController {
             PartnerRequestDto partnerRequestDto = gson.fromJson(requestDto, PartnerRequestDto.class);
             TbPartner tbPartner = partnerService.getPartnerByName(partnerRequestDto.getPartnerName());
             if(tbPartner != null) {
-                return new ResponseDto<>(ConstantsUtils.PROJECT_NAME_ALREADY_USED, HttpStatus.OK);
+                return new ResponseDto<>(ConstantsUtils.PARTNER_NAME_ALREADY_USED, HttpStatus.OK);
             } else {
                 partnerService.savePartner(username, partnerRequestDto);
                 return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
