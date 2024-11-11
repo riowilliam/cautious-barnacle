@@ -20,6 +20,7 @@ public interface CashInService {
     void saveCashIn(CashInRequestDto cashInRequestDto, TbArInvoice arInvoice, String username);
     void save(TbCashIn tbCashIn);
     BigDecimal getTotalIncompletedCashIByInvoiceNo(String invoiceNo);
+    BigDecimal getTotalCompletedCashIByInvoiceNo(String invoiceNo);
     TbCashIn getTbCashInById(Long id);
     List<CashInDetailDto> getCashInListByInvoiceNo(String invoiceNo);
 }

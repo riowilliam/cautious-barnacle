@@ -57,11 +57,17 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
                                       @Param("startDate") Date startDate,
                                       @Param("endDate") Date endDate);
 
-    @Query("SELECT COALESCE(SUM(COALESCE(tci.paymentAmount,0) + COALESCE(tci.deduction, 0)), 0) " +
+    @Query("SELECT COALESCE(SUM(tci.paymentAmount), 0) " +
             "FROM TbCashIn tci " +
             "WHERE tci.invoiceNo = :invoiceNo " +
             "AND tci.cashInStatus = 'Incompleted' ")
     BigDecimal getTotalIncompletedCashIByInvoiceNo(@Param("invoiceNo") String invoiceNo);
+
+    @Query("SELECT COALESCE(SUM(tci.paymentAmount), 0) " +
+            "FROM TbCashIn tci " +
+            "WHERE tci.invoiceNo = :invoiceNo " +
+            "AND tci.cashInStatus = 'Completed' ")
+    BigDecimal getTotalCompletedCashIByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 
     @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +
             "'Cash In', " +
