@@ -20,6 +20,7 @@ public class ARInvoiceDetailDto {
     private String projectName;
     private String bappNo;
     private BigDecimal amount;
+    private BigDecimal paidAmount;
     private BigDecimal ppn;
     private BigDecimal pph;
     private BigDecimal deduction;
@@ -35,13 +36,14 @@ public class ARInvoiceDetailDto {
     private String modifiedBy;
     private List<ItemDetailsRequestDto> itemDetails;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
         this.contractName = contractName;
         this.projectName = projectName;
         this.bappNo = bappNo;
         this.amount = amount;
+        this.paidAmount = paidAmount;
         this.ppn = ppn;
         this.pph = pph;
         this.deduction = deduction;

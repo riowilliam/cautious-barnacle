@@ -59,16 +59,19 @@ public class CashInServiceImpl implements CashInService {
         tbCashIn.setModifiedBy(username);
         tbCashInRepository.save(tbCashIn);
 
+        BigDecimal totalCompleted = getTotalCompletedCashIByInvoiceNo(arInvoice.getInvoiceNo());
+
         if(cashInRequestDto.getCashInStatus().equalsIgnoreCase(ConstantsUtils.COMPLETED)) {
-            if((cashInRequestDto.getPaymentAmount().add(cashInRequestDto.getDeduction())).compareTo(arInvoice.getTotalAmount()) == 0
+            if((cashInRequestDto.getPaymentAmount().add(cashInRequestDto.getDeduction()).add(totalCompleted)).compareTo(arInvoice.getTotalAmount()) == 0
                     && cashInRequestDto.getPaymentType() == 1) {
                 arInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
             } else {
                 arInvoice.setPaymentStatus(ConstantsUtils.PARTIALLY_PAYMENT);
             }
         }
-        arInvoice.setDeduction(cashInRequestDto.getDeduction());
-        arInvoice.setTotalAmount(arInvoice.getTotalAmount().subtract(cashInRequestDto.getDeduction()));
+
+        arInvoice.setDeduction(arInvoice.getDeduction() != null ? arInvoice.getDeduction().add(cashInRequestDto.getDeduction()) : cashInRequestDto.getDeduction());
+        arInvoice.setTotalAmount(totalCompleted.add(arInvoice.getTotalAmount().subtract(cashInRequestDto.getDeduction())));
         arInvoice.setModifiedBy(username);
         arInvoiceService.save(arInvoice);
     }
@@ -81,6 +84,11 @@ public class CashInServiceImpl implements CashInService {
     @Override
     public BigDecimal getTotalIncompletedCashIByInvoiceNo(String invoiceNo) {
         return tbCashInRepository.getTotalIncompletedCashIByInvoiceNo(invoiceNo);
+    }
+
+    @Override
+    public BigDecimal getTotalCompletedCashIByInvoiceNo(String invoiceNo) {
+        return tbCashInRepository.getTotalCompletedCashIByInvoiceNo(invoiceNo);
     }
 
     @Override
