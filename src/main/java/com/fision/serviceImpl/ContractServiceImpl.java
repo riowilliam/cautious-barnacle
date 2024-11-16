@@ -3,6 +3,7 @@ package com.fision.serviceImpl;
 import com.fision.dto.*;
 import com.fision.entity.TbContract;
 import com.fision.entity.TbItemDetails;
+import com.fision.entity.TxPaidItem;
 import com.fision.repository.TbContractRepository;
 import com.fision.repository.TbItemDetailsRepository;
 import com.fision.repository.TxPaidItemRepository;
@@ -84,11 +85,12 @@ public class ContractServiceImpl implements ContractService {
         List<TbItemDetails> tbItemDetailsList = new LinkedList<>();
         for(ItemDetailsListDto itemDetail : contractRequest.getItemDetailList()) {
             TbItemDetails existingTbItem = tbItemDetailsRepository.findByContractCodeAndRevisionAndItemName(tbContract.getContractCode(), tbContract.getRevision(), itemDetail.getItemName());
+            int existingPaidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractCode(), itemDetail.getItemName());
             TbItemDetails tbItemDetails = new TbItemDetails();
             tbItemDetails.setItemName(itemDetail.getItemName());
             tbItemDetails.setContractCode(tbContract.getContractCode());
             tbItemDetails.setTotalQuantity(itemDetail.getTotalQuantity());
-            tbItemDetails.setRemainingQuantity(existingTbItem != null ? existingTbItem.getRemainingQuantity() : itemDetail.getTotalQuantity());
+            tbItemDetails.setRemainingQuantity(existingTbItem != null ? itemDetail.getTotalQuantity() - existingPaidQuantity : itemDetail.getTotalQuantity());
             tbItemDetails.setRevision(contractRequest.getRevision());
             tbItemDetails.setCreatedBy(username);
             tbItemDetails.setModifiedBy(username);
