@@ -43,7 +43,7 @@ public class DateTimeHelper {
 
     public static Date stringToDate(String paramDate) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.parse(paramDate);
+        return DateTimeHelper.addOneDay(dateFormat.parse(paramDate));
     }
 
     public static String nowToString() {
