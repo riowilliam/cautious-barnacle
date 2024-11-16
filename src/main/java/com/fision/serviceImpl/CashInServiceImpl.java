@@ -57,8 +57,6 @@ public class CashInServiceImpl implements CashInService {
         tbCashIn.setPaymentDate(new Date());
         tbCashIn.setCreatedBy(username);
         tbCashIn.setModifiedBy(username);
-        tbCashInRepository.save(tbCashIn);
-
         BigDecimal totalCompleted = getTotalCompletedCashIByInvoiceNo(arInvoice.getInvoiceNo());
 
         if(cashInRequestDto.getCashInStatus().equalsIgnoreCase(ConstantsUtils.COMPLETED)) {
@@ -73,6 +71,7 @@ public class CashInServiceImpl implements CashInService {
         arInvoice.setDeduction(arInvoice.getDeduction() != null ? arInvoice.getDeduction().add(cashInRequestDto.getDeduction()) : cashInRequestDto.getDeduction());
         arInvoice.setTotalAmount(arInvoice.getTotalAmount().subtract(cashInRequestDto.getDeduction()));
         arInvoice.setModifiedBy(username);
+        tbCashInRepository.save(tbCashIn);
         arInvoiceService.save(arInvoice);
     }
 

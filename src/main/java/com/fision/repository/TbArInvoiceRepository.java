@@ -44,22 +44,32 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
                                                 Pageable pageable);
 
 
-    @Query(value = "SELECT " +
-            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0), " +
-            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 0 THEN tba.total_amount ELSE 0 END), 0), " +
-            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 2 THEN tba.total_amount ELSE 0 END), 0), " +
-            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount ELSE 0 END), 0), " +
-            "COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0) - " +
-            "COALESCE(SUM(CASE WHEN tci.cash_in_status = 'Completed' THEN tci.payment_amount ELSE 0 END), 0) " +
+    @Query(value = "WITH cash_in_summary AS ( " +
+            "    SELECT " +
+            "        invoice_no, " +
+            "        SUM(CASE WHEN cash_in_status = 'Completed' THEN payment_amount ELSE 0 END) AS total_completed_payment, " +
+            "        SUM(CASE WHEN cash_in_status = 'Incompleted' THEN payment_amount ELSE 0 END) AS total_incompleted_payment " +
+            "    FROM tb_cash_in " +
+            "    GROUP BY invoice_no " +
+            ") " +
+            "SELECT " +
+            "    COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 1 THEN tba.total_amount ELSE 0 END), 0), " +
+            "    COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 0 THEN tba.total_amount ELSE 0 END), 0), " +
+            "    COALESCE(SUM(DISTINCT CASE WHEN tba.invoice_status = 2 THEN tba.total_amount ELSE 0 END), 0), " +
+            "    COALESCE(SUM(cis.total_completed_payment), 0), " +
+            "    COALESCE(SUM(DISTINCT CASE " +
+            "        WHEN tba.invoice_status = 1 AND tba.payment_status IS NULL THEN tba.total_amount " +
+            "        ELSE COALESCE(cis.total_incompleted_payment, 0) " +
+            "    END), 0) " +
             "FROM tb_ar_invoice tba " +
-            "LEFT JOIN tb_cash_in tci ON tci.invoice_no = tba.invoice_no " +
+            "LEFT JOIN cash_in_summary cis ON cis.invoice_no = tba.invoice_no " +
             "WHERE (:partnerName IS NULL OR tba.partner_name LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.project_name LIKE %:projectName%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoice_status = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.created_tm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.created_tm <= :endDate) ",
+            "AND (:endDate IS NULL OR tba.created_tm <= :endDate)",
             nativeQuery = true)
-    Object getArInvoiceSummary (
+    Object getArInvoiceSummary(
             @Param("partnerName") String partnerName,
             @Param("projectName") String projectName,
             @Param("invoiceStatus") Integer invoiceStatus,
