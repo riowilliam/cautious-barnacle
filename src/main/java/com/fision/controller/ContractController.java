@@ -97,7 +97,7 @@ public class ContractController {
                     pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     contractName != null && !contractName.isEmpty() ? contractName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, contractListPaging, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);

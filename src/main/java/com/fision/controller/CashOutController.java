@@ -182,7 +182,7 @@ public class CashOutController {
                     vendorName != null && !vendorName.isEmpty() ? vendorName : null,
                     documentCashOutName != null && !documentCashOutName.isEmpty() ? documentCashOutName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
 
             return new ResponseDto<>(ConstantsUtils.SUCCESS, cashOutMutationListDtoPage, HttpStatus.OK);
         } catch (Exception e) {
@@ -207,7 +207,7 @@ public class CashOutController {
                     documentName != null && !documentName.isEmpty() ? documentName : null,
                     status,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
 
             return new ResponseDto<>(ConstantsUtils.SUCCESS, cashOutMutationListDtoPage, HttpStatus.OK);
         } catch (Exception e) {

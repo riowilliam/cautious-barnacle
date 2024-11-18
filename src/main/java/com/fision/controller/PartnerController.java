@@ -49,7 +49,7 @@ public class PartnerController {
                     documentTracking,
                     ppnWapu,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, partnerListDtoPage, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);

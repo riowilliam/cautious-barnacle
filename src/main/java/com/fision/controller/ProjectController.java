@@ -47,7 +47,7 @@ public class ProjectController {
                     pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     projectName != null && !projectName.isEmpty() ? projectName : null, status,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, projectListPaging, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
