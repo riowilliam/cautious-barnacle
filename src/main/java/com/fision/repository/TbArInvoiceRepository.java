@@ -59,7 +59,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "    COALESCE(SUM(cis.total_completed_payment), 0), " +
             "    COALESCE(SUM(DISTINCT CASE " +
             "        WHEN tba.invoice_status = 1 AND tba.payment_status IS NULL THEN tba.total_amount " +
-            "        ELSE COALESCE(cis.total_incompleted_payment, 0) " +
+            "        WHEN tba.invoice_status = 1 AND tba.payment_status IS NOT NULL THEN tba.total_amount - COALESCE(cis.total_completed_payment, 0) " +
             "    END), 0) " +
             "FROM tb_ar_invoice tba " +
             "LEFT JOIN cash_in_summary cis ON cis.invoice_no = tba.invoice_no " +

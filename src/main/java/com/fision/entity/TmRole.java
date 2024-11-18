@@ -39,6 +39,9 @@ public class TmRole {
     @Column (name = "modified_tm")
     private Date modifiedTm;
 
+    @Column (name = "permissions")
+    private String permissions;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();

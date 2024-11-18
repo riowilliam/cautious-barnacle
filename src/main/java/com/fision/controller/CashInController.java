@@ -53,7 +53,7 @@ public class CashInController {
                     projectName != null && !projectName.isEmpty() ? projectName : null,
                     paymentType != null && !paymentType.isEmpty() ? paymentType.equalsIgnoreCase(ConstantsUtils.FULLY_PAYMENT) ? 1 : 2 : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
-                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
+                    endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
 
             return new ResponseDto<>(ConstantsUtils.SUCCESS, cashInDetailDtos, HttpStatus.OK);
         } catch (Exception e) {

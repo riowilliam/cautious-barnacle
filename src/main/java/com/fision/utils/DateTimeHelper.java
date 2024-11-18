@@ -43,11 +43,21 @@ public class DateTimeHelper {
 
     public static Date stringToDate(String paramDate) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.parse(paramDate);
+    }
+
+    public static Date stringToDateAddOneDay(String paramDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return DateTimeHelper.addOneDay(dateFormat.parse(paramDate));
     }
 
     public static String nowToString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd-hhmmss");
         return dateFormat.format(new Date());
+    }
+
+    public static int getYearFromDate(Date dateParam) {
+        LocalDate localDate = dateParam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return localDate.getYear();
     }
 }

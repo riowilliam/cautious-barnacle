@@ -64,7 +64,7 @@ public class CashInServiceImpl implements CashInService {
                     && cashInRequestDto.getPaymentType() == 1) {
                 arInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
             } else {
-                arInvoice.setPaymentStatus(ConstantsUtils.PARTIALLY_PAYMENT);
+                arInvoice.setPaymentStatus(ConstantsUtils.PARTIALLY_PAID);
             }
         }
 
