@@ -1,6 +1,6 @@
 package com.fision.serviceImpl;
 
-import com.fision.repository.MsBankRepository;
+import com.fision.repository.primary.MsBankRepository;
 import com.fision.service.MsBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

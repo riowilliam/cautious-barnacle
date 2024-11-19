@@ -1,6 +1,6 @@
 package com.fision.service;
 
-import com.fision.entity.MsItem;
+import com.fision.entity.primary.MsItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

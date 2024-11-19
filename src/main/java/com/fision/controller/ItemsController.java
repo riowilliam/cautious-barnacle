@@ -1,7 +1,7 @@
 package com.fision.controller;
 
 import com.fision.dto.ResponseDto;
-import com.fision.entity.MsItem;
+import com.fision.entity.primary.MsItem;
 import com.fision.service.MsItemService;
 import com.fision.utils.ConstantsUtils;
 import com.google.gson.Gson;

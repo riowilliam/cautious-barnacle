@@ -1,9 +1,9 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.*;
-import com.fision.entity.TbUser;
-import com.fision.repository.TbUserRepository;
-import com.fision.repository.TmRoleRepository;
+import com.fision.entity.primary.TbUser;
+import com.fision.repository.primary.TbUserRepository;
+import com.fision.repository.primary.TmRoleRepository;
 import com.fision.service.LoginService;
 import com.fision.service.UserService;
 import com.fision.utils.ConstantsUtils;

@@ -1,7 +1,7 @@
 package com.fision.controller;
 
 import com.fision.dto.*;
-import com.fision.entity.TbDocumentCashOut;
+import com.fision.entity.primary.TbDocumentCashOut;
 import com.fision.service.CashOutService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;

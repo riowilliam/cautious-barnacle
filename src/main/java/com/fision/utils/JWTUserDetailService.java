@@ -1,6 +1,6 @@
 package com.fision.utils;
 
-import com.fision.entity.TbUser;
+import com.fision.entity.primary.TbUser;
 import com.fision.serviceImpl.LoginServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

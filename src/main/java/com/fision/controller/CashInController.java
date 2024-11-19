@@ -1,14 +1,13 @@
 package com.fision.controller;
 
 import com.fision.dto.*;
-import com.fision.entity.TbArInvoice;
-import com.fision.entity.TbCashIn;
+import com.fision.entity.primary.TbArInvoice;
+import com.fision.entity.primary.TbCashIn;
 import com.fision.service.ARInvoiceService;
 import com.fision.service.CashInService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
 import com.google.gson.Gson;
-import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 

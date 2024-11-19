@@ -3,9 +3,8 @@ package com.fision.service;
 import com.fision.dto.CashInDetailDto;
 import com.fision.dto.CashInListDto;
 import com.fision.dto.CashInRequestDto;
-import com.fision.dto.StatisticsDto;
-import com.fision.entity.TbArInvoice;
-import com.fision.entity.TbCashIn;
+import com.fision.entity.primary.TbArInvoice;
+import com.fision.entity.primary.TbCashIn;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;

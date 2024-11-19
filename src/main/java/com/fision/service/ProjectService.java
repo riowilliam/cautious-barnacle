@@ -1,7 +1,7 @@
 package com.fision.service;
 
 import com.fision.dto.*;
-import com.fision.entity.TbProject;
+import com.fision.entity.primary.TbProject;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;

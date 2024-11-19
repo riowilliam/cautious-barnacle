@@ -1,8 +1,8 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.VendorRequestDto;
-import com.fision.entity.TbVendor;
-import com.fision.repository.TbVendorRepository;
+import com.fision.entity.primary.TbVendor;
+import com.fision.repository.primary.TbVendorRepository;
 import com.fision.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class VendorServiceImpl implements VendorService {

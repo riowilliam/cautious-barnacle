@@ -3,14 +3,13 @@ package com.fision.serviceImpl;
 import com.fision.dto.DashboardCardDetailsDto;
 import com.fision.dto.StatisticsDetailsDto;
 import com.fision.dto.StatisticsDto;
-import com.fision.repository.MsBalanceRepository;
-import com.fision.repository.TbArInvoiceRepository;
-import com.fision.repository.TbCashInRepository;
-import com.fision.repository.TbDocumentCashOutRepository;
+import com.fision.repository.primary.MsBalanceRepository;
+import com.fision.repository.primary.TbArInvoiceRepository;
+import com.fision.repository.primary.TbCashInRepository;
+import com.fision.repository.primary.TbDocumentCashOutRepository;
 import com.fision.service.DashboardService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

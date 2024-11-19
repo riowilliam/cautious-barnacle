@@ -4,7 +4,7 @@ import com.fision.dto.AuthRequestDto;
 import com.fision.dto.LoginRequestDto;
 import com.fision.dto.LoginResponseDto;
 import com.fision.dto.ResponseDto;
-import com.fision.entity.TbUser;
+import com.fision.entity.primary.TbUser;
 import com.fision.service.LoginService;
 import com.fision.utils.AesEncodeDecodeService;
 import com.fision.utils.ConstantsUtils;

@@ -1,7 +1,7 @@
 package com.fision.controller;
 
 import com.fision.dto.*;
-import com.fision.entity.TbPartner;
+import com.fision.entity.primary.TbPartner;
 import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;

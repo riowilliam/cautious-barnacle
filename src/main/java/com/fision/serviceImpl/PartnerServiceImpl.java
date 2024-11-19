@@ -2,9 +2,9 @@ package com.fision.serviceImpl;
 
 import com.fision.dto.PartnerListDto;
 import com.fision.dto.PartnerRequestDto;
-import com.fision.entity.TbPartner;
-import com.fision.repository.TbConfigRepository;
-import com.fision.repository.TbPartneRepository;
+import com.fision.entity.primary.TbPartner;
+import com.fision.repository.primary.TbConfigRepository;
+import com.fision.repository.primary.TbPartneRepository;
 import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
