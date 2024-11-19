@@ -1,7 +1,7 @@
 package com.fision.serviceImpl;
 
-import com.fision.entity.TbDocumentCashOut;
-import com.fision.repository.TbDocumentCashOutRepository;
+import com.fision.entity.primary.TbDocumentCashOut;
+import com.fision.repository.primary.TbDocumentCashOutRepository;
 import com.fision.service.DocumentCashOutService;
 import com.fision.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;

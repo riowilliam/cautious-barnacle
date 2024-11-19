@@ -1,10 +1,10 @@
 package com.fision.serviceImpl;
 
 import com.fision.config.JWTTokenUtil;
-import com.fision.entity.TbUser;
-import com.fision.entity.TmRole;
-import com.fision.repository.TbUserRepository;
-import com.fision.repository.TmRoleRepository;
+import com.fision.entity.primary.TbUser;
+import com.fision.entity.primary.TmRole;
+import com.fision.repository.primary.TbUserRepository;
+import com.fision.repository.primary.TmRoleRepository;
 import com.fision.service.LoginService;
 import com.fision.utils.AesEncodeDecodeService;
 import com.fision.utils.ConstantsUtils;
@@ -20,11 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Base64;
-import java.util.Date;
 
 /**
  * @author LordDev

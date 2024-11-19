@@ -2,7 +2,7 @@ package com.fision.service;
 
 import com.fision.dto.PartnerListDto;
 import com.fision.dto.PartnerRequestDto;
-import com.fision.entity.TbPartner;
+import com.fision.entity.primary.TbPartner;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;

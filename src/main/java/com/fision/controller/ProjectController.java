@@ -1,7 +1,7 @@
 package com.fision.controller;
 
 import com.fision.dto.*;
-import com.fision.entity.TbProject;
+import com.fision.entity.primary.TbProject;
 import com.fision.service.ProjectService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

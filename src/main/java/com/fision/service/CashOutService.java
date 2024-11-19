@@ -1,14 +1,12 @@
 package com.fision.service;
 
-import com.fision.dto.CashOutDetailDto;
 import com.fision.dto.CashOutDocListDto;
 import com.fision.dto.CashOutListDto;
 import com.fision.dto.CashOutMutationListDto;
-import com.fision.entity.TbDocumentCashOut;
+import com.fision.entity.primary.TbDocumentCashOut;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
-import java.util.List;
 
 public interface CashOutService {
     String saveTmpCashOut(String username, CashOutListDto cashOutListDto);

@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fision.dto.ARInvoiceDetailDto;
 import com.fision.dto.ARInvoiceListDto;
 import com.fision.dto.ARInvoiceRequestDto;
-import com.fision.dto.CashOutMutationListDto;
-import com.fision.entity.TbArInvoice;
+import com.fision.entity.primary.TbArInvoice;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;

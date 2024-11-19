@@ -1,6 +1,6 @@
 package com.fision.dto;
 
-import com.fision.entity.TbDocumentCashOut;
+import com.fision.entity.primary.TbDocumentCashOut;
 import lombok.Data;
 import java.util.List;
 

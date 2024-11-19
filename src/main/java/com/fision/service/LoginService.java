@@ -1,6 +1,6 @@
 package com.fision.service;
 
-import com.fision.entity.TbUser;
+import com.fision.entity.primary.TbUser;
 
 /**
  * @author LordDev

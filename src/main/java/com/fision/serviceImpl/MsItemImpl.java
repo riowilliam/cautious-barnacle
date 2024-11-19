@@ -1,14 +1,13 @@
 package com.fision.serviceImpl;
 
-import com.fision.entity.MsItem;
-import com.fision.repository.MsItemRepository;
+import com.fision.entity.primary.MsItem;
+import com.fision.repository.primary.MsItemRepository;
 import com.fision.service.MsItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 

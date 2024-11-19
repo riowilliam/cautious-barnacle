@@ -1,13 +1,10 @@
 package com.fision.service;
 
-import com.fision.dto.ProjectListDto;
 import com.fision.dto.VendorRequestDto;
-import com.fision.entity.TbVendor;
+import com.fision.entity.primary.TbVendor;
 import org.springframework.data.domain.Page;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public interface VendorService {
     Page<TbVendor> getVendorListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,

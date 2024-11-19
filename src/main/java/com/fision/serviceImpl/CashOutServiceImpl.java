@@ -1,12 +1,12 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.*;
-import com.fision.entity.TbCashOut;
-import com.fision.entity.TbDocumentCashOut;
-import com.fision.entity.TmpCashOut;
-import com.fision.repository.TbCashOutRepository;
-import com.fision.repository.TbDocumentCashOutRepository;
-import com.fision.repository.TmpCashOutRepository;
+import com.fision.entity.primary.TbCashOut;
+import com.fision.entity.primary.TbDocumentCashOut;
+import com.fision.entity.primary.TmpCashOut;
+import com.fision.repository.primary.TbCashOutRepository;
+import com.fision.repository.primary.TbDocumentCashOutRepository;
+import com.fision.repository.primary.TmpCashOutRepository;
 import com.fision.service.CashOutService;
 import com.fision.service.DocumentCashOutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;

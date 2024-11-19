@@ -1,12 +1,11 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.*;
-import com.fision.entity.TbContract;
-import com.fision.entity.TbItemDetails;
-import com.fision.entity.TxPaidItem;
-import com.fision.repository.TbContractRepository;
-import com.fision.repository.TbItemDetailsRepository;
-import com.fision.repository.TxPaidItemRepository;
+import com.fision.entity.primary.TbContract;
+import com.fision.entity.primary.TbItemDetails;
+import com.fision.repository.primary.TbContractRepository;
+import com.fision.repository.primary.TbItemDetailsRepository;
+import com.fision.repository.primary.TxPaidItemRepository;
 import com.fision.service.ContractService;
 import com.fision.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;

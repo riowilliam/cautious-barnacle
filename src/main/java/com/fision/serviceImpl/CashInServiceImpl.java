@@ -1,12 +1,11 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.*;
-import com.fision.entity.TbArInvoice;
-import com.fision.entity.TbCashIn;
-import com.fision.repository.TbCashInRepository;
+import com.fision.entity.primary.TbArInvoice;
+import com.fision.entity.primary.TbCashIn;
+import com.fision.repository.primary.TbCashInRepository;
 import com.fision.service.ARInvoiceService;
 import com.fision.service.CashInService;
-import com.fision.service.MsBalanceService;
 import com.fision.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
