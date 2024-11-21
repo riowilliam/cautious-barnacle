@@ -42,8 +42,8 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
             "LEFT JOIN TxPaidItem p ON c.contractCode = i.contractCode AND i.itemName = p.itemName " +
             "WHERE c.revision = (SELECT MAX(c2.revision) FROM TbContract c2 WHERE c2.contractCode = c.contractCode) " +
             "AND (:contractName IS NULL OR c.contractName LIKE %:contractName%) " +
-            "AND (:contractCode IS NULL OR c.contractCode LIKE %:contractCode%) " /*+
-            "AND i.remainingQuantity > 0 "*/ )
+            "AND (:contractCode IS NULL OR c.contractCode LIKE %:contractCode%) " +
+            "AND i.remainingQuantity > 0 " )
     List<Object[]> findContractWithHighestRevision(@Param("contractName") String contractName, @Param("contractCode") String contractCode);
 
 
