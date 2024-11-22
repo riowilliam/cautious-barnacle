@@ -60,4 +60,19 @@ public class DateTimeHelper {
         LocalDate localDate = dateParam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return localDate.getYear();
     }
+
+    public static Date adjustToNextMondayIfWeekend(Date tenorDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(tenorDate);
+
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        if (dayOfWeek == Calendar.SATURDAY) {
+            calendar.add(Calendar.DAY_OF_MONTH, 2);
+        } else if (dayOfWeek == Calendar.SUNDAY) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return calendar.getTime();
+    }
 }

@@ -58,7 +58,7 @@ public class ContractServiceImpl implements ContractService {
         for(ItemDetailsListDto itemDetail : contractRequest.getItemDetailList()) {
             TbItemDetails tbItemDetails = new TbItemDetails();
             tbItemDetails.setItemName(itemDetail.getItemName());
-            tbItemDetails.setContractCode(generateContractCode());
+            tbItemDetails.setContractCode(tbContract.getContractCode());
             tbItemDetails.setTotalQuantity(itemDetail.getTotalQuantity());
             tbItemDetails.setRemainingQuantity(itemDetail.getTotalQuantity());
             tbItemDetails.setRevision(contractRequest.getRevision());

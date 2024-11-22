@@ -108,9 +108,9 @@ public class ContractController {
     @GetMapping("getContractList")
     public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName, @RequestParam String contractCode) {
         try {
-            List<ContractListDto> itemList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null,
+            List<ContractListDto> contractList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null,
                     contractCode != null && !contractCode.isEmpty() ? contractCode : null);
-            return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, contractList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);

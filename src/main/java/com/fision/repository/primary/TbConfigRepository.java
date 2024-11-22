@@ -15,4 +15,5 @@ public interface TbConfigRepository extends JpaRepository<TbConfig, Long> {
             "FROM TbConfig tbc " +
             "WHERE tbc.key = :key")
     List<Map<String, Object>> findValueAndDescByKey(@Param("key") String key);
+
 }

@@ -99,12 +99,13 @@ public class CashInController {
             }
             TbCashIn tbCashIn = cashInService.getTbCashInById(cashInId);
             TbArInvoice tbArInvoice = arInvoiceService.getInvoiceByInvoiceNo(tbCashIn.getInvoiceNo());
+            BigDecimal completedCashIn = cashInService.getTotalCompletedCashIByInvoiceNo(tbArInvoice.getInvoiceNo());
             if(tbCashIn != null) {
                 tbCashIn.setCashInStatus(ConstantsUtils.COMPLETED);
                 tbCashIn.setModifiedBy(username);
                 cashInService.save(tbCashIn);
 
-                if(tbCashIn.getPaymentAmount().compareTo(tbArInvoice.getTotalAmount()) == 0
+                if(tbCashIn.getPaymentAmount().add(tbArInvoice.getDeduction()).add(completedCashIn).compareTo(tbArInvoice.getTotalAmount()) == 0
                         && tbCashIn.getPaymentType() == 1) {
                     tbArInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
                 } else {

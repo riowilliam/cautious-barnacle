@@ -78,5 +78,6 @@ public class ConstantsUtils {
 
     // Config
     public final static String PPH_LIST = "PPH_LIST";
+    public final static String FACILITY_TRANSACTION_SCHEDULER = "FACILITY_TRANSACTION_SCHEDULER";
 
 }
