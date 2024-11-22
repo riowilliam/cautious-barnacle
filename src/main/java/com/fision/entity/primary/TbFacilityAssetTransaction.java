@@ -1,5 +1,8 @@
 package com.fision.entity.primary;
+import com.fision.utils.DateTimeHelper;
 import lombok.Data;
+import org.exolab.castor.types.DateTime;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -36,6 +39,10 @@ public class TbFacilityAssetTransaction {
     @Column(name = "tenor_date")
     @Temporal(TemporalType.DATE)
     private Date tenorDate;
+
+    @Column(name = "calculate_date")
+    @Temporal(TemporalType.DATE)
+    private Date calculateDate;
 
     @Column(name = "transaction_type")
     private String transactionType;
@@ -78,6 +85,7 @@ public class TbFacilityAssetTransaction {
         // Set isTenorDateOnWeekend based on tenorDate
         if (this.tenorDate != null) {
             this.isTenorDateOnWeekend = isWeekend(this.tenorDate);
+            this.calculateDate = DateTimeHelper.adjustToNextMondayIfWeekend(this.tenorDate);
         }
     }
 
@@ -85,10 +93,5 @@ public class TbFacilityAssetTransaction {
     @PreUpdate
     protected void onUpdate() {
         this.modifiedTm = new Date();
-
-        // Update isTenorDateOnWeekend based on tenorDate
-        if (this.tenorDate != null) {
-            this.isTenorDateOnWeekend = isWeekend(this.tenorDate);
-        }
     }
 }
