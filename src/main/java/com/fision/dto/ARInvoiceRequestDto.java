@@ -9,7 +9,7 @@ import java.util.List;
 public class ARInvoiceRequestDto {
     private String invoiceNo;
     private String partnerName;
-    private String contractName;
+    private String contractNo;
     private String projectName;
     private String bappNo;
     private BigDecimal amount;

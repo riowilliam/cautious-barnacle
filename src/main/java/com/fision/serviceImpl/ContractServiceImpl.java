@@ -3,13 +3,13 @@ package com.fision.serviceImpl;
 import com.fision.dto.*;
 import com.fision.entity.primary.TbContract;
 import com.fision.entity.primary.TbItemDetails;
+import com.fision.entity.primary.TbPartner;
 import com.fision.repository.primary.TbContractRepository;
 import com.fision.repository.primary.TbItemDetailsRepository;
+import com.fision.repository.primary.TbPartneRepository;
 import com.fision.repository.primary.TxPaidItemRepository;
 import com.fision.service.ContractService;
-import com.fision.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ContractServiceImpl implements ContractService {
-    @Value("${contract.code.prefix}")
-    String contractCodePrefix;
 
     @Autowired
     TbContractRepository tbContractRepository;
@@ -34,31 +32,42 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     TxPaidItemRepository txPaidItemRepository;
 
+    @Autowired
+    TbPartneRepository tbPartneRepository;
+
     @Override
-    public Page<ContractPagingListDto> getContractListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String contractName, Date startDate, Date endDate) {
+    public Page<ContractPagingListDto> getContractListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String contractName, String partnerName, Date startDate, Date endDate) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        return tbContractRepository.getContractListPaging(contractName, startDate, endDate, pageable);
+        return tbContractRepository.getContractListPaging(contractName, partnerName, startDate, endDate, pageable);
     }
 
     @Override
     @Transactional
-    public void saveContract(String username, ContractRequestDto contractRequest) {
+    public void saveContract(String username, ContractRequestDto contractRequest, TbPartner tbPartner) {
         /* Save Contract */
         TbContract tbContract = new TbContract();
         tbContract.setContractName(contractRequest.getContractName());
-        tbContract.setContractCode(generateContractCode());
+        tbContract.setContractNo(contractRequest.getContractNo());
+        tbContract.setPartnerName(contractRequest.getPartnerName());
+        tbContract.setAddendumDate(contractRequest.getAddendumDate());
+        tbContract.setContractDate(contractRequest.getContractDate());
         tbContract.setCreatedBy(username);
         tbContract.setModifiedBy(username);
         tbContract.setRevision(contractRequest.getRevision());
         tbContractRepository.save(tbContract);
+
+        /* Save Partner jika ada penambahan active project */
+        tbPartner.setActiveProject(contractRequest.getActiveProject());
+        tbPartner.setModifiedBy(username);
+        tbPartneRepository.save(tbPartner);
 
         /* Save Item Details */
         List<TbItemDetails> tbItemDetailsList = new LinkedList<>();
         for(ItemDetailsListDto itemDetail : contractRequest.getItemDetailList()) {
             TbItemDetails tbItemDetails = new TbItemDetails();
             tbItemDetails.setItemName(itemDetail.getItemName());
-            tbItemDetails.setContractCode(tbContract.getContractCode());
+            tbItemDetails.setContractNo(tbContract.getContractNo());
             tbItemDetails.setTotalQuantity(itemDetail.getTotalQuantity());
             tbItemDetails.setRemainingQuantity(itemDetail.getTotalQuantity());
             tbItemDetails.setRevision(contractRequest.getRevision());
@@ -70,24 +79,32 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public void updateContract(String username, TbContract tbContract, ContractRequestDto contractRequest) {
+    public void updateContract(String username, TbContract tbContract, ContractRequestDto contractRequest, TbPartner tbPartner) {
         /* Save Contract */
         TbContract tbContractNew = new TbContract();
         tbContractNew.setContractName(contractRequest.getContractName());
-        tbContractNew.setContractCode(tbContract.getContractCode());
+        tbContractNew.setContractNo(contractRequest.getContractNo());
+        tbContractNew.setPartnerName(contractRequest.getPartnerName());
+        tbContractNew.setAddendumDate(contractRequest.getAddendumDate());
+        tbContractNew.setContractDate(contractRequest.getContractDate());
         tbContractNew.setCreatedBy(username);
         tbContractNew.setModifiedBy(username);
         tbContractNew.setRevision(contractRequest.getRevision());
         tbContractRepository.save(tbContractNew);
 
+        /* Save Partner jika ada penambahan active project */
+        tbPartner.setActiveProject(contractRequest.getActiveProject());
+        tbPartner.setModifiedBy(username);
+        tbPartneRepository.save(tbPartner);
+
         /* Save Item Details */
         List<TbItemDetails> tbItemDetailsList = new LinkedList<>();
         for(ItemDetailsListDto itemDetail : contractRequest.getItemDetailList()) {
-            TbItemDetails existingTbItem = tbItemDetailsRepository.findByContractCodeAndRevisionAndItemName(tbContract.getContractCode(), tbContract.getRevision(), itemDetail.getItemName());
-            int existingPaidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractCode(), itemDetail.getItemName());
+            TbItemDetails existingTbItem = tbItemDetailsRepository.findByContractNoAndRevisionAndItemName(tbContract.getContractNo(), tbContract.getRevision(), itemDetail.getItemName());
+            Double existingPaidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractNo(), itemDetail.getItemName());
             TbItemDetails tbItemDetails = new TbItemDetails();
             tbItemDetails.setItemName(itemDetail.getItemName());
-            tbItemDetails.setContractCode(tbContract.getContractCode());
+            tbItemDetails.setContractNo(tbContract.getContractNo());
             tbItemDetails.setTotalQuantity(itemDetail.getTotalQuantity());
             tbItemDetails.setRemainingQuantity(existingTbItem != null ? itemDetail.getTotalQuantity() - existingPaidQuantity : itemDetail.getTotalQuantity());
             tbItemDetails.setRevision(contractRequest.getRevision());
@@ -99,21 +116,21 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public TbContract getContractByCodeWithLatestRevision(String contractCode) {
-        return tbContractRepository.findByContractCodeAndMaxRevision(contractCode);
+    public TbContract getContractByNoWithLatestRevision(String contractNo) {
+        return tbContractRepository.findBycontractNoAndMaxRevision(contractNo);
     }
 
     @Override
-    public TbContract getContractByCodeAndRevision(String contractCode, Integer revision) {
-        return tbContractRepository.findByContractCodeAndRevision(contractCode, revision);
+    public TbContract getContractByNoAndRevision(String contractNo, Integer revision) {
+        return tbContractRepository.findBycontractNoAndRevision(contractNo, revision);
     }
 
     @Override
     public Boolean checkRemainingQuantity(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract) {
         Boolean isAvailable = null;
-        Integer paidQuantity = 0;
+        Double paidQuantity;
         for (ItemDetailsListDto detailList : itemDetailsListDto) {
-            paidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractCode(), detailList.getItemName());
+            paidQuantity = txPaidItemRepository.getPaidQuantity(tbContract.getContractNo(), detailList.getItemName());
             isAvailable = detailList.getTotalQuantity() >= paidQuantity ? Boolean.TRUE : Boolean.FALSE;
             if(!isAvailable) break;
         }
@@ -122,7 +139,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Boolean checkExistingItemDetails(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract) {
-        List<TbItemDetails> existingTbItemDetailsList = tbItemDetailsRepository.findByContractCodeAndRevision(tbContract.getContractCode(), tbContract.getRevision());
+        List<TbItemDetails> existingTbItemDetailsList = tbItemDetailsRepository.findByContractNoAndRevision(tbContract.getContractNo(), tbContract.getRevision());
 
         // Convert itemDetailsListDto to a set of item names for easy lookup
         Set<String> dtoItemNames = itemDetailsListDto.stream()
@@ -141,11 +158,11 @@ public class ContractServiceImpl implements ContractService {
         }
 
         // If sizes are the same, compare quantities
-        Map<String, Integer> existingItemQuantities = existingTbItemDetailsList.stream()
+        Map<String, Double> existingItemQuantities = existingTbItemDetailsList.stream()
                 .collect(Collectors.toMap(TbItemDetails::getItemName, TbItemDetails::getTotalQuantity));
 
         for (ItemDetailsListDto dtoItem : itemDetailsListDto) {
-            Integer existingQuantity = existingItemQuantities.get(dtoItem.getItemName());
+            Double existingQuantity = existingItemQuantities.get(dtoItem.getItemName());
 
             // If any item’s quantity doesn’t match, return true (indicating a difference)
             if (existingQuantity == null || !existingQuantity.equals(dtoItem.getTotalQuantity())) {
@@ -157,34 +174,19 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractListDto> getContractList(String contractNameParam, String contractCodeParam) {
-        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(contractNameParam, contractCodeParam);
+    public List<ContractListDto> getContractList(String contractNameParam, String contractNoParam) {
+        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(contractNameParam, contractNoParam);
 
         // Map to store item details by contract code
         Map<String, ContractListDto> contractMap = new HashMap<>();
 
         for (Object[] result : results) {
-            String contractCode = (String) result[0];
+            String contractNo = (String) result[0];
             String contractName = (String) result[1];
-            String itemName = (String) result[2];
-            Integer totalQuantity = (Integer) result[3];
-            Integer remainingQuantity = (Integer) result[4];
-            Integer paidQuantity = (Integer) result[5];
-
-            // Create ItemDetailsListDto for each item
-            ItemDetailsListDto itemDetails = new ItemDetailsListDto();
-            itemDetails.setItemName(itemName);
-            itemDetails.setTotalQuantity(totalQuantity);
-            itemDetails.setRemainingQuantity(remainingQuantity);
-            itemDetails.setPaidQuantity(paidQuantity);
+            ItemDetailsListDto itemDetails = getItemDetailsListDto(result);
 
             // If the contract is already in the map, retrieve it, otherwise create a new entry
-            ContractListDto contractListDto = contractMap.get(contractCode);
-            if (contractListDto == null) {
-                // If not in the map, create a new ContractListDto
-                contractListDto = new ContractListDto(contractCode, contractName, new ArrayList<>());
-                contractMap.put(contractCode, contractListDto);
-            }
+            ContractListDto contractListDto = contractMap.computeIfAbsent(contractNo, c -> new ContractListDto(c, contractName, new ArrayList<>()));
 
             // Add item details to the contract's itemList
             contractListDto.getItemList().add(itemDetails);
@@ -195,8 +197,8 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractRevisionListDto> getContractRevisionList(String contractCodeParam) {
-        List<Object[]> results = tbContractRepository.findContractRevisionList(contractCodeParam);
+    public List<ContractRevisionListDto> getContractRevisionList(String contractNoParam) {
+        List<Object[]> results = tbContractRepository.findContractRevisionList(contractNoParam);
 
         Map<Integer, ContractRevisionListDto> revisionMap = new HashMap<>();
 
@@ -204,25 +206,10 @@ public class ContractServiceImpl implements ContractService {
             Integer revision = (Integer) result[0];
             String createdBy = (String) result[1];
             Date createdDate = (Date) result[2];
-            String itemName = (String) result[3];
-            Integer totalQuantity = (Integer) result[4];
-            Integer remainingQuantity = (Integer) result[5];
-            Integer paidQuantity = (Integer) result[6];
-
-            // Create ItemDetailsListDto for each item
-            ItemDetailsListDto itemDetails = new ItemDetailsListDto();
-            itemDetails.setItemName(itemName);
-            itemDetails.setTotalQuantity(totalQuantity);
-            itemDetails.setRemainingQuantity(remainingQuantity);
-            itemDetails.setPaidQuantity(paidQuantity);
+            ItemDetailsListDto itemDetails = getItemDetailsListDtoForRevisionList(result);
 
             // If the revision already exists, retrieve it, otherwise create a new entry
-            ContractRevisionListDto revisionListDto = revisionMap.get(revision);
-            if (revisionListDto == null) {
-                // If not in the map, create a new ContractRevisionListDto
-                revisionListDto = new ContractRevisionListDto(revision, createdBy, createdDate, new ArrayList<>());
-                revisionMap.put(revision, revisionListDto);
-            }
+            ContractRevisionListDto revisionListDto = revisionMap.computeIfAbsent(revision, r -> new ContractRevisionListDto(r, createdBy, createdDate, new ArrayList<>()));
 
             // Add item details to the revision's itemList
             revisionListDto.getItemList().add(itemDetails);
@@ -232,7 +219,33 @@ public class ContractServiceImpl implements ContractService {
         return new ArrayList<>(revisionMap.values());
     }
 
-    private String generateContractCode(){
-        return contractCodePrefix + DateTimeHelper.nowToString();
+    private static ItemDetailsListDto getItemDetailsListDto(Object[] result) {
+        String itemName = (String) result[2];
+        Double totalQuantity = (Double) result[3];
+        Double remainingQuantity = (Double) result[4];
+        Double paidQuantity = (Double) result[5];
+
+        // Create ItemDetailsListDto for each item
+        ItemDetailsListDto itemDetails = new ItemDetailsListDto();
+        itemDetails.setItemName(itemName);
+        itemDetails.setTotalQuantity(totalQuantity);
+        itemDetails.setRemainingQuantity(remainingQuantity);
+        itemDetails.setPaidQuantity(paidQuantity);
+        return itemDetails;
+    }
+
+    private static ItemDetailsListDto getItemDetailsListDtoForRevisionList(Object[] result) {
+        String itemName = (String) result[3];
+        Double totalQuantity = (Double) result[4];
+        Double remainingQuantity = (Double) result[5];
+        Double paidQuantity = (Double) result[6];
+
+        // Create ItemDetailsListDto for each item
+        ItemDetailsListDto itemDetails = new ItemDetailsListDto();
+        itemDetails.setItemName(itemName);
+        itemDetails.setTotalQuantity(totalQuantity);
+        itemDetails.setRemainingQuantity(remainingQuantity);
+        itemDetails.setPaidQuantity(paidQuantity);
+        return itemDetails;
     }
 }

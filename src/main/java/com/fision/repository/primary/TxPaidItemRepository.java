@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface TxPaidItemRepository extends JpaRepository<TxPaidItem, Long> {
     @Query("SELECT COALESCE(SUM(tx.paidQuantity), 0) " +
             "FROM TxPaidItem tx " +
-            "WHERE tx.contractCode = :contractCode " +
+            "WHERE tx.contractNo = :contractNo " +
             "AND tx.itemName = :itemName ")
-    Integer getPaidQuantity(@Param("contractCode") String contractCode, @Param("itemName") String itemName);
+    Double getPaidQuantity(@Param("contractNo") String contractNo, @Param("itemName") String itemName);
 
-    TxPaidItem findByContractCodeAndItemName(String contractCode, String itemName);
+    TxPaidItem findBycontractNoAndItemName(String contractNo, String itemName);
 }

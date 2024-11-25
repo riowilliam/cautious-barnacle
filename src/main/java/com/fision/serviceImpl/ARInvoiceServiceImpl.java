@@ -53,7 +53,7 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
         tbArInvoice.setProjectName(arInvoiceRequestDto.getProjectName());
         tbArInvoice.setPartnerName(arInvoiceRequestDto.getPartnerName());
-        tbArInvoice.setContractCode(arInvoiceRequestDto.getContractName());
+        tbArInvoice.setContractNo(arInvoiceRequestDto.getContractNo());
         tbArInvoice.setBappNo(arInvoiceRequestDto.getBappNo());
         tbArInvoice.setDppAmount(arInvoiceRequestDto.getAmount());
         tbArInvoice.setPpnAmount(arInvoiceRequestDto.getPpn());
@@ -76,7 +76,7 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
         tbArInvoice.setProjectName(arInvoiceRequestDto.getProjectName());
         tbArInvoice.setPartnerName(arInvoiceRequestDto.getPartnerName());
-        tbArInvoice.setContractCode(arInvoiceRequestDto.getContractName());
+        tbArInvoice.setContractNo(arInvoiceRequestDto.getContractNo());
         tbArInvoice.setBappNo(arInvoiceRequestDto.getBappNo());
         tbArInvoice.setDppAmount(arInvoiceRequestDto.getAmount());
         tbArInvoice.setPpnAmount(arInvoiceRequestDto.getPpn());
@@ -153,15 +153,15 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         List<TxPaidItem> paidItemList = new ArrayList<>();
         List<TbItemDetails> tbItemDetailsList = new ArrayList<>();
         for(ItemDetailsRequestDto dto : itemDetailList) {
-            TxPaidItem txPaidItem = txPaidItemRepository.findByContractCodeAndItemName(tbArInvoice.getContractCode(), dto.getItemName());
-            TbItemDetails tbItemDetails = tbItemDetailsRepository.findByContractCodeAndMaxRevision(tbArInvoice.getContractCode(), dto.getItemName());
+            TxPaidItem txPaidItem = txPaidItemRepository.findBycontractNoAndItemName(tbArInvoice.getContractNo(), dto.getItemName());
+            TbItemDetails tbItemDetails = tbItemDetailsRepository.findByContractNoAndMaxRevision(tbArInvoice.getContractNo(), dto.getItemName());
             if (txPaidItem != null) {
                 txPaidItem.setPaidQuantity(txPaidItem.getPaidQuantity() + dto.getPaymentQuantity());
                 txPaidItem.setModifiedBy(username);
             } else {
                 txPaidItem = new TxPaidItem();
                 txPaidItem.setInvoiceNo(tbArInvoice.getInvoiceNo());
-                txPaidItem.setContractCode(tbArInvoice.getContractCode());
+                txPaidItem.setContractNo(tbArInvoice.getContractNo());
                 txPaidItem.setPaidQuantity(dto.getPaymentQuantity());
                 txPaidItem.setItemName(dto.getItemName());
                 txPaidItem.setCreatedBy(username);

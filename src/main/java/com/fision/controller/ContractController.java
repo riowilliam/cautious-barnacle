@@ -2,7 +2,9 @@ package com.fision.controller;
 
 import com.fision.dto.*;
 import com.fision.entity.primary.TbContract;
+import com.fision.entity.primary.TbPartner;
 import com.fision.service.ContractService;
+import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
 import com.google.gson.Gson;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.Oneway;
 import java.util.List;
 
 /**
@@ -27,6 +30,9 @@ public class ContractController {
     @Autowired
     ContractService contractService;
 
+    @Autowired
+    PartnerService partnerService;
+
     @PostMapping("createContract")
     public ResponseDto<?> createContract(@RequestParam String username, @RequestBody String requestDto) {
         try {
@@ -37,7 +43,9 @@ public class ContractController {
             Gson gson = new Gson();
             ContractRequestDto contractRequest = gson.fromJson(requestDto, ContractRequestDto.class);
             if(contractRequest != null) {
-                contractService.saveContract(username, contractRequest);
+                TbPartner tbPartner = partnerService.getPartnerByName(contractRequest.getPartnerName());
+                if(tbPartner == null) return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);
+                contractService.saveContract(username, contractRequest, tbPartner);
                 return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
             } else {
                 return new ResponseDto<>(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST);
@@ -57,15 +65,17 @@ public class ContractController {
 
             Gson gson = new Gson();
             ContractRequestDto requestContract = gson.fromJson(requestDto, ContractRequestDto.class);
-            if (requestContract.getContractCode() != null && !requestContract.getContractCode().isEmpty()) {
-                TbContract tbContract = contractService.getContractByCodeAndRevision(requestContract.getContractCode(), requestContract.getRevision() - 1);
+            if (requestContract.getContractNo() != null && !requestContract.getContractNo().isEmpty()) {
+                TbContract tbContract = contractService.getContractByNoAndRevision(requestContract.getContractNo(), requestContract.getRevision() - 1);
                 if(tbContract == null) {
                     return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);
                 } else {
+                    TbPartner tbPartner = partnerService.getPartnerByName(tbContract.getPartnerName());
+                    if(tbPartner == null) return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);
                     Boolean isDataDiff = contractService.checkExistingItemDetails(requestContract.getItemDetailList(), tbContract);
                     Boolean isAvailable =  contractService.checkRemainingQuantity(requestContract.getItemDetailList(), tbContract);
                     if((isDataDiff != null && isDataDiff) && (isAvailable != null && isAvailable)) {
-                        contractService.updateContract(username, tbContract, requestContract);
+                        contractService.updateContract(username, tbContract, requestContract, tbPartner);
                         return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
                     } else {
                         return new ResponseDto<>(Boolean.FALSE.equals(isDataDiff) ? ConstantsUtils.TOTAL_QUANTITY_EQUALS_WITH_EXISTING : ConstantsUtils.TOTAL_QUANTITY_SMALLER_THAN_PAID_QUANTITY, HttpStatus.BAD_REQUEST);
@@ -77,7 +87,6 @@ public class ContractController {
 
         } catch (Exception e) {
             logger.info(e.getMessage());
-            e.printStackTrace();
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -89,6 +98,7 @@ public class ContractController {
             @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String contractName,
+            @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
     ) {
@@ -96,6 +106,7 @@ public class ContractController {
             Page<ContractPagingListDto> contractListPaging = contractService.getContractListPaging(
                     pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     contractName != null && !contractName.isEmpty() ? contractName : null,
+                    partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, contractListPaging, HttpStatus.OK);
@@ -106,10 +117,10 @@ public class ContractController {
     }
 
     @GetMapping("getContractList")
-    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName, @RequestParam String contractCode) {
+    public ResponseDto<?> getContractList(@RequestParam String username, @RequestParam String contractName, @RequestParam String contractNo) {
         try {
             List<ContractListDto> contractList = contractService.getContractList(contractName != null && !contractName.isEmpty() ? contractName : null,
-                    contractCode != null && !contractCode.isEmpty() ? contractCode : null);
+                    contractNo != null && !contractNo.isEmpty() ? contractNo : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, contractList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());
@@ -118,9 +129,9 @@ public class ContractController {
     }
 
     @GetMapping("getContractRevisionList")
-    public ResponseDto<?> getContractRevisionList(@RequestParam String username, @RequestParam String contractCode) {
+    public ResponseDto<?> getContractRevisionList(@RequestParam String username, @RequestParam String contractNo) {
         try {
-            List<ContractRevisionListDto> itemList = contractService.getContractRevisionList(contractCode != null && !contractCode.isEmpty() ? contractCode : null);
+            List<ContractRevisionListDto> itemList = contractService.getContractRevisionList(contractNo != null && !contractNo.isEmpty() ? contractNo : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, itemList, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage());

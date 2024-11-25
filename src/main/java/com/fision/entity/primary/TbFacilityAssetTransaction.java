@@ -67,6 +67,12 @@ public class TbFacilityAssetTransaction {
     @Column(name = "modified_by")
     private String modifiedBy;
 
+    @Column(name = "added_to_cash_out")
+    private Boolean isAddedToCashOut;
+
+    @Column(name = "tenor_date_config")
+    private Integer tenorDateConfig;
+
     // Method to check if a date falls on a weekend (Saturday or Sunday)
     private boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -81,6 +87,7 @@ public class TbFacilityAssetTransaction {
         Date now = new Date();
         this.createdTm = now;
         this.modifiedTm = now;
+        this.isAddedToCashOut = false;
 
         // Set isTenorDateOnWeekend based on tenorDate
         if (this.tenorDate != null) {

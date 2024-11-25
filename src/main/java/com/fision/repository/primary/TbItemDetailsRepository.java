@@ -10,10 +10,10 @@ import java.util.List;
 
 @Repository
 public interface TbItemDetailsRepository extends JpaRepository<TbItemDetails, Long> {
-    List<TbItemDetails> findByContractCodeAndRevision(String contractCode, Integer revision);
-    TbItemDetails findByContractCodeAndRevisionAndItemName(String contractCode, Integer revision, String itemName);
+    List<TbItemDetails> findByContractNoAndRevision(String contractNo, Integer revision);
+    TbItemDetails findByContractNoAndRevisionAndItemName(String contractNo, Integer revision, String itemName);
 
-    @Query("SELECT i FROM TbItemDetails i WHERE i.contractCode = :contractCode AND i.itemName = :itemName AND i.revision = " +
-            "(SELECT MAX(t.revision) FROM TbContract t WHERE t.contractCode = :contractCode)")
-    TbItemDetails findByContractCodeAndMaxRevision(@Param("contractCode") String contractCode, @Param("itemName") String itemName);
+    @Query("SELECT i FROM TbItemDetails i WHERE i.contractNo = :contractNo AND i.itemName = :itemName AND i.revision = " +
+            "(SELECT MAX(t.revision) FROM TbContract t WHERE t.contractNo = :contractNo)")
+    TbItemDetails findByContractNoAndMaxRevision(@Param("contractNo") String contractNo, @Param("itemName") String itemName);
 }

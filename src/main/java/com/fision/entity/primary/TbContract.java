@@ -18,11 +18,20 @@ public class TbContract {
     @Column(name = "contract_id")
     private Long contractId;
 
-    @Column(name = "contract_code", nullable = false)
-    private String contractCode;
+    @Column(name = "contract_no", nullable = false)
+    private String contractNo;
 
     @Column(name = "contract_name", nullable = false)
     private String contractName;
+
+    @Column(name = "partner_name", length = 255)
+    private String partnerName;
+
+    @Column(name = "contract_date")
+    private Date contractDate;
+
+    @Column(name = "addendum_date")
+    private Date addendumDate;
 
     @Column(name = "revision", nullable = false)
     private int revision;

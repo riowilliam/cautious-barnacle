@@ -71,7 +71,7 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "    GROUP BY DATE(created_tm) " +
             ") " +
             "SELECT day.n AS dayNumber, " +
-            "       DATE_FORMAT(DATE_ADD(:startDate, INTERVAL (day.n - 1) DAY), '%d %b') AS statsHeader, " +
+            "       DATE_FORMAT(DATE_ADD(:startDate, INTERVAL (day.n - 1) DAY), '%d') AS statsHeader, " +
             "       COALESCE(ci.totalCashIn, 0) AS totalCashIn, " +
             "       COALESCE(co.totalCashOut, 0) AS totalCashOut " +
             "FROM ( " +

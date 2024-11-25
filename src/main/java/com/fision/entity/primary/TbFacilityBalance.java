@@ -39,6 +39,9 @@ public class TbFacilityBalance {
     @Column(name = "modified_by", length = 255)
     private String modifiedBy;
 
+    @Column(name = "tenor_date_config")
+    private Integer tenorDateConfig;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();

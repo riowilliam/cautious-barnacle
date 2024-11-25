@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
     TbCashIn findByCashInId(Long id);
-    @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractCode," +
+    @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractNo," +
             "tci.paymentAmount, tci.paymentDate, tci.paymentType, tci.createdTm, tci.createdBy, tci.modifiedTm, tci.modifiedBy, tci.cashInStatus) " +
             "FROM TbCashIn tci " +
             "LEFT JOIN TbArInvoice tai ON tci.invoiceNo = tai.invoiceNo " +
@@ -32,7 +32,7 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
                                           @Param("endDate") Date endDate,
                                           Pageable pageable);
 
-    @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractCode," +
+    @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractNo," +
             "tci.paymentAmount, tci.paymentDate, tci.paymentType, tci.createdTm, tci.createdBy, tci.modifiedTm, tci.modifiedBy, tci.cashInStatus) " +
             "FROM TbCashIn tci " +
             "LEFT JOIN TbArInvoice tai ON tci.invoiceNo = tai.invoiceNo " +

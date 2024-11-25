@@ -3,6 +3,7 @@ package com.fision.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -75,4 +76,9 @@ public class DateTimeHelper {
 
         return calendar.getTime();
     }
+
+    public static Date convertLocalDateToDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
 }

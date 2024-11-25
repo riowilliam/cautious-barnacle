@@ -11,13 +11,13 @@ public class ContractRevisionListDto {
     private Integer revision;
     private String createdBy;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date createdDate;
+    private Date addendumDate;
     List<ItemDetailsListDto> itemList;
 
-    public ContractRevisionListDto(Integer revision, String createdBy, Date createdDate, List<ItemDetailsListDto> itemList) {
+    public ContractRevisionListDto(Integer revision, String createdBy, Date addendumDate, List<ItemDetailsListDto> itemList) {
         this.revision = revision;
         this.createdBy = createdBy;
-        this.createdDate = createdDate;
+        this.addendumDate = addendumDate;
         this.itemList = itemList;
     }
 }
