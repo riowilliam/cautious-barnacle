@@ -22,22 +22,11 @@ public class TbPartner {
     @Column(name = "partner_name", length = 255)
     private String partnerName;
 
-    @Column(name = "valid_contract_date")
-    @Temporal(TemporalType.DATE)
-    private Date validContractDate;
-
-    @Column(name = "invalid_contract_date")
-    @Temporal(TemporalType.DATE)
-    private Date invalidContractDate;
-
     @Column(name = "active_project")
     private String activeProject;
 
     @Column(name = "is_ppn_wapu", nullable = false)
     private Integer isPpnWapu;
-
-    @Column(name = "document_tracking", nullable = false)
-    private Integer documentTracking;
 
     @Column(name = "ppn_value", nullable = false)
     private BigDecimal ppnValue;

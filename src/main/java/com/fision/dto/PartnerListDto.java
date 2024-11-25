@@ -12,11 +12,6 @@ import java.util.Date;
 @Data
 public class PartnerListDto {
     private String partnerName;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date validContractDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date invalidContractDate;
-    private String documentTracking;
     private String ppnWapu;
     private String[] activeProject;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -26,13 +21,10 @@ public class PartnerListDto {
     private Date modifiedDate;
     private String modifiedBy;
 
-    public PartnerListDto(String partnerName, Date validContractDate, Date invalidContractDate, Integer documentTracking,
+    public PartnerListDto(String partnerName,
                           Integer ppnWapu, String activeProject, Date createdDate, String createdBy,
                           Date modifiedDate, String modifiedBy) {
         this.partnerName = partnerName;
-        this.validContractDate = validContractDate;
-        this.invalidContractDate = invalidContractDate;
-        this.documentTracking = documentTracking == 1 ? ConstantsUtils.YES : ConstantsUtils.NO;
         this.ppnWapu = ppnWapu == 1 ? ConstantsUtils.YES : ConstantsUtils.NO;
         this.activeProject = activeProject != null && activeProject.contains(",") ? activeProject.split(",") : new String[] {activeProject};
         this.createdDate = createdDate;

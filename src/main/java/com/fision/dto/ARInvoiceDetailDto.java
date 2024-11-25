@@ -25,7 +25,6 @@ public class ARInvoiceDetailDto {
     private BigDecimal pph;
     private BigDecimal deduction;
     private BigDecimal totalAmount;
-    private String documentTracking;
     private Integer invoiceStatus;
     private String paymentStatus;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -36,7 +35,7 @@ public class ARInvoiceDetailDto {
     private String modifiedBy;
     private List<ItemDetailsRequestDto> itemDetails;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, String documentTracking, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
         this.contractName = contractName;
@@ -48,7 +47,6 @@ public class ARInvoiceDetailDto {
         this.pph = pph;
         this.deduction = deduction;
         this.totalAmount = totalAmount;
-        this.documentTracking = documentTracking;
         this.invoiceStatus = invoiceStatus;
         this.paymentStatus = paymentStatus;
         this.createdDate = createdDate;

@@ -32,11 +32,11 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public Page<PartnerListDto> getPartnerListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
-                                                     String partnerName, Integer documentTracking, Integer ppnWapu,
+                                                     String partnerName, Integer ppnWapu,
                                                      Date startDate, Date endDate) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        return tbPartneRepository.getPartnerListPaging(partnerName, documentTracking, ppnWapu, startDate, endDate, pageable);
+        return tbPartneRepository.getPartnerListPaging(partnerName, ppnWapu, startDate, endDate, pageable);
     }
 
     @Override
@@ -48,12 +48,9 @@ public class PartnerServiceImpl implements PartnerService {
     public void savePartner(String username, PartnerRequestDto partnerRequestDto) {
         TbPartner partner = new TbPartner();
         partner.setPartnerName(partnerRequestDto.getPartnerName());
-        partner.setDocumentTracking(partnerRequestDto.getDocumentTracking());
         partner.setIsPpnWapu(partnerRequestDto.getPpnWapu());
         partner.setActiveProject(partnerRequestDto.getActiveProject());
-        partner.setValidContractDate(partnerRequestDto.getValidContractDate());
-        partner.setInvalidContractDate(partnerRequestDto.getInvalidContractDate());
-        partner.setPpnValue(new BigDecimal(0.11));
+        partner.setPpnValue(new BigDecimal("0.11"));
         partner.setCreatedBy(username);
         partner.setModifiedBy(username);
 
@@ -63,11 +60,8 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public void updatePartner(String username, TbPartner partner, PartnerRequestDto partnerRequestDto) {
         partner.setPartnerName(partnerRequestDto.getPartnerName());
-        partner.setDocumentTracking(partnerRequestDto.getDocumentTracking());
         partner.setIsPpnWapu(partnerRequestDto.getPpnWapu());
         partner.setActiveProject(partnerRequestDto.getActiveProject());
-        partner.setValidContractDate(partnerRequestDto.getValidContractDate());
-        partner.setInvalidContractDate(partnerRequestDto.getInvalidContractDate());
         partner.setModifiedBy(username);
 
         tbPartneRepository.save(partner);

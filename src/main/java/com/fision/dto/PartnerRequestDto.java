@@ -11,9 +11,6 @@ import java.util.Date;
 @Data
 public class PartnerRequestDto {
     private String partnerName;
-    private Date validContractDate;
-    private Date invalidContractDate;
-    private Integer documentTracking;
     private Integer ppnWapu;
     private String activeProject;
 }

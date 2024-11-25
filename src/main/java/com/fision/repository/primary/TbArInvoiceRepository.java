@@ -22,7 +22,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "tba.dppAmount, " +
             "SUM(COALESCE(tci.paymentAmount, 0)), " + // Menghitung total paymentAmount
             "tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
-            "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
+            "tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "LEFT JOIN TbCashIn tci ON tba.invoiceNo = tci.invoiceNo AND tci.cashInStatus = 'Completed' " +
@@ -33,7 +33,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (:endDate IS NULL OR tba.createdTm <= :endDate) " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
-            "tba.totalAmount, tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
+            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
     Page<ARInvoiceDetailDto> getArInvoicePaging(@Param("partnerName") String partnerName,
                                                 @Param("projectName") String projectName,
@@ -78,7 +78,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
             "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, SUM(COALESCE(tci.paymentAmount, 0)), tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
-            "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
+            "tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "LEFT JOIN TbCashIn tci ON tba.invoiceNo = tci.invoiceNo AND tci.cashInStatus = 'Completed' " +
@@ -87,7 +87,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
-            "tba.totalAmount, tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
+            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails" )
     List<ARInvoiceDetailDto> getArInvoiceDetailList(@Param("invoiceNo") String invoiceNo);
 
