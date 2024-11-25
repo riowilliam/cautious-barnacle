@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ItemDetailsRequestDto {
     private String itemName;
-    private Integer paymentQuantity;
+    private Double paymentQuantity;
 }
