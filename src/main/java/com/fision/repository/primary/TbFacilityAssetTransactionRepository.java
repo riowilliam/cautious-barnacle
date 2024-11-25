@@ -2,6 +2,7 @@ package com.fision.repository.primary;
 
 import com.fision.dto.FacilityTransactionDto;
 import com.fision.entity.primary.TbFacilityAssetTransaction;
+import com.fision.entity.secondary.FisionOutSourceData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,4 +45,10 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
                                           @Param("tenorDateOnWeekend") Boolean tenorDateOnWeekend,
                                           @Param("startDate") Date startDate,
                                           @Param("endDate") Date endDate);
+    @Query("SELECT f FROM TbFacilityAssetTransaction f WHERE f.calculateDate BETWEEN :startOfDay AND :endOfDay AND isAddedToCashOut = :status ")
+    Page<TbFacilityAssetTransaction> findByCalculateDateAndStatus(
+            @Param("startOfDay") Date startOfDay,
+            @Param("endOfDay") Date endOfDay,
+            @Param("status") Integer status,
+            Pageable pageable);
 }

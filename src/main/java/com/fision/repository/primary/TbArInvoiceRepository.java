@@ -18,7 +18,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
     TbArInvoice findByInvoiceNo(String invoiceNo);
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
-            "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
+            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, " +
             "SUM(COALESCE(tci.paymentAmount, 0)), " + // Menghitung total paymentAmount
             "tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
@@ -31,7 +31,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.createdTm >= :startDate) " +
             "AND (:endDate IS NULL OR tba.createdTm <= :endDate) " +
-            "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, " +
+            "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
             "tba.totalAmount, tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
@@ -76,7 +76,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             @Param("endDate") Date endDate);
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
-            "tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, tba.bappNo, " +
+            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, " +
             "tba.dppAmount, SUM(COALESCE(tci.paymentAmount, 0)), tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
             "tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
@@ -85,7 +85,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "WHERE tba.invoiceStatus = 1 " +
             "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
             "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " +
-            "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractCode, tba.projectName, " +
+            "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
             "tba.totalAmount, tba.documentTracking, tba.invoiceStatus, tba.paymentStatus, " +
             "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails" )

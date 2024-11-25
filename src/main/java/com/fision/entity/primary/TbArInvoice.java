@@ -43,8 +43,8 @@ public class TbArInvoice {
     @Column(name = "total_amount", precision = 20, scale = 3)
     private BigDecimal totalAmount;
 
-    @Column(name = "contract_code")
-    private String contractCode;
+    @Column(name = "contract_no")
+    private String contractNo;
 
     @Column(name = "paid_item_details")
     private String paidItemDetails;

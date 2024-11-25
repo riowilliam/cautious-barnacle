@@ -18,33 +18,33 @@ public class TbItemDetails {
     @Column(name = "item_details_id")
     private Long itemDetailsId;
 
-    @Column(name = "contract_code")
-    private String contractCode;
+    @Column(name = "contract_no")
+    private String contractNo;
 
     @Column(name = "item_name")
     private String itemName;
 
     @Column(name = "total_quantity")
-    private Integer totalQuantity;
+    private Double totalQuantity;
 
     @Column(name = "remaining_quantity")
-    private Integer remainingQuantity;
+    private Double remainingQuantity;
 
     @Column(name = "revision", nullable = false)
-    private int revision;
+    private Integer revision;
 
     @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;
 
-    @Column(name = "created_by", length = 255)
+    @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "modified_tm", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedTm;
 
-    @Column(name = "modified_by", length = 255)
+    @Column(name = "modified_by")
     private String modifiedBy;
 
     @PrePersist

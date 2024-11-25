@@ -1,6 +1,7 @@
 package com.fision.entity.primary;
 import lombok.Data;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -20,14 +21,14 @@ public class TxPaidItem {
     @Column(name = "invoice_no")
     private String invoiceNo;
 
-    @Column(name = "contract_code")
-    private String contractCode;
+    @Column(name = "contract_no")
+    private String contractNo;
 
     @Column(name = "item_name")
     private String itemName;
 
     @Column(name = "paid_quantity")
-    private Integer paidQuantity;
+    private Double paidQuantity;
 
     @Column(name = "created_tm", nullable = true, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
