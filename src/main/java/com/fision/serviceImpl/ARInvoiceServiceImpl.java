@@ -62,7 +62,6 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setDeduction(BigDecimal.ZERO); // Default 0 on create
         tbArInvoice.setPaidItemDetails(JsonHelper.convertListToJsonString(arInvoiceRequestDto.getItemDetails()));
         tbArInvoice.setInvoiceStatus(0);
-        tbArInvoice.setDocumentTracking(tbPartner.getDocumentTracking() == 1 ? ConstantsUtils.DOC_TRACKING_SUBMITTED : ConstantsUtils.DOC_TRACKING_ON_PROCESS);
         tbArInvoice.setCreatedBy(username);
         tbArInvoice.setModifiedBy(username);
         tbArInvoiceRepository.save(tbArInvoice);
@@ -85,7 +84,6 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setDeduction(BigDecimal.ZERO); // Default 0 on create
         tbArInvoice.setPaidItemDetails(JsonHelper.convertListToJsonString(arInvoiceRequestDto.getItemDetails()));
         tbArInvoice.setInvoiceStatus(0);
-        tbArInvoice.setDocumentTracking(tbPartner.getDocumentTracking() == 1 ? ConstantsUtils.DOC_TRACKING_SUBMITTED : ConstantsUtils.DOC_TRACKING_ON_PROCESS);
         tbArInvoice.setCreatedBy(username);
         tbArInvoice.setModifiedBy(username);
         tbArInvoiceRepository.save(tbArInvoice);

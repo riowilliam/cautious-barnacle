@@ -52,9 +52,6 @@ public class TbArInvoice {
     @Column(name = "bapp_no")
     private String bappNo;
 
-    @Column(name = "document_tracking", columnDefinition = "varchar(100) COMMENT 'On Process, Submitted'")
-    private String documentTracking;
-
     @Column(name = "invoice_status", columnDefinition = "int COMMENT '0 = Not Approved, 1 = Approved, 2 = Rejected'")
     private Integer invoiceStatus;
 

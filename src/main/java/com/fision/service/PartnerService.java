@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface PartnerService {
     Page<PartnerListDto> getPartnerListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
-                                              String partnerName, Integer documentTracking, Integer ppnWapu, Date startDate, Date endDate);
+                                              String partnerName, Integer ppnWapu, Date startDate, Date endDate);
     TbPartner getPartnerByName(String partnerName);
     void savePartner(String username, PartnerRequestDto partnerRequestDto);
     void updatePartner(String username, TbPartner partner, PartnerRequestDto partnerRequestDto);

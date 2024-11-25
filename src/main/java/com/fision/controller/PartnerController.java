@@ -37,7 +37,6 @@ public class PartnerController {
             @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String partnerName,
-            @RequestParam(required = false) Integer documentTracking,
             @RequestParam(required = false) Integer ppnWapu,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
@@ -46,7 +45,6 @@ public class PartnerController {
             Page<PartnerListDto> partnerListDtoPage = partnerService.getPartnerListPaging(
                     pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
-                    documentTracking,
                     ppnWapu,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);

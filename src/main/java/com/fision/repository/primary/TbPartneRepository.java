@@ -20,9 +20,6 @@ import java.util.Map;
 public interface TbPartneRepository extends JpaRepository<TbPartner, Long> {
     @Query("SELECT new com.fision.dto.PartnerListDto (" +
             "pt.partnerName, " +
-            "pt.validContractDate, " +
-            "pt.invalidContractDate, " +
-            "pt.documentTracking, " +
             "pt.isPpnWapu, " +
             "pt.activeProject, " +
             "pt.createdTm, " +
@@ -31,12 +28,10 @@ public interface TbPartneRepository extends JpaRepository<TbPartner, Long> {
             "pt.modifiedBy) " +
             "FROM TbPartner pt " +
             "WHERE (:partnerName IS NULL OR pt.partnerName LIKE %:partnerName%) " +
-            "AND (:documentTracking IS NULL OR pt.documentTracking = :documentTracking) " +
             "AND (:ppnWapu IS NULL OR pt.isPpnWapu = :ppnWapu) " +
             "AND (:startDate is null OR pt.createdTm >= :startDate) " +
             "AND (:endDate is null OR pt.createdTm <= :endDate) ")
     Page<PartnerListDto> getPartnerListPaging(@Param("partnerName") String partnerName,
-                                              @Param("documentTracking") Integer documentTracking,
                                               @Param("ppnWapu") Integer ppnWapu,
                                               @Param("startDate") Date startDate,
                                               @Param("endDate") Date endDate,
@@ -44,7 +39,6 @@ public interface TbPartneRepository extends JpaRepository<TbPartner, Long> {
 
     @Query("SELECT new map(pt.partnerId as partnerId, pt.partnerName as partnerName, " +
             "CASE WHEN pt.isPpnWapu = 1 THEN true ELSE false END as ppnWapu," +
-            "CASE WHEN pt.documentTracking = 1 THEN true ELSE false END as documentTracking," +
             "pt.ppnValue as ppnValue) " +
             "FROM TbPartner pt " +
             "WHERE (:partnerName IS NULL OR pt.partnerName LIKE %:partnerName%) ")
