@@ -43,7 +43,7 @@ public class CashOutServiceImpl implements CashOutService {
         tmpCashOutRepository.saveAll(tmpCashOutList);
 
         //Save documentCashOut
-        documentCashOutService.saveDocumentCashOut(username, documentCashOutName, cashOutListDto.getSubTotal());
+        documentCashOutService.saveDocumentCashOut(username, documentCashOutName, cashOutListDto.getSubTotal(), cashOutListDto.getBankCode());
 
         return documentCashOutName;
     }
