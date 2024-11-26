@@ -10,10 +10,12 @@ public class CashOutListDto {
     List<CashOutDetailDto> cashOutDetailList;
     private String documentName;
     private BigDecimal subTotal;
+    private String bankCode;
 
-    public CashOutListDto(List<CashOutDetailDto> cashOutDetailList, BigDecimal subTotal, String documentName) {
+    public CashOutListDto(List<CashOutDetailDto> cashOutDetailList, BigDecimal subTotal, String documentName,  String bankCode) {
         this.cashOutDetailList = cashOutDetailList;
-        this.subTotal = subTotal;
         this.documentName = documentName;
+        this.subTotal = subTotal;
+        this.bankCode = bankCode;
     }
 }

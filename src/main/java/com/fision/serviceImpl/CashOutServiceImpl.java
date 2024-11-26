@@ -39,7 +39,7 @@ public class CashOutServiceImpl implements CashOutService {
     public String saveTmpCashOut(String username, CashOutListDto cashOutListDto) {
         String documentCashOutName = documentCashOutService.generateDocumentName();
         // Save tmpCashOutList
-        List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, documentCashOutName);
+        List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, documentCashOutName, cashOutListDto.getBankCode());
         tmpCashOutRepository.saveAll(tmpCashOutList);
 
         //Save documentCashOut
@@ -53,7 +53,7 @@ public class CashOutServiceImpl implements CashOutService {
     public void editCashOutDoc(String username, CashOutListDto cashOutListDto) {
         // Compare existing data with request
         List<TmpCashOut> existingData = tmpCashOutRepository.findByDocumentCashOutName(cashOutListDto.getDocumentName());
-        List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, cashOutListDto.getDocumentName());
+        List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, cashOutListDto.getDocumentName(), cashOutListDto.getBankCode());
 
         // Set result and save
         List<TmpCashOut> toBeDelete = existingData.stream()
@@ -103,7 +103,7 @@ public class CashOutServiceImpl implements CashOutService {
             subTotal = tbCashOutRepository.getSubTotalDetail(documentName);
         }
 
-        return new CashOutListDto(cashOutDetailDtoList, subTotal, documentName);
+        return new CashOutListDto(cashOutDetailDtoList, subTotal, documentName, tbDocumentCashOut.getPaymentBankCode());
     }
 
     @Override
@@ -130,13 +130,13 @@ public class CashOutServiceImpl implements CashOutService {
         return new PageImpl<>(Collections.singletonList(cashOutDocListDto), pageable, documentCashOutPage.getTotalElements());
     }
 
-    private List<TmpCashOut> mapToTmpCashOutList(List<CashOutDetailDto> cashOutDetailDtoList, String username, String documentCashOutName) {
+    private List<TmpCashOut> mapToTmpCashOutList(List<CashOutDetailDto> cashOutDetailDtoList, String username, String documentCashOutName, String bankPaymentCode) {
         return cashOutDetailDtoList.stream()
-                .map(dto -> mapToTmpCashOut(dto, username, documentCashOutName))
+                .map(dto -> mapToTmpCashOut(dto, username, documentCashOutName, bankPaymentCode))
                 .collect(Collectors.toList());
     }
 
-    private TmpCashOut mapToTmpCashOut(CashOutDetailDto dto, String username, String documentCashOutName) {
+    private TmpCashOut mapToTmpCashOut(CashOutDetailDto dto, String username, String documentCashOutName, String bankPaymentCode) {
         TmpCashOut tmpCashOut = new TmpCashOut();
         if(dto.getIdTmpCashOut() != null) tmpCashOut.setCashOutId(dto.getIdTmpCashOut());
         tmpCashOut.setVendorName(dto.getVendorName());
@@ -146,6 +146,7 @@ public class CashOutServiceImpl implements CashOutService {
         tmpCashOut.setTransferFee(dto.getTransferFee());
         tmpCashOut.setTotal(dto.getPaymentAmount());
         tmpCashOut.setDocumentCashOutName(documentCashOutName);
+        tmpCashOut.setPaymentBankCode(bankPaymentCode);
         tmpCashOut.setCreatedBy(username);
         tmpCashOut.setModifiedBy(username);
         return tmpCashOut;
@@ -162,6 +163,7 @@ public class CashOutServiceImpl implements CashOutService {
         tbCashOut.setVendorName(tmpCashOut.getVendorName());
         tbCashOut.setProjectName(tmpCashOut.getProjectName());
         tbCashOut.setDocumentCashOutName(tmpCashOut.getDocumentCashOutName());
+        tbCashOut.setPaymentBankCode(tmpCashOut.getPaymentBankCode());
         tbCashOut.setCreatedBy(tmpCashOut.getCreatedBy());
         tbCashOut.setModifiedBy(tmpCashOut.getModifiedBy());
         tbCashOut.setCreatedTm(tmpCashOut.getCreatedTm());
