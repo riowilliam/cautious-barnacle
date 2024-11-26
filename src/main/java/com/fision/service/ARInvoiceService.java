@@ -15,7 +15,6 @@ import java.util.List;
  */
 public interface ARInvoiceService {
     void saveArInvoice(String username, ARInvoiceRequestDto arInvoiceRequestDto);
-    void editArInvoice(String username, TbArInvoice tbArInvoice, ARInvoiceRequestDto arInvoiceRequestDto);
     void save(TbArInvoice tbArInvoice);
     void approvalInvoice(String username, Integer status, TbArInvoice arInvoice) throws JsonProcessingException;
     TbArInvoice getInvoiceByInvoiceNo(String invoiceNo);

@@ -28,8 +28,11 @@ public class TbCashIn {
     @Column(name = "payment_type", columnDefinition = "int COMMENT '1 = Fully Payment, 2 = Partially Payment'")
     private Integer paymentType;
 
-    @Column(name = "deduction", precision = 20, scale = 3)
-    private BigDecimal deduction;
+    @Column(name = "interest_deduction", precision = 20, scale = 3)
+    private BigDecimal interestDeduction;
+
+    @Column(name = "other_deduction", precision = 20, scale = 3)
+    private BigDecimal otherDeduction;
 
     @Column(name = "cash_in_status", columnDefinition = "varchar(100) COMMENT 'Completed, Incompleted'")
     private String cashInStatus;
@@ -37,6 +40,9 @@ public class TbCashIn {
     @Column(name = "payment_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date paymentDate;
+
+    @Column(name = "payment_bank_code")
+    private String paymentBankCode;
 
     @Column(name = "created_tm", nullable = true, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)

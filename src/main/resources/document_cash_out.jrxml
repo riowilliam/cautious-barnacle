@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PaymentReport" pageWidth="1000" pageHeight="595" columnWidth="805" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d2540ff5-b755-4802-a6a5-dca2b2f3bd07">
-	<property name="ireport.zoom" value="1.4641000000000035"/>
+	<property name="ireport.zoom" value="1.6105100000000077"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="docDate" class="java.lang.String"/>
@@ -17,6 +17,15 @@
 	<variable name="no" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$V{no} == null ? 1 : $V{no} + 1]]></variableExpression>
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="totalTransferAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{transferAmount}]]></variableExpression>
+	</variable>
+	<variable name="totalTransferFee" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{transferFee}]]></variableExpression>
+	</variable>
+	<variable name="totalpaymentAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{paymentAmount}]]></variableExpression>
 	</variable>
 	<title>
 		<band height="64">
@@ -331,40 +340,86 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="170">
+	<summary>
+		<band height="259">
 			<staticText>
-				<reportElement mode="Transparent" x="140" y="120" width="200" height="20" uuid="a6b392f0-f3f5-454b-81d6-55183ff9a753"/>
+				<reportElement positionType="Float" x="600" y="0" width="80" height="14" uuid="fe237fb2-96b0-441f-b38e-af802a5fa58d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Sub Total]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="760" y="0" width="100" height="14" uuid="d0ff1262-b892-455b-b1dc-e61509b5f4ed"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalTransferFee}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="860" y="0" width="100" height="14" uuid="5eb2cc16-b146-4cfb-883f-e11b514f84af"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalpaymentAmount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="680" y="0" width="80" height="14" uuid="d6b9e55c-824b-4d35-9047-49dd52103f85"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalTransferAmount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="161" y="202" width="200" height="20" uuid="a6b392f0-f3f5-454b-81d6-55183ff9a753"/>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="140" y="140" width="200" height="20" uuid="3fbf6b1c-8958-4399-9e18-4f86898b13a4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Nama Penandatangan Kiri]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="600" y="140" width="200" height="20" uuid="51735ebc-ee6e-4df2-a810-bf329fd2b68c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Nama Penandatangan Kanan]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Transparent" x="600" y="120" width="200" height="20" uuid="8e23a6b2-40ad-464e-9a41-ee0fe834f403"/>
+				<reportElement mode="Transparent" x="621" y="202" width="200" height="20" uuid="8e23a6b2-40ad-464e-9a41-ee0fe834f403"/>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="12" width="110" height="14" uuid="d99c0eec-78c5-47ed-8bdd-c9ae14c23837"/>
+				<reportElement x="431" y="94" width="110" height="14" uuid="d99c0eec-78c5-47ed-8bdd-c9ae14c23837"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Hormat Kami]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="26" width="110" height="14" uuid="b9879fb8-1f6d-4da6-9eb9-24417edfd69a"/>
+				<reportElement x="431" y="108" width="110" height="14" uuid="b9879fb8-1f6d-4da6-9eb9-24417edfd69a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[PT. HAKAASTON]]></text>
 			</staticText>
 		</band>
-	</pageFooter>
+	</summary>
 </jasperReport>

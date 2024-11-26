@@ -50,7 +50,6 @@ public class ContractServiceImpl implements ContractService {
         tbContract.setContractName(contractRequest.getContractName());
         tbContract.setContractNo(contractRequest.getContractNo());
         tbContract.setPartnerName(contractRequest.getPartnerName());
-        tbContract.setAddendumDate(contractRequest.getAddendumDate());
         tbContract.setContractDate(contractRequest.getContractDate());
         tbContract.setCreatedBy(username);
         tbContract.setModifiedBy(username);
