@@ -55,28 +55,12 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setPartnerName(arInvoiceRequestDto.getPartnerName());
         tbArInvoice.setContractNo(arInvoiceRequestDto.getContractNo());
         tbArInvoice.setBappNo(arInvoiceRequestDto.getBappNo());
-        tbArInvoice.setDppAmount(arInvoiceRequestDto.getAmount());
-        tbArInvoice.setPpnAmount(arInvoiceRequestDto.getPpn());
-        tbArInvoice.setPphAmount(arInvoiceRequestDto.getPph());
-        tbArInvoice.setTotalAmount(arInvoiceRequestDto.getTotalAmount());
-        tbArInvoice.setDeduction(BigDecimal.ZERO); // Default 0 on create
-        tbArInvoice.setPaidItemDetails(JsonHelper.convertListToJsonString(arInvoiceRequestDto.getItemDetails()));
-        tbArInvoice.setInvoiceStatus(0);
-        tbArInvoice.setCreatedBy(username);
-        tbArInvoice.setModifiedBy(username);
-        tbArInvoiceRepository.save(tbArInvoice);
-    }
-
-    @Override
-    public void editArInvoice(String username, TbArInvoice tbArInvoice, ARInvoiceRequestDto arInvoiceRequestDto) {
-        TbPartner tbPartner = partnerService.getPartnerByName(arInvoiceRequestDto.getPartnerName());
-
-        // Mapping request to TbArInvoice and update
-        tbArInvoice.setInvoiceNo(arInvoiceRequestDto.getInvoiceNo());
-        tbArInvoice.setProjectName(arInvoiceRequestDto.getProjectName());
-        tbArInvoice.setPartnerName(arInvoiceRequestDto.getPartnerName());
-        tbArInvoice.setContractNo(arInvoiceRequestDto.getContractNo());
-        tbArInvoice.setBappNo(arInvoiceRequestDto.getBappNo());
+        tbArInvoice.setBappDate(arInvoiceRequestDto.getBappDate());
+        tbArInvoice.setTaxInvoiceNumber(arInvoiceRequestDto.getTaxInvoiceNumber());
+        tbArInvoice.setInvoiceDate(arInvoiceRequestDto.getInvoiceDate());
+        tbArInvoice.setRetention(arInvoiceRequestDto.getRetention());
+        tbArInvoice.setDownPayment(arInvoiceRequestDto.getDownPayment());
+        tbArInvoice.setProgress(arInvoiceRequestDto.getProgress());
         tbArInvoice.setDppAmount(arInvoiceRequestDto.getAmount());
         tbArInvoice.setPpnAmount(arInvoiceRequestDto.getPpn());
         tbArInvoice.setPphAmount(arInvoiceRequestDto.getPph());

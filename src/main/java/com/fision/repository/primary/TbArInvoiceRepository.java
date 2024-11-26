@@ -18,23 +18,24 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
     TbArInvoice findByInvoiceNo(String invoiceNo);
 
     @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
-            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, " +
-            "tba.dppAmount, " +
+            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, tba.bappDate, " +
+            "tba.dppAmount, tba.retention, tba.downPayment, tba.progress, " +
             "SUM(COALESCE(tci.paymentAmount, 0)), " + // Menghitung total paymentAmount
             "tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
-            "tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
+            "tba.invoiceStatus, tba.paymentStatus, tba.taxInvoiceNumber, " +
+            "tba.invoiceDate, tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "LEFT JOIN TbCashIn tci ON tba.invoiceNo = tci.invoiceNo AND tci.cashInStatus = 'Completed' " +
             "WHERE (:partnerName IS NULL OR tba.partnerName LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.projectName LIKE %:projectName%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
-            "AND (:startDate IS NULL OR tba.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.createdTm <= :endDate) " +
+            "AND (:startDate IS NULL OR tba.invoiceDate >= :startDate) " +
+            "AND (:endDate IS NULL OR tba.invoiceDate < :endDate) " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
-            "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
-            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
+            "tba.bappNo, tba.bappDate, tba.dppAmount, tba.retention, tba.downPayment, tba.progress, " +
+            "tba.ppnAmount, tba.pphAmount, tba.deduction, " +
+            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, tba.taxInvoiceNumber, " +
+            "tba.invoiceDate, tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
     Page<ARInvoiceDetailDto> getArInvoicePaging(@Param("partnerName") String partnerName,
                                                 @Param("projectName") String projectName,
                                                 @Param("invoiceStatus") Integer invoiceStatus,
@@ -75,20 +76,21 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
 
-    @Query("SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
-            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, " +
-            "tba.dppAmount, SUM(COALESCE(tci.paymentAmount, 0)), tba.ppnAmount, tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
-            "tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
+    @Query(value = "SELECT new com.fision.dto.ARInvoiceDetailDto ( " +
+            "tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, tba.bappNo, tba.bappDate, " +
+            "tba.dppAmount, tba.retention, tba.downPayment, tba.progress, SUM(COALESCE(tci.paymentAmount, 0)), tba.ppnAmount, " +
+            "tba.pphAmount, COALESCE(tba.deduction, 0), tba.totalAmount, " +
+            "tba.invoiceStatus, tba.paymentStatus, tba.taxInvoiceNumber, " +
+            "tba.invoiceDate, tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails) " +
             "FROM TbArInvoice tba " +
             "LEFT JOIN TbCashIn tci ON tba.invoiceNo = tci.invoiceNo AND tci.cashInStatus = 'Completed' " +
             "WHERE tba.invoiceStatus = 1 " +
             "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
             "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
-            "tba.bappNo, tba.dppAmount, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
-            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, " +
-            "tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails" )
+            "tba.bappNo, tba.bappDate, tba.dppAmount, tba.retention, tba.downPayment, tba.progress, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
+            "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, tba.taxInvoiceNumber, " +
+            "tba.invoiceDate, tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
     List<ARInvoiceDetailDto> getArInvoiceDetailList(@Param("invoiceNo") String invoiceNo);
 
     @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +

@@ -19,7 +19,12 @@ public class ARInvoiceDetailDto {
     private String contractName;
     private String projectName;
     private String bappNo;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date bappDate;
     private BigDecimal amount;
+    private BigDecimal retention;
+    private BigDecimal downPayment;
+    private BigDecimal progress;
     private BigDecimal paidAmount;
     private BigDecimal ppn;
     private BigDecimal pph;
@@ -27,6 +32,9 @@ public class ARInvoiceDetailDto {
     private BigDecimal totalAmount;
     private Integer invoiceStatus;
     private String paymentStatus;
+    private String taxInvoiceNumber;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date invoiceDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdDate;
     private String createdBy;
@@ -35,13 +43,17 @@ public class ARInvoiceDetailDto {
     private String modifiedBy;
     private List<ItemDetailsRequestDto> itemDetails;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, BigDecimal amount, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, Integer invoiceStatus, String paymentStatus, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, Date bappDate, BigDecimal amount, BigDecimal retention, BigDecimal downPayment, BigDecimal progress, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, Integer invoiceStatus, String paymentStatus, String taxInvoiceNumber, Date invoiceDate, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
         this.contractName = contractName;
         this.projectName = projectName;
         this.bappNo = bappNo;
+        this.bappDate = bappDate;
         this.amount = amount;
+        this.retention = retention;
+        this.downPayment = downPayment;
+        this.progress = progress;
         this.paidAmount = paidAmount;
         this.ppn = ppn;
         this.pph = pph;
@@ -49,6 +61,8 @@ public class ARInvoiceDetailDto {
         this.totalAmount = totalAmount;
         this.invoiceStatus = invoiceStatus;
         this.paymentStatus = paymentStatus;
+        this.taxInvoiceNumber = taxInvoiceNumber;
+        this.invoiceDate = invoiceDate;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
         this.modifiedDate = modifiedDate;

@@ -42,6 +42,7 @@ public class CashInController {
             @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) String projectName,
             @RequestParam(required = false) String paymentType,
+            @RequestParam(required = false) String paymentBank,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
     ) {
@@ -98,9 +99,9 @@ public class CashInController {
                 return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
             }
             TbCashIn tbCashIn = cashInService.getTbCashInById(cashInId);
-            TbArInvoice tbArInvoice = arInvoiceService.getInvoiceByInvoiceNo(tbCashIn.getInvoiceNo());
-            BigDecimal completedCashIn = cashInService.getTotalCompletedCashIByInvoiceNo(tbArInvoice.getInvoiceNo());
             if(tbCashIn != null) {
+                TbArInvoice tbArInvoice = arInvoiceService.getInvoiceByInvoiceNo(tbCashIn.getInvoiceNo());
+                BigDecimal completedCashIn = cashInService.getTotalCompletedCashIByInvoiceNo(tbArInvoice.getInvoiceNo());
                 tbCashIn.setCashInStatus(ConstantsUtils.COMPLETED);
                 tbCashIn.setModifiedBy(username);
                 cashInService.save(tbCashIn);

@@ -25,6 +25,24 @@ public class MsBalance {
     @Column(name = "balance_amount", nullable = false, precision = 20, scale = 3)
     private BigDecimal balanceAmount;
 
+    @Column(name = "bank_name", nullable = false)
+    private String bankName;
+
+    @Column(name = "bank_account", nullable = false)
+    private String bankAccount;
+
+    @Column(name = "bank_account_name", nullable = false)
+    private String bankAccountName;
+
+    @Column(name = "bank_code_internal", nullable = false)
+    private String bankCodeInternal;
+
+    @Column(name = "bank_short_name", nullable = false)
+    private String bankShortName;
+
+    @Column(name = "bank_desc", nullable = false)
+    private String bankDesc;
+
     @Column(name = "created_tm", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;

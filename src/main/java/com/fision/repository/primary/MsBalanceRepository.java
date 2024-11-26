@@ -1,5 +1,6 @@
 package com.fision.repository.primary;
 
+import com.fision.dto.BalanceListDto;
 import com.fision.dto.StatisticsDetailsDto;
 import com.fision.entity.primary.MsBalance;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -139,4 +140,17 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
     BigDecimal getTotalCashOutToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     MsBalance findByBalanceName(String balanceName);
+
+    @Query(value = "SELECT COALESCE(SUM(ms.balanceAmount), 0) FROM MsBalance ms WHERE ms.balanceName = :balanceName")
+    BigDecimal getTotalBalanceInitBalance(@Param("balanceName") String balanceName);
+
+    @Query("SELECT new com.fision.dto.BalanceListDto( " +
+            "CASE WHEN b.bankDesc IS NOT NULL THEN CONCAT(b.bankShortName, '-', b.bankDesc) ELSE b.bankShortName END, " +
+            "b.bankAccount, b.bankAccountName, b.bankCodeInternal) " +
+            "FROM MsBalance b " +
+            "WHERE :bankName IS NULL OR b.bankName LIKE %:bankName% " +
+            "AND :bankName IS NULL OR b.bankShortName LIKE %:bankName% ")
+    List<BalanceListDto> findBalanceListByBankName(@Param("bankName") String bankName);
+
+
 }

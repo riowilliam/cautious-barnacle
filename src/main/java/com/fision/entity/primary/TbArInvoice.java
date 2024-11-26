@@ -31,6 +31,15 @@ public class TbArInvoice {
     @Column(name = "dpp_amount", nullable = false, precision = 20, scale = 3)
     private BigDecimal dppAmount;
 
+    @Column(name = "retention", precision = 20, scale = 3)
+    private BigDecimal retention;
+
+    @Column(name = "down_payment", precision = 20, scale = 3)
+    private BigDecimal downPayment;
+
+    @Column(name = "progress", precision = 20, scale = 3)
+    private BigDecimal progress;
+
     @Column(name = "ppn_amount", nullable = false, precision = 20, scale = 3)
     private BigDecimal ppnAmount;
 
@@ -71,6 +80,15 @@ public class TbArInvoice {
 
     @Column(name = "modified_by", length = 255)
     private String modifiedBy;
+
+    @Column(name = "invoice_date")
+    private Date invoiceDate;
+
+    @Column(name = "bapp_date")
+    private Date bappDate;
+
+    @Column(name = "tax_invoice_number")
+    private String taxInvoiceNumber;
 
     @PrePersist
     protected void onCreate() {

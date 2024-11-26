@@ -49,17 +49,19 @@ public class CashInServiceImpl implements CashInService {
     public void saveCashIn(CashInRequestDto cashInRequestDto, TbArInvoice arInvoice, String username) {
         TbCashIn tbCashIn = new TbCashIn();
         tbCashIn.setCashInStatus(cashInRequestDto.getCashInStatus());
-        tbCashIn.setDeduction(cashInRequestDto.getDeduction());
+        tbCashIn.setInterestDeduction(cashInRequestDto.getInterestDeduction());
+        tbCashIn.setOtherDeduction(cashInRequestDto.getOtherDeduction());
         tbCashIn.setPaymentAmount(cashInRequestDto.getPaymentAmount());
         tbCashIn.setPaymentType(cashInRequestDto.getPaymentType());
         tbCashIn.setInvoiceNo(cashInRequestDto.getInvoiceNo());
         tbCashIn.setPaymentDate(new Date());
         tbCashIn.setCreatedBy(username);
         tbCashIn.setModifiedBy(username);
+        tbCashIn.setPaymentBankCode(cashInRequestDto.getPaymentBankCode());
         BigDecimal totalCompleted = getTotalCompletedCashIByInvoiceNo(arInvoice.getInvoiceNo());
 
         if(cashInRequestDto.getCashInStatus().equalsIgnoreCase(ConstantsUtils.COMPLETED)) {
-            if((cashInRequestDto.getPaymentAmount().add(cashInRequestDto.getDeduction()).add(totalCompleted)).compareTo(arInvoice.getTotalAmount()) == 0
+            if((cashInRequestDto.getPaymentAmount().add(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction())).add(totalCompleted)).compareTo(arInvoice.getTotalAmount()) == 0
                     && cashInRequestDto.getPaymentType() == 1) {
                 arInvoice.setPaymentStatus(ConstantsUtils.FULLY_PAID);
             } else {
@@ -67,8 +69,8 @@ public class CashInServiceImpl implements CashInService {
             }
         }
 
-        arInvoice.setDeduction(arInvoice.getDeduction() != null ? arInvoice.getDeduction().add(cashInRequestDto.getDeduction()) : cashInRequestDto.getDeduction());
-        arInvoice.setTotalAmount(arInvoice.getTotalAmount().subtract(cashInRequestDto.getDeduction()));
+        arInvoice.setDeduction(arInvoice.getDeduction() != null ? arInvoice.getDeduction().add(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction())) : cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction()));
+        arInvoice.setTotalAmount(arInvoice.getTotalAmount().subtract(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction())));
         arInvoice.setModifiedBy(username);
         tbCashInRepository.save(tbCashIn);
         arInvoiceService.save(arInvoice);

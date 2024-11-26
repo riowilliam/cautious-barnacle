@@ -48,7 +48,7 @@ public class DashboardServiceImpl implements DashboardService {
         BigDecimal startCashOut = msBalanceRepository.getTotalCashOutBeforeDate(startDate);
         BigDecimal startCashDifference = startCashIn.subtract(startCashOut);
         BigDecimal currentCashDifference;
-        BigDecimal startingBalance = msBalanceRepository.findByBalanceName(ConstantsUtils.INIT_BALANCE).getBalanceAmount();
+        BigDecimal startingBalance = msBalanceRepository.getTotalBalanceInitBalance(ConstantsUtils.INIT_BALANCE);
         BigDecimal endingBalance;
         Date addOneDay;
         switch (filterType) {

@@ -9,9 +9,10 @@ public class CashInRequestDto {
     private String partnerName;
     private BigDecimal invoiceAmount;
     private String projectName;
-    private String contractName;
-    private BigDecimal deduction;
+    private BigDecimal interestDeduction;
+    private BigDecimal otherDeduction;
     private BigDecimal paymentAmount;
     private Integer paymentType;
     private String cashInStatus;
+    private String paymentBankCode;
 }
