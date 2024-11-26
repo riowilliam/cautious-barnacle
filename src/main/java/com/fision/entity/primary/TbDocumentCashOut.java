@@ -40,6 +40,9 @@ public class TbDocumentCashOut {
     @Column(name = "modified_by")
     private String modifiedBy;
 
+    @Column(name = "payment_bank_code")
+    private String paymentBankCode;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();

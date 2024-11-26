@@ -39,6 +39,9 @@ public class TmpCashOut {
     @Column(name = "document_cash_out_name")
     private String documentCashOutName;
 
+    @Column(name = "payment_bank_code")
+    private String paymentBankCode;
+
     @Column(name = "created_tm", nullable = true, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;

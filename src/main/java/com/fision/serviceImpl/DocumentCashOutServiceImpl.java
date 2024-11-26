@@ -25,9 +25,10 @@ public class DocumentCashOutServiceImpl implements DocumentCashOutService {
     }
 
     @Override
-    public void saveDocumentCashOut(String username, String documentName, BigDecimal totalAmount) {
+    public void saveDocumentCashOut(String username, String documentName, BigDecimal totalAmount, String bankCode) {
         TbDocumentCashOut tbDocumentCashOut = new TbDocumentCashOut();
         tbDocumentCashOut.setDocumentName(documentName);
+        tbDocumentCashOut.setPaymentBankCode(bankCode);
         tbDocumentCashOut.setCreatedBy(username);
         tbDocumentCashOut.setModifiedBy(username);
         tbDocumentCashOut.setTotalAmount(totalAmount);

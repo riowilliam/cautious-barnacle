@@ -3,6 +3,7 @@ package com.fision.controller;
 import com.fision.dto.*;
 import com.fision.entity.primary.TbDocumentCashOut;
 import com.fision.service.CashOutService;
+import com.fision.service.MsBalanceService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
 import com.google.gson.Gson;
@@ -44,6 +45,9 @@ public class CashOutController {
     @Autowired
     CashOutService cashOutService;
 
+    @Autowired
+    MsBalanceService msBalanceService;
+
     @PostMapping("createCashOutDoc")
     @Transactional
     public ResponseEntity<?> createCashOutDoc(@RequestParam String username, @RequestBody String requestDto) {
@@ -63,6 +67,7 @@ public class CashOutController {
 
             // Prepare parameters for Jasper Report
             Map<String, Object> parameters = new HashMap<>();
+            parameters.put("bankDesc", msBalanceService.getBankDescFromBalance(cashOutListDto.getBankCode()));
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
 

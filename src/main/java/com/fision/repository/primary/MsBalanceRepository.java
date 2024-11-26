@@ -139,7 +139,7 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "AND co.createdTm < :endDate ")
     BigDecimal getTotalCashOutToday(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    MsBalance findByBalanceName(String balanceName);
+    MsBalance findByBankCodeInternal(String bankCodeInternal);
 
     @Query(value = "SELECT COALESCE(SUM(ms.balanceAmount), 0) FROM MsBalance ms WHERE ms.balanceName = :balanceName")
     BigDecimal getTotalBalanceInitBalance(@Param("balanceName") String balanceName);
