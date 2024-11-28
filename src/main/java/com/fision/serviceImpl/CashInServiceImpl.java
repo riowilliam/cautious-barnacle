@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CashInServiceImpl implements CashInService {
@@ -59,6 +60,8 @@ public class CashInServiceImpl implements CashInService {
         tbCashIn.setModifiedBy(username);
         tbCashIn.setPaymentBankCode(cashInRequestDto.getPaymentBankCode());
         BigDecimal totalCompleted = getTotalCompletedCashIByInvoiceNo(arInvoice.getInvoiceNo());
+        Integer countCashIn = getCountCashInByInvoice(arInvoice.getInvoiceNo());
+        tbCashIn.setPaymentProgressNum(countCashIn + 1);
 
         if(cashInRequestDto.getCashInStatus().equalsIgnoreCase(ConstantsUtils.COMPLETED)) {
             if((cashInRequestDto.getPaymentAmount().add(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction())).add(totalCompleted)).compareTo(arInvoice.getTotalAmount()) == 0
@@ -99,5 +102,15 @@ public class CashInServiceImpl implements CashInService {
     @Override
     public List<CashInDetailDto> getCashInListByInvoiceNo(String invoiceNo) {
         return tbCashInRepository.getCashInListByInvoiceNo(invoiceNo);
+    }
+
+    @Override
+    public CashInAmountsDto getCashInAmounts(String invoiceNo, int progressNum) {
+        return tbCashInRepository.getCashInAmounts(invoiceNo, progressNum);
+    }
+
+    @Override
+    public Integer getCountCashInByInvoice(String invoiceNo) {
+        return tbCashInRepository.getCountCashInByInvoiceNo(invoiceNo);
     }
 }

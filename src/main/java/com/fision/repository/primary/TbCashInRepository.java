@@ -1,5 +1,6 @@
 package com.fision.repository.primary;
 
+import com.fision.dto.CashInAmountsDto;
 import com.fision.dto.CashInDetailDto;
 import com.fision.dto.CashInSummaryDto;
 import com.fision.dto.DashboardCardDetailsDto;
@@ -13,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
     TbCashIn findByCashInId(Long id);
@@ -71,6 +73,14 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
             "AND tci.cashInStatus = 'Completed' ")
     BigDecimal getTotalCompletedCashIByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 
+    @Query("SELECT new com.fision.dto.CashInAmountsDto (COALESCE(SUM(tci.paymentAmount), 0), " +
+            "COALESCE(SUM(tci.interestDeduction), 0), " +
+            "COALESCE(SUM(tci.otherDeduction), 0)) " +
+            "FROM TbCashIn tci " +
+            "WHERE tci.invoiceNo = :invoiceNo " +
+            "AND tci.paymentProgressNum < :progressNUm ")
+    CashInAmountsDto getCashInAmounts(@Param("invoiceNo") String invoiceNo, @Param("progressNUm") int progressNum);
+
     @Query("SELECT new com.fision.dto.DashboardCardDetailsDto(" +
             "'Cash In', " +
             "COALESCE(SUM(CASE WHEN tci.cashInStatus = 'Completed' THEN tci.paymentAmount ELSE 0 END), 0), " +
@@ -81,4 +91,6 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
             "AND (:endDate IS NULL OR tci.createdTm < :endDate)")
     DashboardCardDetailsDto getCashInCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    @Query("SELECT COUNT(tci) FROM TbCashIn tci WHERE tci.invoiceNo = :invoiceNo")
+    Integer getCountCashInByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 }

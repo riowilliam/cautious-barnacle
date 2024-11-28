@@ -16,7 +16,7 @@ import java.util.List;
 public class ARInvoiceDetailDto {
     private String invoiceNo;
     private String partnerName;
-    private String contractName;
+    private String contractNo;
     private String projectName;
     private String bappNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -43,10 +43,10 @@ public class ARInvoiceDetailDto {
     private String modifiedBy;
     private List<ItemDetailsRequestDto> itemDetails;
 
-    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractName, String projectName, String bappNo, Date bappDate, BigDecimal amount, BigDecimal retention, BigDecimal downPayment, BigDecimal progress, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, Integer invoiceStatus, String paymentStatus, String taxInvoiceNumber, Date invoiceDate, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
+    public ARInvoiceDetailDto(String invoiceNo, String partnerName, String contractNo, String projectName, String bappNo, Date bappDate, BigDecimal amount, BigDecimal retention, BigDecimal downPayment, BigDecimal progress, BigDecimal paidAmount, BigDecimal ppn, BigDecimal pph, BigDecimal deduction, BigDecimal totalAmount, Integer invoiceStatus, String paymentStatus, String taxInvoiceNumber, Date invoiceDate, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String itemDetails) throws JsonProcessingException {
         this.invoiceNo = invoiceNo;
         this.partnerName = partnerName;
-        this.contractName = contractName;
+        this.contractNo = contractNo;
         this.projectName = projectName;
         this.bappNo = bappNo;
         this.bappDate = bappDate;

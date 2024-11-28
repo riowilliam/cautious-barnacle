@@ -58,11 +58,18 @@ public class TbCashIn {
     @Column(name = "modified_by", length = 255)
     private String modifiedBy;
 
+    @Column(name = "payment_progress_num")
+    private Integer paymentProgressNum;
+
+    @Column(name = "is_file_downloaded")
+    private Boolean isFileDownloaded;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();
         this.createdTm = now;
         this.modifiedTm = now;
+        isFileDownloaded = Boolean.FALSE;
     }
 
     @PreUpdate
