@@ -28,8 +28,9 @@ public class CashInDetailDto {
     private String modifiedBy;
     private String cashInStatus;
     private String paymentBankCode;
+    private boolean isFileDownloaded;
 
-    public CashInDetailDto(Long cashInId, String projectName, String invoiceNo, String partnerName, String contractName, BigDecimal paymentAmount, BigDecimal interestDeduction, BigDecimal otherDeduction, Date paymentDate, Integer paymentType, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String cashInStatus, String paymentBankCode) {
+    public CashInDetailDto(Long cashInId, String projectName, String invoiceNo, String partnerName, String contractName, BigDecimal paymentAmount, BigDecimal interestDeduction, BigDecimal otherDeduction, Date paymentDate, Integer paymentType, Date createdDate, String createdBy, Date modifiedDate, String modifiedBy, String cashInStatus, String paymentBankCode, Boolean isFileDownloaded) {
         this.cashInId = cashInId;
         this.projectName = projectName;
         this.invoiceNo = invoiceNo;
@@ -46,5 +47,6 @@ public class CashInDetailDto {
         this.modifiedBy = modifiedBy;
         this.cashInStatus = cashInStatus;
         this.paymentBankCode = paymentBankCode;
+        this.isFileDownloaded = isFileDownloaded;
     }
 }
