@@ -1,6 +1,7 @@
 package com.fision.repository.primary;
 
 import com.fision.dto.BalanceListDto;
+import com.fision.dto.BalanceSummaryDetails;
 import com.fision.dto.StatisticsDetailsDto;
 import com.fision.entity.primary.MsBalance;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -152,5 +153,21 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "AND :bankName IS NULL OR b.bankShortName LIKE %:bankName% ")
     List<BalanceListDto> findBalanceListByBankName(@Param("bankName") String bankName);
 
+    @Query(value = "SELECT new com.fision.dto.BalanceSummaryDetails( " +
+            "   CASE WHEN b.bankDesc IS NOT NULL THEN CONCAT(b.bankShortName, '-', b.bankDesc) ELSE b.bankShortName END, " +
+            "   COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0), " +
+            "   COALESCE(SUM(COALESCE(co.amount, 0)), 0), " +
+            "   b.balanceAmount + COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0) - COALESCE(SUM(COALESCE(co.amount, 0)), 0)) " +
+            "FROM MsBalance b " +
+            "LEFT JOIN TbCashIn ci ON b.bankCodeInternal = ci.paymentBankCode " +
+            "   AND ci.createdTm >= :startDate " +
+            "   AND ci.createdTm < :endDate " +
+            "   AND ci.cashInStatus = 'Completed' " +
+            "LEFT JOIN TbCashOut co ON b.bankCodeInternal = co.paymentBankCode " +
+            "   AND co.createdTm >= :startDate " +
+            "   AND co.createdTm < :endDate " +
+            "GROUP BY b.bankCodeInternal, b.bankShortName, b.bankDesc, b.balanceAmount " +
+            "ORDER BY b.bankShortName")
+    List<BalanceSummaryDetails> getBalanceSummaryDetails(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

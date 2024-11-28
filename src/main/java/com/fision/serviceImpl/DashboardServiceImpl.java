@@ -1,5 +1,6 @@
 package com.fision.serviceImpl;
 
+import com.fision.dto.BalanceSummaryDetails;
 import com.fision.dto.DashboardCardDetailsDto;
 import com.fision.dto.StatisticsDetailsDto;
 import com.fision.dto.StatisticsDto;
@@ -149,6 +150,7 @@ public class DashboardServiceImpl implements DashboardService {
         DashboardCardDetailsDto arInvoiceSummary = tbArInvoiceRepository.getARInvoiceCardDetail(startDate, addOneDay);
         DashboardCardDetailsDto cashInSummary = tbCashInRepository.getCashInCardDetail(startDate, addOneDay);
         DashboardCardDetailsDto cashOutDocsSummary = tbDocumentCashOutRepository.getCashOutDocCardDetail(startDate, addOneDay);
+        List<BalanceSummaryDetails> balanceSummaryDetailsList = msBalanceRepository.getBalanceSummaryDetails(startDate, endDate);
 
         List<DashboardCardDetailsDto> summaryList = new ArrayList<>();
         summaryList.add(arInvoiceSummary);
@@ -162,6 +164,7 @@ public class DashboardServiceImpl implements DashboardService {
         statisticsDto.setStartingBalance(startingBalance);
         statisticsDto.setEndingBalance(endingBalance);
         statisticsDto.setCardDetails(summaryList);
+        statisticsDto.setBalanceSummaryDetails(balanceSummaryDetailsList);
 
         return statisticsDto;
     }

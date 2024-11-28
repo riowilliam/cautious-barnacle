@@ -16,4 +16,5 @@ public class StatisticsDto {
     BigDecimal startingBalance;
     BigDecimal endingBalance;
     List<DashboardCardDetailsDto> cardDetails;
+    List<BalanceSummaryDetails> balanceSummaryDetails;
 }
