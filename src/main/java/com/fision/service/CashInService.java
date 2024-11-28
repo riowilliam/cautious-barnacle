@@ -1,5 +1,6 @@
 package com.fision.service;
 
+import com.fision.dto.CashInAmountsDto;
 import com.fision.dto.CashInDetailDto;
 import com.fision.dto.CashInListDto;
 import com.fision.dto.CashInRequestDto;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface CashInService {
     Page<CashInDetailDto> getCashInDetailsPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
@@ -22,4 +24,6 @@ public interface CashInService {
     BigDecimal getTotalCompletedCashIByInvoiceNo(String invoiceNo);
     TbCashIn getTbCashInById(Long id);
     List<CashInDetailDto> getCashInListByInvoiceNo(String invoiceNo);
+    CashInAmountsDto getCashInAmounts(String invoiceNo, int progressNum);
+    Integer getCountCashInByInvoice(String invoiceNo);
 }

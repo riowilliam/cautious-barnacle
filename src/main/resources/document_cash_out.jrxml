@@ -401,10 +401,12 @@
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="161" y="202" width="200" height="20" uuid="a6b392f0-f3f5-454b-81d6-55183ff9a753"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="621" y="202" width="200" height="20" uuid="8e23a6b2-40ad-464e-9a41-ee0fe834f403"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
 			<staticText>

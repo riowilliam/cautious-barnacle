@@ -81,5 +81,10 @@ public class ConstantsUtils {
     public final static String FACILITY_TRANSACTION_SCHEDULER = "FACILITY_TRANSACTION_SCHEDULER";
     public final static String FACILITY_TO_CASH_OUT_SCHEDULER = "FACILITY_TO_CASH_OUT_SCHEDULER";
 
+    // Balance Notes
+    public final static String BANK_NOT_REGISTERED = "BANK NOT REGISTERED";
 
+    // Invoice
+    public final static String INVOICE_NOTES = "Pembayaran ke - n atas invoice PLACEHOLDER_INVOICE";
+    public final static String PLACEHOLDER_INVOICE = "PLACEHOLDER_INVOICE";
 }

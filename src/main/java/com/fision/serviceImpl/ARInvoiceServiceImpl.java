@@ -68,6 +68,7 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         tbArInvoice.setDeduction(BigDecimal.ZERO); // Default 0 on create
         tbArInvoice.setPaidItemDetails(JsonHelper.convertListToJsonString(arInvoiceRequestDto.getItemDetails()));
         tbArInvoice.setInvoiceStatus(0);
+        tbArInvoice.setNotes(arInvoiceRequestDto.getNote());
         tbArInvoice.setCreatedBy(username);
         tbArInvoice.setModifiedBy(username);
         tbArInvoiceRepository.save(tbArInvoice);

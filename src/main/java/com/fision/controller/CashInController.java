@@ -1,22 +1,43 @@
 package com.fision.controller;
 
 import com.fision.dto.*;
+import com.fision.entity.primary.MsBalance;
 import com.fision.entity.primary.TbArInvoice;
 import com.fision.entity.primary.TbCashIn;
+import com.fision.entity.primary.TbPartner;
 import com.fision.service.ARInvoiceService;
 import com.fision.service.CashInService;
+import com.fision.service.MsBalanceService;
+import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
+import com.fision.utils.NumberToWords;
 import com.google.gson.Gson;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.List;
+import java.nio.file.Files;
+import java.util.*;
 
 /**
  * @author LordDev
@@ -27,11 +48,20 @@ import java.util.List;
 public class CashInController {
     private static final Logger logger = LoggerFactory.getLogger(CashInController.class);
 
+    @Value("${file.path}")
+    String filePath;
+
     @Autowired
     CashInService cashInService;
 
     @Autowired
     ARInvoiceService arInvoiceService;
+
+    @Autowired
+    MsBalanceService msBalanceService;
+
+    @Autowired
+    PartnerService partnerService;
 
     @GetMapping("getCashInPaging")
     public ResponseDto<?> getCashInPaging(
@@ -88,6 +118,7 @@ public class CashInController {
             }
         } catch (Exception e) {
             logger.info(e.getMessage());
+            e.printStackTrace();
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -145,6 +176,133 @@ public class CashInController {
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("getDocumentCashInWithInvoiceDetails")
+    @Transactional
+    public ResponseEntity<?> getDocumentCashIn(@RequestParam String username, @RequestParam Long cashInId) {
+        try {
+            if (cashInId == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            Locale indonesiaLocale = new Locale("id", "ID");
+            TbCashIn tbCashIn = cashInService.getTbCashInById(cashInId);
+            if(tbCashIn == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            CashInAmountsDto cashInAmountsDto = cashInService.getCashInAmounts(tbCashIn.getInvoiceNo(), tbCashIn.getPaymentProgressNum());
+            BigDecimal acceptantionValue = cashInAmountsDto.getTotalAmount().compareTo(BigDecimal.ZERO) == 0 ? cashInAmountsDto.getTotalAmount() :
+                    cashInAmountsDto.getTotalAmount().add(cashInAmountsDto.getTotalInterestAmount().add(cashInAmountsDto.getTotalOtherDeduction()));
+
+            TbArInvoice tbArInvoice = arInvoiceService.getInvoiceByInvoiceNo(tbCashIn.getInvoiceNo());
+            if(tbArInvoice == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            TbPartner tbPartner = partnerService.getPartnerByName(tbArInvoice.getPartnerName());
+            if(tbPartner == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            MsBalance msBalance = msBalanceService.getMsBalanceByBankCode(tbCashIn.getPaymentBankCode());
+            if(msBalance == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            String documentName = "Cash-In-Docs-" + tbCashIn.getInvoiceNo() + "-" +tbCashIn.getPaymentProgressNum();
+            String notes = ConstantsUtils.INVOICE_NOTES.replace("n", tbCashIn.getPaymentProgressNum().toString()).replace(ConstantsUtils.PLACEHOLDER_INVOICE, tbCashIn.getInvoiceNo());
+
+            // Prepare parameters for Jasper Report
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("bankAccount", msBalance.getBankAccount());
+            parameters.put("bankName", StringUtils.join(msBalance.getBankShortName(),
+                    msBalance.getBankDesc() != null ? " - "+ msBalance.getBankDesc() : ""));
+            parameters.put("customerName", tbArInvoice.getPartnerName());
+            parameters.put("totalAmount", tbCashIn.getPaymentAmount());
+            parameters.put("numberToWords", NumberToWords.convertToWords(tbCashIn.getPaymentAmount()));
+            parameters.put("notes", notes);
+            parameters.put("invoiceNo", tbArInvoice.getInvoiceNo());
+            parameters.put("progress", tbArInvoice.getProgress());
+            parameters.put("retention", tbArInvoice.getRetention());
+            parameters.put("downPayment", tbArInvoice.getDownPayment());
+            parameters.put("potonganPpn", tbPartner.getIsPpnWapu() == 1 ? tbArInvoice.getPpnAmount() : BigDecimal.ZERO);
+            parameters.put("pphAmount", tbArInvoice.getPphAmount());
+            parameters.put("interestDeduction", tbCashIn.getInterestDeduction());
+            parameters.put("otherDeduction", tbCashIn.getOtherDeduction());
+            parameters.put("ppnAmount", tbArInvoice.getPpnAmount());
+            parameters.put("paidAmount", acceptantionValue);
+            parameters.put("docDate", DateTimeHelper.getJakartaDate(tbCashIn.getCreatedTm()));
+            parameters.put("REPORT_LOCALE", indonesiaLocale);
+
+            // Copy image temp
+            InputStream inputStream = ResourceUtils.class.getResourceAsStream("/" + "HKA_Logos.png");
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
+            }
+
+            File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
+            tempFile.deleteOnExit();
+            parameters.put("imgDir", tempFile.getAbsolutePath());
+
+            // Menyalin isi dari InputStream ke file sementara
+            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+
+            // Load Jasper report
+            InputStream jasperStream = this.getClass().getResourceAsStream("/cash_in_doc_with_invoice.jasper");
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+
+            // Fill Report to Jasper and Export to PDF
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+            File fileDoc = new File(filePath.concat("/").concat(documentName + ".pdf"));
+
+            // Export JasperPrint to the FileOutputStream
+            FileOutputStream fileOutputStream = new FileOutputStream(fileDoc);
+            JasperExportManager.exportReportToPdfStream(jasperPrint, fileOutputStream);
+            fileOutputStream.close();
+
+            // Convert File to FileSystemResource
+            Resource fileResource = new FileSystemResource(fileDoc);
+
+            // Set the response headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + documentName+ ".pdf");
+            tbCashIn.setIsFileDownloaded(Boolean.TRUE);
+            cashInService.save(tbCashIn);
+
+            deleteFilesAfterResponse(fileDoc);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentType(MediaType.parseMediaType("application/pdf"))
+                    .body(fileResource);
+        } catch (Exception e) {
+            logger.error("Error creating cash out document: ", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void deleteFilesAfterResponse(File file) {
+        // Run deletion in a new thread
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000); // Optional delay to ensure response is fully sent
+                if (file.exists()) {
+                    boolean deleted = file.delete();
+                    if (!deleted) {
+                        logger.warn("Failed to delete file: " + filePath);
+                    }
+                }
+            } catch (InterruptedException e) {
+                logger.error("File deletion interrupted: ", e);
+            }
+        }).start();
     }
 
 }

@@ -57,7 +57,7 @@ public class CashOutController {
 
         try {
             if (requestDto == null || requestDto.isEmpty()) {
-                return new ResponseEntity<>(new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
             Gson gson = new Gson();
@@ -132,7 +132,6 @@ public class CashOutController {
             return responseEntity;
         } catch (Exception e) {
             logger.error("Error creating cash out document: ", e);
-            e.printStackTrace();
             return new ResponseEntity<>(new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

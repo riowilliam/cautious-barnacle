@@ -12,4 +12,5 @@ public interface MsBalanceService {
     void save(MsBalance msBalance);
     List<BalanceListDto> getBalanceList(String bankName);
     String getBankDescFromBalance(String bankCode);
+    MsBalance getMsBalanceByBankCode(String bankCode);
 }

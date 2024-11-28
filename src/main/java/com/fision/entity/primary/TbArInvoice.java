@@ -90,6 +90,9 @@ public class TbArInvoice {
     @Column(name = "tax_invoice_number")
     private String taxInvoiceNumber;
 
+    @Column(name = "notes")
+    private String notes;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();
