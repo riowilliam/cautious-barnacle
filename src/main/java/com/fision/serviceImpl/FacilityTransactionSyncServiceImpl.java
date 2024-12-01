@@ -160,6 +160,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
 
         if (tbSchedulerStatus != null && !tbSchedulerStatus.getIsRunning()) {
             startScheduler(tbSchedulerStatus);
+
             try {
                 processPendingData(startOfDay, endOfDay, pageable);
                 updateSchedulerStatus(tbSchedulerStatus, false, "Proses sync selesai.");
@@ -182,6 +183,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         TbSchedulerStatus tbSchedulerStatus = tbSchedulerStatusRepository.findBySchedulerName(ConstantsUtils.FACILITY_TO_CASH_OUT_SCHEDULER);
         if (tbSchedulerStatus != null && !tbSchedulerStatus.getIsRunning()) {
             startScheduler(tbSchedulerStatus);
+
             try {
                 processCashOutData(startOfDay, endOfDay, pageable);
                 updateSchedulerStatus(tbSchedulerStatus, false, "Proses sync selesai.");
@@ -202,9 +204,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             tbFacilityAssetTransactionRepository.saveAll(transactionList);
 
             updateFacilityBalances(pendingData);
-            pendingData.forEach(data -> data.setStatus(1));
             fisionOutSourceDataRepository.saveAll(pendingData);
-
         }
         logger.info("Proses sync " + ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER + " selesai, total data : " + pendingDataPage.getTotalElements());
     }
@@ -213,7 +213,6 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         return pendingData.stream().map(data -> {
             TbFacilityAssetTransaction transaction = new TbFacilityAssetTransaction();
             transaction.setVendorName(data.getVendorName());
-            transaction.setProjectName(data.getProjectName());
             transaction.setTransactionDate(data.getTransactionDate());
             transaction.setAmount(data.getAmount() != null ? data.getAmount() : null);
             transaction.setBankApprovalDate(data.getBankApprovalDate());
@@ -252,18 +251,15 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     }
 
     private void processCashOutData(LocalDateTime startOfDay, LocalDateTime endOfDay, Pageable pageable) {
-        Page<TbFacilityAssetTransaction> pendingDataPage = tbFacilityAssetTransactionRepository.findByCalculateDateAndStatus(DateTimeHelper.convertLocalDateToDate(startOfDay), Boolean.FALSE, pageable);
+        Page<TbFacilityAssetTransaction> pendingDataPage = tbFacilityAssetTransactionRepository.findByCalculateDateAndStatus(DateTimeHelper.convertLocalDateToDate(startOfDay), DateTimeHelper.convertLocalDateToDate(endOfDay), 0, pageable);
         if (pendingDataPage.hasContent()) {
             List<TbFacilityAssetTransaction> pendingData = pendingDataPage.getContent();
             List<TbCashOut> transactionList = mapToCashout(pendingData);
             tbCashOutRepository.saveAll(transactionList);
 
-            pendingData.forEach(data -> data.setIsAddedToCashOut(Boolean.TRUE));
-            tbFacilityAssetTransactionRepository.saveAll(pendingData);
             updateFacilityBalancesForCashOut(pendingData);
-
         }
-        logger.info("Proses sync " + ConstantsUtils.FACILITY_TO_CASH_OUT_SCHEDULER + " selesai, total data : " + pendingDataPage.getTotalElements());
+        logger.info("Proses sync " + ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER + " selesai, total data : " + pendingDataPage.getTotalElements());
     }
 
     private List<TbCashOut> mapToCashout(List<TbFacilityAssetTransaction> calculatedData) {
@@ -271,12 +267,11 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             TbCashOut tbCashOut = new TbCashOut();
             tbCashOut.setAmount(data.getAmount());
             tbCashOut.setVendorName(data.getVendorName());
-            tbCashOut.setProjectName(data.getProjectName());
+            tbCashOut.setProjectName("");
             tbCashOut.setCreatedBy("System");
             tbCashOut.setModifiedBy("System");
-            tbCashOut.setDocumentCashOutName("-");
-            tbCashOut.setInvoiceTitle("RETURN");
-            tbCashOut.setTotal(data.getAmount());
+
+
             return tbCashOut;
         }).collect(Collectors.toList());
     }
@@ -291,7 +286,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         groupedData.forEach((facilityType, totalAmount) -> {
             TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(facilityType);
             if (tbFacilityBalance != null) {
-                tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().add(totalAmount));
+                tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().subtract(totalAmount));
                 tbFacilityBalance.setModifiedBy("System");
             } else {
                 logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+facilityType);

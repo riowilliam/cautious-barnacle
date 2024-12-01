@@ -39,6 +39,4 @@ public class FisionOutSourceData {
     @Column(name = "status")
     private Integer status;
 
-    @Column(name = "project_name")
-    private String projectName;
 }

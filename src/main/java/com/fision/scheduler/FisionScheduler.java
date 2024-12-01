@@ -17,10 +17,4 @@ public class FisionScheduler {
         facilityTransactionSyncService.syncDataOutSource();
     }
 
-    @Scheduled(cron = "0 */1 * * * ?")
-    @Transactional
-    public void transferDataToCashOut() {
-        facilityTransactionSyncService.calculateFacilityToCashOut();
-    }
-
 }
