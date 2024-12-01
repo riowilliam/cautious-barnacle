@@ -20,7 +20,7 @@ public class CashOutMutationDto {
     private BigDecimal transferFee;
     private BigDecimal totalAmount;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date createdDate;
     private String createdBy;
 

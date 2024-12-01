@@ -35,7 +35,7 @@ public class TbVendor {
     private String bankCode;
 
     @Column(name = "created_tm", updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTm;
 
@@ -43,7 +43,7 @@ public class TbVendor {
     private String createdBy;
 
     @Column(name = "modified_tm", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedTm;
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class ContractRevisionListDto {
     private Integer revision;
     private String createdBy;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date addendumDate;
     List<ItemDetailsListDto> itemList;
 

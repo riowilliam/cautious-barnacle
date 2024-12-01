@@ -19,7 +19,7 @@ public class ARInvoiceDetailDto {
     private String contractNo;
     private String projectName;
     private String bappNo;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date bappDate;
     private BigDecimal amount;
     private BigDecimal retention;
@@ -33,12 +33,12 @@ public class ARInvoiceDetailDto {
     private Integer invoiceStatus;
     private String paymentStatus;
     private String taxInvoiceNumber;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date invoiceDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date createdDate;
     private String createdBy;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date modifiedDate;
     private String modifiedBy;
     private List<ItemDetailsRequestDto> itemDetails;
