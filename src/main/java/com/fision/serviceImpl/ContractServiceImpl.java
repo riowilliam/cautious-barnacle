@@ -78,6 +78,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    @Transactional
     public void updateContract(String username, TbContract tbContract, ContractRequestDto contractRequest, TbPartner tbPartner) {
         /* Save Contract */
         TbContract tbContractNew = new TbContract();

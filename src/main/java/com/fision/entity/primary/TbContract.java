@@ -28,9 +28,11 @@ public class TbContract {
     private String partnerName;
 
     @Column(name = "contract_date")
+    @Temporal(TemporalType.DATE)
     private Date contractDate;
 
     @Column(name = "addendum_date")
+    @Temporal(TemporalType.DATE)
     private Date addendumDate;
 
     @Column(name = "revision", nullable = false)
