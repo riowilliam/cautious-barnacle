@@ -62,7 +62,6 @@ public class TbCashOut {
         Date now = new Date();
         this.createdTm = now;
         this.modifiedTm = now;
-        if (transferFee == null) this.transferFee = BigDecimal.ZERO;
     }
 
     @PreUpdate

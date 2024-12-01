@@ -73,11 +73,8 @@ public class TbFacilityAssetTransaction {
     @Column(name = "tenor_date_config")
     private Integer tenorDateConfig;
 
-    @Column(name = "project_name")
-    private String projectName;
-
     // Method to check if a date falls on a weekend (Saturday or Sunday)
-    private Boolean isWeekend(Date date) {
+    private boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
