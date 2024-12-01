@@ -103,6 +103,14 @@ public class PartnerController {
     public ResponseDto<?> getPartnerList(@RequestParam String username, @RequestParam String partnerName) {
         try {
             List<Map<String, Object>> partnerList = partnerService.getPartnerList(partnerName != null && !partnerName.isEmpty() ? partnerName : null);
+            partnerList.forEach(partner -> {
+                String activeProject = (String) partner.get("activeProject");
+                if (activeProject == null || activeProject.isEmpty()) {
+                    partner.put("activeProject", new String[]{});
+                } else {
+                    partner.put("activeProject", activeProject.split(","));
+                }
+            });
             List<Map<String, Object>> pphList = partnerService.getPphList();
             Map<String, Object> response = new HashMap<>();
             response.put("partnerList", partnerList);
