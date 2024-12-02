@@ -30,9 +30,6 @@ public class FisionOutSourceData {
     @Column(name = "tenor_date")
     private Date tenorDate;
 
-    @Column(name = "transaction_type")
-    private String transactionType;
-
     @Column(name = "facility_type")
     private String facilityType;
 

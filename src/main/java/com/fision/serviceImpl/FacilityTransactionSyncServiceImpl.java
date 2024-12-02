@@ -218,7 +218,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             transaction.setAmount(data.getAmount() != null ? data.getAmount() : null);
             transaction.setBankApprovalDate(data.getBankApprovalDate());
             transaction.setTenorDate(data.getTenorDate());
-            transaction.setTransactionType(data.getTransactionType());
+            transaction.setTransactionType("Payment");
             transaction.setFacilityType(data.getFacilityType());
             transaction.setCreatedBy("System");
             transaction.setModifiedBy("System");
