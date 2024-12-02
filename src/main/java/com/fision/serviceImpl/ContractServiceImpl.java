@@ -6,7 +6,7 @@ import com.fision.entity.primary.TbItemDetails;
 import com.fision.entity.primary.TbPartner;
 import com.fision.repository.primary.TbContractRepository;
 import com.fision.repository.primary.TbItemDetailsRepository;
-import com.fision.repository.primary.TbPartneRepository;
+import com.fision.repository.primary.TbPartnerRepository;
 import com.fision.repository.primary.TxPaidItemRepository;
 import com.fision.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ContractServiceImpl implements ContractService {
     TxPaidItemRepository txPaidItemRepository;
 
     @Autowired
-    TbPartneRepository tbPartneRepository;
+    TbPartnerRepository tbPartneRepository;
 
     @Override
     public Page<ContractPagingListDto> getContractListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String contractName, String partnerName, Date startDate, Date endDate) {

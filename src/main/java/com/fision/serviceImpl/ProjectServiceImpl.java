@@ -6,7 +6,7 @@ import com.fision.dto.ProjectMonitoringSummaryDto;
 import com.fision.dto.ProjectRequestDto;
 import com.fision.entity.primary.TbPartner;
 import com.fision.entity.primary.TbProject;
-import com.fision.repository.primary.TbPartneRepository;
+import com.fision.repository.primary.TbPartnerRepository;
 import com.fision.repository.primary.TbProjectRepository;
 import com.fision.service.ProjectService;
 import com.fision.utils.ConstantsUtils;
@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     TbProjectRepository tbProjectRepository;
 
     @Autowired
-    TbPartneRepository tbPartneRepository;
+    TbPartnerRepository tbPartneRepository;
 
     @Override
     public Page<ProjectListDto> getProjectListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String projectName, Integer status, Date startDate, Date endDate) {

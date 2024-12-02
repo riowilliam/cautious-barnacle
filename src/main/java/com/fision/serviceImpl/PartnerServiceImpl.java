@@ -4,7 +4,7 @@ import com.fision.dto.PartnerListDto;
 import com.fision.dto.PartnerRequestDto;
 import com.fision.entity.primary.TbPartner;
 import com.fision.repository.primary.TbConfigRepository;
-import com.fision.repository.primary.TbPartneRepository;
+import com.fision.repository.primary.TbPartnerRepository;
 import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
 @Service
 public class PartnerServiceImpl implements PartnerService {
     @Autowired
-    TbPartneRepository tbPartneRepository;
+    TbPartnerRepository tbPartneRepository;
 
     @Autowired
     TbConfigRepository tbConfigRepository;
@@ -42,6 +42,11 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public TbPartner getPartnerByName(String partnerName) {
         return tbPartneRepository.findByPartnerName(partnerName);
+    }
+
+    @Override
+    public TbPartner getByPartnerId(Long partnerId) {
+        return tbPartneRepository.findByPartnerId(partnerId);
     }
 
     @Override

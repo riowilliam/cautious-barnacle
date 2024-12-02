@@ -16,6 +16,7 @@ public interface PartnerService {
     Page<PartnerListDto> getPartnerListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
                                               String partnerName, Integer ppnWapu, Date startDate, Date endDate);
     TbPartner getPartnerByName(String partnerName);
+    TbPartner getByPartnerId(Long partnerId);
     void savePartner(String username, PartnerRequestDto partnerRequestDto);
     void updatePartner(String username, TbPartner partner, PartnerRequestDto partnerRequestDto);
     List<Map<String, Object>> getPartnerList(String partnerName);

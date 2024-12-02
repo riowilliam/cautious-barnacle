@@ -11,6 +11,7 @@ import java.util.Date;
  */
 @Data
 public class PartnerListDto {
+    private Long partnerId;
     private String partnerName;
     private String ppnWapu;
     private String[] activeProject;
@@ -21,9 +22,10 @@ public class PartnerListDto {
     private Date modifiedDate;
     private String modifiedBy;
 
-    public PartnerListDto(String partnerName,
+    public PartnerListDto(Long partnerId, String partnerName,
                           Integer ppnWapu, String activeProject, Date createdDate, String createdBy,
                           Date modifiedDate, String modifiedBy) {
+        this.partnerId = partnerId;
         this.partnerName = partnerName;
         this.ppnWapu = ppnWapu == 1 ? ConstantsUtils.YES : ConstantsUtils.NO;
         this.activeProject = activeProject != null && activeProject.contains(",") ? activeProject.split(",") : new String[] {activeProject};
