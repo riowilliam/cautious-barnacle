@@ -14,5 +14,5 @@ public class CashInRequestDto {
     private BigDecimal paymentAmount;
     private Integer paymentType;
     private String cashInStatus;
-    private String paymentBankCode;
+    private String paymentBank;
 }
