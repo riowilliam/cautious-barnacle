@@ -10,6 +10,7 @@ import java.util.Date;
  */
 @Data
 public class PartnerRequestDto {
+    private Long partnerId;
     private String partnerName;
     private Integer ppnWapu;
     private String activeProject;

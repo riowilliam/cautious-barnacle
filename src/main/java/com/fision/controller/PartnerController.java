@@ -86,7 +86,7 @@ public class PartnerController {
 
             Gson gson = new Gson();
             PartnerRequestDto partnerRequestDto = gson.fromJson(requestDto, PartnerRequestDto.class);
-            TbPartner tbPartner = partnerService.getPartnerByName(partnerRequestDto.getPartnerName());
+            TbPartner tbPartner = partnerService.getByPartnerId(partnerRequestDto.getPartnerId());
             if(tbPartner != null) {
                 partnerService.updatePartner(username, tbPartner, partnerRequestDto);
                 return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
