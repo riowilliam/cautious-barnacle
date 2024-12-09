@@ -31,7 +31,7 @@
 	<title>
 		<band height="64">
 			<staticText>
-				<reportElement x="340" y="0" width="321" height="14" uuid="b2704d8f-f565-4385-adf3-caa453a0256f"/>
+				<reportElement x="70" y="0" width="890" height="14" uuid="b2704d8f-f565-4385-adf3-caa453a0256f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
@@ -178,7 +178,7 @@
 				<text><![CDATA[Total Pembayaran]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="340" y="14" width="321" height="14" uuid="26223533-dbe8-41df-ab2d-6f81ddd2e5d5"/>
+				<reportElement x="70" y="14" width="890" height="14" uuid="26223533-dbe8-41df-ab2d-6f81ddd2e5d5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font size="8" isBold="true"/>
 				</textElement>
