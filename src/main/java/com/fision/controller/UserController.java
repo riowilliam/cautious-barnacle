@@ -42,6 +42,23 @@ public class UserController {
         }
     }
 
+    @PostMapping("changeFullName")
+    public ResponseDto<?> changeFullName(@RequestBody String changeFullNameRequest) {
+        try {
+            if(changeFullNameRequest == null || changeFullNameRequest.isEmpty()) {
+                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
+            }
+
+            Gson gson = new Gson();
+            ChangeFullNameDto requestDto = gson.fromJson(changeFullNameRequest, ChangeFullNameDto.class);
+            String result = userService.changeFullName(requestDto);
+            return new ResponseDto<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("changePassword")
     public ResponseDto<?> changePassword(@RequestBody String changePasswordRequest) {
         try {
