@@ -66,6 +66,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String changeFullName(ChangeFullNameDto requestDto) {
+        // Find current user
+        TbUser user = tbUserRepository.findByUsername(requestDto.getUsername());
+
+        if (user == null) {
+            return ConstantsUtils.USER_NOT_FOUND;
+        } else {
+            Boolean isValid = loginService.isUserValid(requestDto.getUsername(), requestDto.getPassword());
+            if (isValid) {
+                user.setFullName(requestDto.getNewFullName());
+                user.setModifiedTm(new Date());
+                user.setModifiedBy(requestDto.getUsername());
+                tbUserRepository.save(user);
+                return ConstantsUtils.FULLNAME_HAS_CHANGED;
+            } else {
+                return ConstantsUtils.INVALID_PASSWORD;
+            }
+        }
+    }
+
+    @Override
     public String changePassword(ChangePasswordRequestDto requestDto) {
         // Cant be same with current password
         if(requestDto.getOldPassword().equals(requestDto.getNewPassword())) {

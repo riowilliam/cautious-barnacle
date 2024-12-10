@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     String changeUsername(ChangeUsernameRequestDto requestDto);
+    String changeFullName(ChangeFullNameDto requestDto);
     String changePassword(ChangePasswordRequestDto requestDto);
     String[] getUserList();
     UserProfileDto getUserProfile(String username);

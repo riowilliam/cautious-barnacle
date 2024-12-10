@@ -5,6 +5,7 @@ public class ConstantsUtils {
     public final static String USER_NOT_FOUND = "Username not found.";
     public final static String USERNAME_ALREADY_USED = "Username already used, please use another username.";
     public final static String USERNAME_HAS_CHANGED = "Username has changed. Please re login using your new username.";
+    public final static String FULLNAME_HAS_CHANGED = "Full Name has changed.";
     public final static String INVALID_PASSWORD = "Password not matched.";
     public final static String PASSWORD_HAS_CHANGED = "Password has changed. Please re login using your new password.";
     public final static String PASSWORD_CANT_BE_SAME = "New Password cannot be same with your current password.";
