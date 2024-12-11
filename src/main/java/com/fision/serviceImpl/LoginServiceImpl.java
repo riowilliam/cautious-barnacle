@@ -92,7 +92,7 @@ public class LoginServiceImpl implements LoginService {
 
         message.setTo(user.getEmail());
         message.setSubject(ConstantsUtils.RESET_PASSWORD);
-        message.setText(ConstantsUtils.EMAIL_BODY_TMPL + newPassword);
+        message.setText(ConstantsUtils.EMAIL_BODY_TMPL.replace("USER_PLACEHOLDER", user.getUsername()) + newPassword);
 //        message.setFrom("noreply@fision.com");
         emailSender.send(message);
 

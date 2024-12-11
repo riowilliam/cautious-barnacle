@@ -36,7 +36,7 @@ public class ConstantsUtils {
     // Email
     public final static String RESET_PASSWORD = "Reset Password for FiSion Apps";
     public final static String NEW_ACCOUNT_PASSWORD = "Login Password for FiSion Apps";
-    public final static String EMAIL_BODY_TMPL = "Silahkan login dengan kembali dengan password berikut : ";
+    public final static String EMAIL_BODY_TMPL = "Hello USER_PLACEHOLDER. Silahkan login dengan password berikut : ";
 
     // Data Desc
     public final static String DATA_SAVED = "Data has been saved.";

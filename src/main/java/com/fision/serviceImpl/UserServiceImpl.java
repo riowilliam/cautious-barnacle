@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
 
         message.setTo(user.getEmail());
         message.setSubject(ConstantsUtils.NEW_ACCOUNT_PASSWORD);
-        message.setText(ConstantsUtils.EMAIL_BODY_TMPL + newPassword);
+        message.setText(ConstantsUtils.EMAIL_BODY_TMPL.replace("USER_PLACEHOLDER", user.getUsername()) + newPassword);
         emailSender.send(message);
 
         tbUserRepository.save(user);
