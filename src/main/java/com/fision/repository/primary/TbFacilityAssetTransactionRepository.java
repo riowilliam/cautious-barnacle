@@ -2,7 +2,6 @@ package com.fision.repository.primary;
 
 import com.fision.dto.FacilityTransactionDto;
 import com.fision.entity.primary.TbFacilityAssetTransaction;
-import com.fision.entity.secondary.FisionOutSourceData;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +10,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFacilityAssetTransaction, Long> {
     @Query("SELECT new com.fision.dto.FacilityTransactionDto(" +
-            "t.vendorName, t.transactionDate, t.amount, t.facilityType, t.transactionType, t.bankApprovalDate, t.tenorDate) " +
+            "t.facilityAssetTransactionId, t.vendorName, t.transactionDate, t.amount, t.facilityType, t.transactionType, t.bankApprovalDate, t.tenorDate) " +
             "FROM TbFacilityAssetTransaction t " +
             "WHERE (:vendorName IS NULL OR t.vendorName = :vendorName) " +
             "AND (:facilityType IS NULL OR t.facilityType = :facilityType) " +
@@ -54,4 +54,6 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
 
     @Query("SELECT fb.facilityType FROM TbFacilityBalance fb ")
     List<String> getFacilityBalanceTypeList();
+
+    Optional<TbFacilityAssetTransaction> findById(Long id);
 }

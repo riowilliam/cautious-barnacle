@@ -5,6 +5,7 @@ import com.fision.dto.FacilityListDto;
 import com.fision.dto.FacilityTransactionRequestDto;
 import com.fision.dto.ResponseDto;
 import com.fision.entity.primary.MsItem;
+import com.fision.entity.primary.TbFacilityAssetTransaction;
 import com.fision.service.FacilityBalanceService;
 import com.fision.service.FacilityTransactionSyncService;
 import com.fision.utils.ConstantsUtils;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,6 +92,28 @@ public class FacilityAssetController {
                 return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
             } else {
                 return new ResponseDto<>(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("editTenorDate")
+    public ResponseDto<?> editTenorDate(@RequestParam String username, @RequestParam Long id, @RequestParam String newTenorDate) {
+        try {
+            if(newTenorDate == null || newTenorDate.isEmpty()) {
+                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
+            }
+            TbFacilityAssetTransaction tbFacilityAssetTransaction = facilityTransactionSyncService.getFacilityTransactionById(id);
+
+            if(tbFacilityAssetTransaction != null) {
+                tbFacilityAssetTransaction.setTenorDate(DateTimeHelper.stringToDate(newTenorDate));
+                tbFacilityAssetTransaction.setModifiedBy(username);
+                facilityTransactionSyncService.editTenorDate(tbFacilityAssetTransaction);
+                return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
+            } else {
+                return new ResponseDto<>(HttpStatus.NOT_FOUND.getReasonPhrase(), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             logger.info(e.getMessage());

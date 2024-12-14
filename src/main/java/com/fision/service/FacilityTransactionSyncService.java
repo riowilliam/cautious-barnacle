@@ -7,4 +7,6 @@ public interface FacilityTransactionSyncService {
     void syncDataOutSource();
     void calculateFacilityToCashOut();
     void saveFacilityTransaction(FacilityTransactionRequestDto requestDto, String username);
+    void editTenorDate(TbFacilityAssetTransaction tbFacilityAssetTransaction);
+    TbFacilityAssetTransaction getFacilityTransactionById(Long id);
 }
