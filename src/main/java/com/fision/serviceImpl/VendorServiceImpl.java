@@ -64,7 +64,7 @@ public class VendorServiceImpl implements VendorService {
         if (tbVendor != null &&  tbVendor.getVendorName().equalsIgnoreCase(vendorRequestDto.getVendorName())) { //Update
             return false;
         }
-        return tbVendorRepository.findByVendorName(vendorRequestDto.getVendorName()).isPresent();
+        return tbVendorRepository.findByBankAccount(vendorRequestDto.getBankAccount()).isPresent();
     }
 
     @Override

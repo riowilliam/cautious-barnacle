@@ -24,6 +24,7 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
             "c.contractName, " +
             "c.partnerName, " +
             "c.contractDate, " +
+            "c.endContractDate, " +
             "c.createdTm, " +
             "c.createdBy, " +
             "c.modifiedTm as modifiedDate, " +
@@ -44,11 +45,13 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
             "FROM TbContract c " +
             "LEFT JOIN TbItemDetails i ON c.contractNo = i.contractNo AND c.revision = i.revision " +
             "LEFT JOIN TxPaidItem p ON c.contractNo = i.contractNo AND i.itemName = p.itemName " +
+            "LEFT JOIN TbPartner tp ON c.partnerName = tp.partnerName " +
             "WHERE c.revision = (SELECT MAX(c2.revision) FROM TbContract c2 WHERE c2.contractNo = c.contractNo) " +
+            "AND tp.partnerName = :partnerName " +
             "AND (:contractName IS NULL OR c.contractName LIKE %:contractName%) " +
             "AND (:contractNo IS NULL OR c.contractNo LIKE %:contractNo%) " +
             "AND i.remainingQuantity > 0 " )
-    List<Object[]> findContractWithHighestRevision(@Param("contractName") String contractName, @Param("contractNo") String contractNo);
+    List<Object[]> findContractWithHighestRevision(@Param("partnerName") String partnerName, @Param("contractName") String contractName, @Param("contractNo") String contractNo);
 
 
     TbContract findBycontractNo(String contractNo);

@@ -31,6 +31,10 @@ public class TbContract {
     @Temporal(TemporalType.DATE)
     private Date contractDate;
 
+    @Column(name = "end_contract_date")
+    @Temporal(TemporalType.DATE)
+    private Date endContractDate;
+
     @Column(name = "addendum_date")
     @Temporal(TemporalType.DATE)
     private Date addendumDate;

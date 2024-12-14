@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author LordDev
  */
@@ -50,6 +52,17 @@ public class FacilityAssetController {
                     pageNo, pageSize, sortBy, sortOrder);
 
             return new ResponseDto<>(ConstantsUtils.SUCCESS, facilityListDtoPage, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage(), e);
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("getFacilityBalanceTypeList")
+    public ResponseDto<?> getFacilityBalanceTypeList(@RequestParam String username) {
+        try {
+            List<String> facilityType = facilityBalanceService.getFacilityBalanceTypeList();
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, facilityType, HttpStatus.OK);
         } catch (Exception e) {
             logger.info(e.getMessage(), e);
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, HttpStatus.INTERNAL_SERVER_ERROR);
