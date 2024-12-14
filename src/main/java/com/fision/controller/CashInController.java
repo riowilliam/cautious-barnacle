@@ -118,7 +118,27 @@ public class CashInController {
             }
         } catch (Exception e) {
             logger.info(e.getMessage());
-            e.printStackTrace();
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("createCashInWithoutInvoice")
+    public ResponseDto<?> createCashInWithoutInvoice(@RequestParam String username, @RequestBody String requestDto) {
+        try {
+            if(requestDto == null || requestDto.isEmpty()) {
+                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, null, HttpStatus.BAD_REQUEST);
+            }
+
+            Gson gson = new Gson();
+            CashInRequestDto cashInRequestDto = gson.fromJson(requestDto, CashInRequestDto.class);
+            if(cashInRequestDto != null) {
+                    cashInService.saveCashInWithoutInvoiceAndContract(cashInRequestDto, username);
+                return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
+            } else {
+                return new ResponseDto<>(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
