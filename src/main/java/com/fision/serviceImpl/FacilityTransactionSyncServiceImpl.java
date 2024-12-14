@@ -1,8 +1,6 @@
 package com.fision.serviceImpl;
 
-import com.fision.dto.FacilityListDto;
 import com.fision.dto.FacilityTransactionRequestDto;
-import com.fision.dto.FacilityTypeSummaryDto;
 import com.fision.entity.primary.TbCashOut;
 import com.fision.entity.primary.TbFacilityAssetTransaction;
 import com.fision.entity.primary.TbFacilityBalance;
@@ -129,6 +127,17 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         } else {
             logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+requestDto.getFacilityType());
         }
+    }
+
+    @Override
+    public void editTenorDate(TbFacilityAssetTransaction tbFacilityAssetTransaction) {
+        tbFacilityAssetTransactionRepository.save(tbFacilityAssetTransaction);
+    }
+
+    @Override
+    public TbFacilityAssetTransaction getFacilityTransactionById(Long id) {
+        Optional<TbFacilityAssetTransaction> tbFacilityAssetTransaction = tbFacilityAssetTransactionRepository.findById(id);
+        return tbFacilityAssetTransaction.orElse(null);
     }
 
     private void processPendingData(LocalDateTime startOfDay, LocalDateTime endOfDay, Pageable pageable) {
