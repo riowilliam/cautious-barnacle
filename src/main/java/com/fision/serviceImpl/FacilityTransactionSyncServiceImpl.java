@@ -1,6 +1,7 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.FacilityListDto;
+import com.fision.dto.FacilityTransactionRequestDto;
 import com.fision.dto.FacilityTypeSummaryDto;
 import com.fision.entity.primary.TbCashOut;
 import com.fision.entity.primary.TbFacilityAssetTransaction;
@@ -55,100 +56,6 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     @Value("${batch.data.count}")
     int batchDataSize;
 
-//    @Override
-//    @Transactional
-//    public void syncDataOutSource() {
-//        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-//        LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
-//
-//        Pageable pageable = PageRequest.of(0, batchDataSize);
-//        TbSchedulerStatus tbSchedulerStatus = tbSchedulerStatusRepository.findBySchedulerName(ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER);
-//        if(tbSchedulerStatus != null) {
-//            if(!tbSchedulerStatus.getIsRunning()) {
-//                // Set status sedang run
-//                tbSchedulerStatus.setIsRunning(true);
-//                tbSchedulerStatus.setLastRunTime(new Date());
-//                tbSchedulerStatusRepository.save(tbSchedulerStatus);
-//
-//                Page<FisionOutSourceData> pendingDataPage = fisionOutSourceDataRepository.findByTransactionDateAndStatus(startOfDay, endOfDay, 0, pageable);
-//                if (pendingDataPage.hasContent()) {
-//                    List<FisionOutSourceData> pendingData = pendingDataPage.getContent();
-//                    Map<String, BigDecimal> groupedData = pendingData.stream()
-//                            .collect(Collectors.groupingBy(
-//                                    FisionOutSourceData::getFacilityType,
-//                                    Collectors.mapping(
-//                                            data -> data.getAmount() != null ? data.getAmount() : BigDecimal.ZERO,
-//                                            Collectors.reducing(BigDecimal.ZERO, BigDecimal::add)
-//                                    )
-//                            ));
-//
-//                    List<FacilityTypeSummaryDto> summaryDtos = groupedData.entrySet().stream()
-//                            .map(entry -> new FacilityTypeSummaryDto(entry.getKey(), entry.getValue()))
-//                            .collect(Collectors.toList());
-//
-//                    List<TbFacilityAssetTransaction> transactionList = new ArrayList<>();
-//
-//                    for (FisionOutSourceData data : pendingData) {
-//                        try {
-////                            TbFacilityAssetTransaction newTransaction = mappingTbFacilityAssetTransaction(data);
-//                            TbFacilityAssetTransaction newTransaction = new TbFacilityAssetTransaction();
-//                            newTransaction.setVendorName(data.getVendorName());
-//                            newTransaction.setTransactionDate(data.getTransactionDate());
-//                            newTransaction.setAmount(data.getAmount() != null ? data.getAmount() : null);
-//                            newTransaction.setBankApprovalDate(data.getBankApprovalDate());
-//                            newTransaction.setTenorDate(data.getTenorDate());
-//                            newTransaction.setTransactionType(data.getTransactionType());
-//                            newTransaction.setFacilityType(data.getFacilityType());
-//                            newTransaction.setCreatedBy("System");
-//                            newTransaction.setModifiedBy("System");
-//
-//                            TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(data.getFacilityType());
-//                            if (tbFacilityBalance != null && tbFacilityBalance.getTenorDateConfig() != null) {
-//                                newTransaction.setTenorDateConfig(tbFacilityBalance.getTenorDateConfig());
-//                            }
-//
-//                            transactionList.add(newTransaction);
-//
-//                            data.setStatus(1);
-//                        } catch (Exception e) {
-//                            logger.error("Error processing data ID: " + data.getId());
-//                            tbSchedulerStatus.setIsRunning(false);
-//                            tbSchedulerStatus.setStatusMessage("Proses sync " + ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER + " gagal, Error processing data ID: " + data.getId());
-//                            tbSchedulerStatusRepository.save(tbSchedulerStatus);
-//                            logger.error("System Error : ", e);
-//                        }
-//                    }
-//                    tbFacilityAssetTransactionRepository.saveAll(transactionList);
-//                    fisionOutSourceDataRepository.saveAll(pendingData);
-//
-//                    // Update balance
-//                    List<TbFacilityBalance> tbFacilityBalanceList = new ArrayList<>();
-//                    for(FacilityTypeSummaryDto dto : summaryDtos) {
-//                        TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(dto.getFacilityType());
-//                        if (tbFacilityBalance != null) {
-//                            tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().subtract(dto.getSumPaymentAmount()));
-//                            tbFacilityBalance.setModifiedBy("System");
-//                            tbFacilityBalanceList.add(tbFacilityBalance);
-//                        } else {
-//                            logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+dto.getFacilityType());
-//                        }
-//                    }
-//                    tbFacilityBalanceRepository.saveAll(tbFacilityBalanceList);
-//                }
-//
-//                // Set status selesai
-//                tbSchedulerStatus.setIsRunning(false);
-//                tbSchedulerStatus.setStatusMessage("Proses sync selesai, total data :"+ pendingDataPage.getTotalElements());
-//                logger.info("Proses sync selesai, total data :"+ pendingDataPage.getTotalElements());
-//                tbSchedulerStatusRepository.save(tbSchedulerStatus);
-//            } else {
-//                logger.info("Scheduler lain " + ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER + " sedang berjalan, yang dimulai pada : " + tbSchedulerStatus.getLastRunTime() + ". Mohon untuk tunggu hingga selesai.");
-//            }
-//        } else {
-//            logger.warn("Nama schedule " + ConstantsUtils.FACILITY_TRANSACTION_SCHEDULER + " tidak ditemukan, mohon cek data pada tb_scheduler_status.");
-//        }
-//    }
-
     @Override
     @Transactional
     public void syncDataOutSource() {
@@ -191,6 +98,36 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             }
         } else {
             logger.info("Scheduler " + ConstantsUtils.FACILITY_TO_CASH_OUT_SCHEDULER + " lain sedang berjalan, yang dimulai pada : " + tbSchedulerStatus.getLastRunTime() + ". Mohon untuk tunggu hingga selesai.");
+        }
+    }
+
+    @Override
+    public void saveFacilityTransaction(FacilityTransactionRequestDto requestDto, String username) {
+        TbFacilityAssetTransaction transaction = new TbFacilityAssetTransaction();
+        transaction.setVendorName(requestDto.getVendorName());
+        transaction.setProjectName(requestDto.getProjectName());
+        transaction.setTransactionDate(requestDto.getTransactionDate());
+        transaction.setAmount(requestDto.getAmount() != null ? requestDto.getAmount() : null);
+        transaction.setBankApprovalDate(requestDto.getBankApprovalDate());
+        transaction.setTenorDate(requestDto.getTenorDate());
+        transaction.setTransactionType("Payment");
+        transaction.setFacilityType(requestDto.getFacilityType());
+        transaction.setCreatedBy(username);
+        transaction.setModifiedBy(username);
+
+        // Mengambil tenorDateConfig dari tbFacilityBalance
+        TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(requestDto.getFacilityType());
+
+        if (tbFacilityBalance != null) {
+            if (tbFacilityBalance.getTenorDateConfig() != null) {
+                transaction.setTenorDateConfig(tbFacilityBalance.getTenorDateConfig());
+            }
+
+            tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().subtract(requestDto.getAmount()));
+            tbFacilityBalance.setModifiedBy("System");
+            tbFacilityAssetTransactionRepository.save(transaction);
+        } else {
+            logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+requestDto.getFacilityType());
         }
     }
 

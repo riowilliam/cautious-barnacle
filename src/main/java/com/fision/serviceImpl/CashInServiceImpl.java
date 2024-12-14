@@ -80,6 +80,22 @@ public class CashInServiceImpl implements CashInService {
     }
 
     @Override
+    public void saveCashInWithoutInvoiceAndContract(CashInRequestDto cashInRequestDto, String username) {
+        TbCashIn tbCashIn = new TbCashIn();
+        tbCashIn.setCashInStatus(cashInRequestDto.getCashInStatus());
+        tbCashIn.setInterestDeduction(cashInRequestDto.getInterestDeduction());
+        tbCashIn.setOtherDeduction(cashInRequestDto.getOtherDeduction());
+        tbCashIn.setPaymentAmount(cashInRequestDto.getPaymentAmount());
+        tbCashIn.setPaymentType(cashInRequestDto.getPaymentType());
+        tbCashIn.setInvoiceNo(cashInRequestDto.getInvoiceNo());
+        tbCashIn.setPaymentDate(new Date());
+        tbCashIn.setCreatedBy(username);
+        tbCashIn.setModifiedBy(username);
+        tbCashIn.setPaymentBankCode(cashInRequestDto.getPaymentBankCode());
+        save(tbCashIn);
+    }
+
+    @Override
     public void save(TbCashIn tbCashIn) {
         tbCashInRepository.save(tbCashIn);
     }

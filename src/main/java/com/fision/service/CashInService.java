@@ -19,6 +19,7 @@ public interface CashInService {
     Page<CashInListDto> getCashInListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
                                             String partnerName, String projectName, Integer paymentType, Date startDate, Date endDate);
     void saveCashIn(CashInRequestDto cashInRequestDto, TbArInvoice arInvoice, String username);
+    void saveCashInWithoutInvoiceAndContract(CashInRequestDto cashInRequestDto, String username);
     void save(TbCashIn tbCashIn);
     BigDecimal getTotalIncompletedCashIByInvoiceNo(String invoiceNo);
     BigDecimal getTotalCompletedCashIByInvoiceNo(String invoiceNo);
