@@ -51,6 +51,7 @@ public class ContractServiceImpl implements ContractService {
         tbContract.setContractNo(contractRequest.getContractNo());
         tbContract.setPartnerName(contractRequest.getPartnerName());
         tbContract.setContractDate(contractRequest.getContractDate());
+        tbContract.setEndContractDate(contractRequest.getEndContractDate());
         tbContract.setCreatedBy(username);
         tbContract.setModifiedBy(username);
         tbContract.setRevision(contractRequest.getRevision());
@@ -87,6 +88,7 @@ public class ContractServiceImpl implements ContractService {
         tbContractNew.setPartnerName(contractRequest.getPartnerName());
         tbContractNew.setAddendumDate(contractRequest.getAddendumDate());
         tbContractNew.setContractDate(contractRequest.getContractDate());
+        tbContractNew.setEndContractDate(contractRequest.getEndContractDate());
         tbContractNew.setCreatedBy(username);
         tbContractNew.setModifiedBy(username);
         tbContractNew.setRevision(contractRequest.getRevision());
@@ -174,8 +176,8 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractListDto> getContractList(String contractNameParam, String contractNoParam) {
-        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(contractNameParam, contractNoParam);
+    public List<ContractListDto> getContractList(String partnerName, String contractNameParam, String contractNoParam) {
+        List<Object[]> results = tbContractRepository.findContractWithHighestRevision(partnerName, contractNameParam, contractNoParam);
 
         // Map to store item details by contract code
         Map<String, ContractListDto> contractMap = new HashMap<>();

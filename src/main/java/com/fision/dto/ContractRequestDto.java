@@ -11,6 +11,7 @@ public class ContractRequestDto {
     private String contractName;
     private String partnerName;
     private Date contractDate;
+    private Date endContractDate;
     private Date addendumDate;
     private Integer revision;
     private String activeProject;

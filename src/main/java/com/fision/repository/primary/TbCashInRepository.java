@@ -20,9 +20,10 @@ public interface TbCashInRepository extends JpaRepository<TbCashIn, Long> {
     TbCashIn findByCashInId(Long id);
     @Query("SELECT new com.fision.dto.CashInDetailDto (tci.cashInId, tai.projectName, tci.invoiceNo, tai.partnerName, tai.contractNo," +
             "tci.paymentAmount, tci.interestDeduction, tci.otherDeduction, tci.paymentDate, tci.paymentType, " +
-            "tci.createdTm, tci.createdBy, tci.modifiedTm, tci.modifiedBy, tci.cashInStatus, tci.paymentBankCode, tci.isFileDownloaded ) " +
+            "tci.createdTm, tci.createdBy, tci.modifiedTm, tci.modifiedBy, tci.cashInStatus, CASE WHEN msb.bankDesc IS NOT NULL THEN CONCAT(msb.bankShortName, '-', msb.bankDesc) ELSE msb.bankShortName END, tci.isFileDownloaded ) " +
             "FROM TbCashIn tci " +
             "LEFT JOIN TbArInvoice tai ON tci.invoiceNo = tai.invoiceNo " +
+            "LEFT JOIN MsBalance msb ON tci.paymentBankCode = msb.bankCodeInternal " +
             "WHERE (:partnerName IS NULL OR tai.partnerName LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tai.projectName LIKE %:projectName%) " +
             "AND (:paymentType IS NULL OR tci.paymentType = :paymentType) " +

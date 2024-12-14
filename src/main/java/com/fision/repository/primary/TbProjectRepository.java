@@ -40,8 +40,8 @@ public interface TbProjectRepository extends JpaRepository<TbProject, Long> {
 
     @Query("SELECT new map(pr.projectId as projectId, pr.projectName as projectName) FROM TbProject pr " +
             "WHERE (:projectName IS NULL OR pr.projectName LIKE %:projectName%) " +
-            "AND pr.projectId IN :projectIds " +
-            "AND pr.status = 1 ")
+            "AND pr.projectId IN :projectIds " /*+
+            "AND pr.status = 1 "*/)
     List<Map<String, Object>> getProjectListWithProjectId(
             @Param("projectName") String projectName,
             @Param("projectIds") List<Long> projectIds);

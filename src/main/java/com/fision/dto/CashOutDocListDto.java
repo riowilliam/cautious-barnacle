@@ -6,10 +6,10 @@ import java.util.List;
 
 @Data
 public class CashOutDocListDto {
-    List<TbDocumentCashOut> documentCashOutList;
+    List<DocumentCashOutDetails> documentCashOutList;
     CashOutDocSummaryDto cashOutDocSummary;
 
-    public CashOutDocListDto(List<TbDocumentCashOut> documentCashOutList, CashOutDocSummaryDto cashOutDocSummary) {
+    public CashOutDocListDto(List<DocumentCashOutDetails> documentCashOutList, CashOutDocSummaryDto cashOutDocSummary) {
         this.documentCashOutList = documentCashOutList;
         this.cashOutDocSummary = cashOutDocSummary;
     }

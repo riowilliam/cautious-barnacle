@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 public interface TbVendorRepository extends JpaRepository<TbVendor, Long> {
     Optional<TbVendor> findByVendorName(String vendorName);
+    Optional<TbVendor> findByBankAccount(String bankAccount);
 
     @Query("SELECT v " +
             "FROM TbVendor v " +

@@ -19,7 +19,7 @@ public interface ContractService {
     TbContract getContractByNoAndRevision(String contractNo, Integer revision);
     Boolean checkRemainingQuantity(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract);
     Boolean  checkExistingItemDetails(List<ItemDetailsListDto> itemDetailsListDto, TbContract tbContract);
-    List<ContractListDto> getContractList(String contractName, String contractNo);
+    List<ContractListDto> getContractList(String partnerName, String contractName, String contractNo);
     List<ContractRevisionListDto> getContractRevisionList(String contractNo);
 
 }

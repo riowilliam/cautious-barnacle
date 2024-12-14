@@ -50,7 +50,7 @@ public class CashOutServiceImpl implements CashOutService {
 
     @Override
     @Transactional
-    public void editCashOutDoc(String username, CashOutListDto cashOutListDto) {
+    public String editCashOutDoc(String username, CashOutListDto cashOutListDto) {
         // Compare existing data with request
         List<TmpCashOut> existingData = tmpCashOutRepository.findByDocumentCashOutName(cashOutListDto.getDocumentName());
         List<TmpCashOut> tmpCashOutList = mapToTmpCashOutList(cashOutListDto.getCashOutDetailList(), username, cashOutListDto.getDocumentName(), cashOutListDto.getBankCode());
@@ -64,6 +64,8 @@ public class CashOutServiceImpl implements CashOutService {
 
         tmpCashOutRepository.deleteAll(toBeDelete);
         tmpCashOutRepository.saveAll(tmpCashOutList);
+
+        return cashOutListDto.getDocumentName();
     }
 
     @Override
@@ -123,7 +125,7 @@ public class CashOutServiceImpl implements CashOutService {
     public Page<CashOutDocListDto> getCashOutDocPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String docName, Integer status, Date startDate, Date endDate) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        Page<TbDocumentCashOut> documentCashOutPage = tbDocumentCashOutRepository.getCashOutDocPaging(docName, status, startDate, endDate, pageable);
+        Page<DocumentCashOutDetails> documentCashOutPage = tbDocumentCashOutRepository.getCashOutDocPaging(docName, status, startDate, endDate, pageable);
         CashOutDocSummaryDto cashOutDocSummaryDto = tbDocumentCashOutRepository.getSummary(docName, status, startDate, endDate);
 
         CashOutDocListDto cashOutDocListDto = new CashOutDocListDto(documentCashOutPage.getContent(), cashOutDocSummaryDto);

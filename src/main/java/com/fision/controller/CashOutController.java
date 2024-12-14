@@ -136,6 +136,93 @@ public class CashOutController {
         }
     }
 
+    @PostMapping("editCashOutDoc")
+    @Transactional
+    public ResponseEntity<?> editCashOutDoc(@RequestParam String username, @RequestBody String requestDto) {
+        String csvOutputFile = null;
+        String zipOutputFile = null;
+        String outputFile = null;
+
+        try {
+            if (requestDto == null || requestDto.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            Gson gson = new Gson();
+            Locale indonesiaLocale = new Locale("id", "ID");
+            CashOutListDto cashOutListDto = gson.fromJson(requestDto, CashOutListDto.class);
+            String documentCashOutName = cashOutService.editCashOutDoc(username, cashOutListDto);
+
+            // Prepare parameters for Jasper Report
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("bankDesc", msBalanceService.getBankDescFromBalance(cashOutListDto.getBankCode()));
+            parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
+            parameters.put("REPORT_LOCALE", indonesiaLocale);
+
+            // Copy image temp
+            InputStream inputStream = ResourceUtils.class.getResourceAsStream("/" + "HKA_Logos.png");
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
+            }
+
+            File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
+            tempFile.deleteOnExit();
+            parameters.put("imgDir", tempFile.getAbsolutePath());
+
+            // Menyalin isi dari InputStream ke file sementara
+            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+
+            // Convert cashOutDetailList to JRBeanCollectionDataSource
+            List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(cashOutDetails);
+
+            // Load Jasper file
+            InputStream jasperStream = this.getClass().getResourceAsStream("/document_cash_out.jasper");
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+
+            // Fill report with data and parameters
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+            // Save report as PDF
+            outputFile = filePath.concat("/").concat(documentCashOutName + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+
+            // Create CSV file
+            String csvFileName = documentCashOutName + ".csv";
+            csvOutputFile = filePath.concat("/").concat(csvFileName);
+            createCsvFile(cashOutDetails, csvOutputFile);
+
+            // Zip both PDF and CSV files
+            String zipFileName = documentCashOutName + ".zip";
+            zipOutputFile = filePath.concat("/").concat(zipFileName);
+            zipFiles(zipOutputFile, outputFile, csvOutputFile);
+
+            // Prepare the ZIP file for download
+            FileSystemResource zipFileResource = new FileSystemResource(zipOutputFile);
+
+            // Set response headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + zipFileName);
+
+            // Return the ZIP file and schedule deletion
+            ResponseEntity<FileSystemResource> responseEntity = new ResponseEntity<>(zipFileResource, headers, HttpStatus.OK);
+
+            // Delete files in a separate thread after returning the response
+            deleteFilesAfterResponse(outputFile, csvOutputFile, zipOutputFile);
+
+            return responseEntity;
+        } catch (Exception e) {
+            logger.error("Error creating cash out document: ", e);
+            return new ResponseEntity<>(new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("getCashOutDocByName")
     public ResponseDto<?> getCashOutDocByName(@RequestParam String username, @RequestParam String docName) {

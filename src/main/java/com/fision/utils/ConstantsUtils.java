@@ -24,7 +24,7 @@ public class ConstantsUtils {
     public final static String COMMA_SEPARATOR = ",";
     public final static String SEMICOLON_SEPARATOR = ";";
 
-    public final static String SUPER_ADM = "S-ADM";
+    public final static String SUPER_ADM = "FS-ADM";
     public final static String ADMIN = "ADMN";
 
     public final static String ACTIVE = "ACTIVE";
@@ -36,7 +36,7 @@ public class ConstantsUtils {
     // Email
     public final static String RESET_PASSWORD = "Reset Password for FiSion Apps";
     public final static String NEW_ACCOUNT_PASSWORD = "Login Password for FiSion Apps";
-    public final static String EMAIL_BODY_TMPL = "Silahkan login dengan kembali dengan password berikut : ";
+    public final static String EMAIL_BODY_TMPL = "Hello USER_PLACEHOLDER. Silahkan login dengan password berikut : ";
 
     // Data Desc
     public final static String DATA_SAVED = "Data has been saved.";
@@ -45,7 +45,7 @@ public class ConstantsUtils {
     public final static String PARTNER_NAME_ALREADY_USED = "Partner name already used, please try another name.";
 
     public final static String ITEM_NAME_ALREADY_USED = "Item name already used, please try another name.";
-    public final static String VENDOR_NAME_ALREADY_USED = "Vendor name already used, please try another name.";
+    public final static String BANK_ACCOUNT_ALREADY_USED = "Bank account already used.";
     public final static String INVOICE_NO_DUPLICATE = "Invoice no already generated and the status is approved/not approved.";
 
     // Items

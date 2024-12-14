@@ -47,7 +47,7 @@ public class VendorController {
                     vendorService.saveVendor(username, vendorRequestDto);
                     return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
                 } else {
-                    return new ResponseDto<>(ConstantsUtils.VENDOR_NAME_ALREADY_USED, HttpStatus.OK);
+                    return new ResponseDto<>(ConstantsUtils.BANK_ACCOUNT_ALREADY_USED, HttpStatus.OK);
                 }
 
             } else {
@@ -72,7 +72,7 @@ public class VendorController {
             if (tbVendor != null) {
                 boolean vendorDataCheck = vendorService.vendorDataCheck(vendorRequestDto, tbVendor);
                 if(vendorDataCheck) {
-                    return new ResponseDto<>(ConstantsUtils.VENDOR_NAME_ALREADY_USED, HttpStatus.OK);
+                    return new ResponseDto<>(ConstantsUtils.BANK_ACCOUNT_ALREADY_USED, HttpStatus.OK);
                 }
                 vendorService.updateVendor(username, tbVendor, vendorRequestDto);
                 return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);

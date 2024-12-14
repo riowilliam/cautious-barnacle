@@ -199,8 +199,8 @@
 	</title>
 	<detail>
 		<band height="16">
-			<textField>
-				<reportElement x="0" y="0" width="30" height="15" uuid="ebd8b10c-b8bd-4c0f-92bc-8013d74616d9"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="30" height="15" uuid="ebd8b10c-b8bd-4c0f-92bc-8013d74616d9"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -213,8 +213,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{no}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="30" y="0" width="120" height="15" uuid="7f910657-ef18-4d43-b2cb-16bf3d266780"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="30" y="0" width="120" height="15" uuid="7f910657-ef18-4d43-b2cb-16bf3d266780"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -227,8 +227,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vendorName}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="150" y="0" width="140" height="15" uuid="ec6ea71b-236e-4045-b7d0-b60866abd8ca"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="150" y="0" width="140" height="15" uuid="ec6ea71b-236e-4045-b7d0-b60866abd8ca"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -241,8 +241,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoice}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="290" y="0" width="120" height="15" uuid="87ce1712-edc4-4425-aaba-a07291260d02"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="290" y="0" width="120" height="15" uuid="87ce1712-edc4-4425-aaba-a07291260d02"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -255,8 +255,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{projectName}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="410" y="0" width="80" height="15" uuid="80b498ce-24cb-4bd8-972c-02b858f35ea5"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="410" y="0" width="80" height="15" uuid="80b498ce-24cb-4bd8-972c-02b858f35ea5"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -269,8 +269,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bankAccount}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="490" y="0" width="110" height="15" uuid="aa376814-bd8b-433e-9360-60ab5131360f"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="490" y="0" width="110" height="15" uuid="aa376814-bd8b-433e-9360-60ab5131360f"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -283,8 +283,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bankAccountName}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="600" y="0" width="80" height="15" uuid="69567311-2dd7-4f65-b241-8e033dbbe330"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="80" height="15" uuid="69567311-2dd7-4f65-b241-8e033dbbe330"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -297,8 +297,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bankName}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0">
-				<reportElement x="680" y="0" width="80" height="15" uuid="cbd6f5c4-cf03-4de7-b1d6-ea960560d652"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToTallestObject" x="680" y="0" width="80" height="15" uuid="cbd6f5c4-cf03-4de7-b1d6-ea960560d652"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -311,8 +311,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{transferAmount}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0">
-				<reportElement x="760" y="0" width="100" height="15" uuid="806cc7d1-ed16-4d97-90b2-5abd1958c718"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToTallestObject" x="760" y="0" width="100" height="15" uuid="806cc7d1-ed16-4d97-90b2-5abd1958c718"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -325,8 +325,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{transferFee}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0">
-				<reportElement x="860" y="0" width="100" height="15" uuid="2fb84454-ad96-4587-a320-11c8a2bec82f"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToTallestObject" x="860" y="0" width="100" height="15" uuid="2fb84454-ad96-4587-a320-11c8a2bec82f"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>

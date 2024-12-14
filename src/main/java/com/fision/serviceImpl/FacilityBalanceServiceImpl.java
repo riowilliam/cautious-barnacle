@@ -40,6 +40,11 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
         return new PageImpl<>(Collections.singletonList(facilityListDto), pageable, transactionPage.getTotalElements());
     }
 
+    @Override
+    public List<String> getFacilityBalanceTypeList() {
+        return repository.getFacilityBalanceTypeList();
+    }
+
     private Map<String, Object> generateFacilitySummary(String vendorName, String facilityType,
                                                         String transactionType, boolean tenorDateOnWeekend, Date startDate, Date endDate) {
 

@@ -45,9 +45,13 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
                                           @Param("tenorDateOnWeekend") Boolean tenorDateOnWeekend,
                                           @Param("startDate") Date startDate,
                                           @Param("endDate") Date endDate);
+
     @Query("SELECT f FROM TbFacilityAssetTransaction f WHERE f.calculateDate = :startOfDay AND isAddedToCashOut = :status ")
     Page<TbFacilityAssetTransaction> findByCalculateDateAndStatus(
             @Param("startOfDay") Date startOfDay,
             @Param("status") boolean status,
             Pageable pageable);
+
+    @Query("SELECT fb.facilityType FROM TbFacilityBalance fb ")
+    List<String> getFacilityBalanceTypeList();
 }

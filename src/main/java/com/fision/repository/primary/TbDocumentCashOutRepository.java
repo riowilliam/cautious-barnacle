@@ -2,6 +2,7 @@ package com.fision.repository.primary;
 
 import com.fision.dto.CashOutDocSummaryDto;
 import com.fision.dto.DashboardCardDetailsDto;
+import com.fision.dto.DocumentCashOutDetails;
 import com.fision.entity.primary.TbDocumentCashOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,16 +16,19 @@ import java.util.Date;
 @Repository
 public interface TbDocumentCashOutRepository extends JpaRepository<TbDocumentCashOut, Long> {
     TbDocumentCashOut findByDocumentName(String documentName);
-    @Query("SELECT dco FROM TbDocumentCashOut dco " +
+    @Query("SELECT new com.fision.dto.DocumentCashOutDetails( dco.documentCashOutId, dco.documentName, dco.totalAmount," +
+            "dco.status, dco.createdTm, dco.createdBy, dco.modifiedTm, dco.modifiedBy, CASE WHEN msb.bankDesc IS NOT NULL THEN CONCAT(msb.bankShortName, '-', msb.bankDesc) ELSE msb.bankShortName END ) " +
+            "FROM TbDocumentCashOut dco " +
+            "LEFT JOIN MsBalance msb ON dco.paymentBankCode = msb.bankCodeInternal " +
             "WHERE (:docName IS NULL OR dco.documentName LIKE %:docName%) " +
             "AND (:status IS NULL OR dco.status = :status) " +
             "AND (:startDate is null OR dco.createdTm >= :startDate) " +
             "AND (:endDate is null OR dco.createdTm <= :endDate) ")
-    Page<TbDocumentCashOut> getCashOutDocPaging(@Param("docName") String docName,
-                                                @Param("status") Integer status,
-                                                @Param("startDate") Date startDate,
-                                                @Param("endDate") Date endDate,
-                                                Pageable pageable);
+    Page<DocumentCashOutDetails> getCashOutDocPaging(@Param("docName") String docName,
+                                                     @Param("status") Integer status,
+                                                     @Param("startDate") Date startDate,
+                                                     @Param("endDate") Date endDate,
+                                                     Pageable pageable);
     @Query("SELECT new com.fision.dto.CashOutDocSummaryDto( " +
             "COALESCE(SUM(CASE WHEN dco.status = 1 THEN dco.totalAmount ELSE 0 END), 0), " +
             "COALESCE(SUM(CASE WHEN dco.status = 0 THEN dco.totalAmount ELSE 0 END), 0), " +

@@ -10,7 +10,7 @@ import java.util.Date;
 
 public interface CashOutService {
     String saveTmpCashOut(String username, CashOutListDto cashOutListDto);
-    void editCashOutDoc(String username, CashOutListDto cashOutListDto);
+    String editCashOutDoc(String username, CashOutListDto cashOutListDto);
     void approvalCashOutDoc(String username, Integer status, TbDocumentCashOut tbDocumentCashOut);
     TbDocumentCashOut getDocumentCashOut(String docName);
     CashOutListDto getCashOutListByDocName(String documentName);
