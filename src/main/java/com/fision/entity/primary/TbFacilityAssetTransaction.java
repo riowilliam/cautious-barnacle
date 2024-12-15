@@ -76,6 +76,9 @@ public class TbFacilityAssetTransaction {
     @Column(name = "project_name")
     private String projectName;
 
+    @Column(name = "debit_advice")
+    private String debitAdvice;
+
     // Method to check if a date falls on a weekend (Saturday or Sunday)
     private Boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();

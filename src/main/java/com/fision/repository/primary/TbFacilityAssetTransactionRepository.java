@@ -14,7 +14,8 @@ import java.util.Optional;
 
 public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFacilityAssetTransaction, Long> {
     @Query("SELECT new com.fision.dto.FacilityTransactionDto(" +
-            "t.facilityAssetTransactionId, t.vendorName, t.transactionDate, t.amount, t.facilityType, t.transactionType, t.bankApprovalDate, t.tenorDate) " +
+            "t.facilityAssetTransactionId, t.vendorName, t.transactionDate, t.amount, t.facilityType, t.transactionType, " +
+            "t.debitAdvice, t.bankApprovalDate, t.tenorDate) " +
             "FROM TbFacilityAssetTransaction t " +
             "WHERE (:vendorName IS NULL OR t.vendorName = :vendorName) " +
             "AND (:facilityType IS NULL OR t.facilityType = :facilityType) " +

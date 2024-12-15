@@ -110,6 +110,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         transaction.setTenorDate(requestDto.getTenorDate());
         transaction.setTransactionType("Payment");
         transaction.setFacilityType(requestDto.getFacilityType());
+        transaction.setDebitAdvice(requestDto.getDebitAdvice());
         transaction.setCreatedBy(username);
         transaction.setModifiedBy(username);
 
@@ -166,6 +167,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             transaction.setTenorDate(data.getTenorDate());
             transaction.setTransactionType("Payment");
             transaction.setFacilityType(data.getFacilityType());
+            transaction.setDebitAdvice(data.getDebitAdvice());
             transaction.setCreatedBy("System");
             transaction.setModifiedBy("System");
 
@@ -221,7 +223,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             tbCashOut.setCreatedBy("System");
             tbCashOut.setModifiedBy("System");
             tbCashOut.setDocumentCashOutName("-");
-            tbCashOut.setInvoiceTitle("RETURN");
+            tbCashOut.setInvoiceTitle(data.getDebitAdvice());
             tbCashOut.setTotal(data.getAmount());
             return tbCashOut;
         }).collect(Collectors.toList());

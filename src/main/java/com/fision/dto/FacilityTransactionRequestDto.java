@@ -14,4 +14,5 @@ public class FacilityTransactionRequestDto {
     private Date bankApprovalDate;
     private Date tenorDate;
     private String facilityType;
+    private String debitAdvice;
 }
