@@ -38,4 +38,7 @@ public class FisionOutSourceData {
 
     @Column(name = "project_name")
     private String projectName;
+
+    @Column(name = "debit_advice")
+    private String debitAdvice;
 }
