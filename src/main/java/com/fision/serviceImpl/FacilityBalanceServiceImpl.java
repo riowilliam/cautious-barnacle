@@ -3,6 +3,7 @@ package com.fision.serviceImpl;
 import com.fision.dto.FacilityListDto;
 import com.fision.dto.FacilityTransactionDto;
 import com.fision.repository.primary.TbFacilityAssetTransactionRepository;
+import com.fision.repository.primary.TbFacilityBalanceRepository;
 import com.fision.service.FacilityBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -14,7 +15,10 @@ import java.util.*;
 @Service
 public class FacilityBalanceServiceImpl implements FacilityBalanceService {
     @Autowired
-    private TbFacilityAssetTransactionRepository repository;
+    TbFacilityAssetTransactionRepository tbFacilityAssetTransactionRepository;
+
+    @Autowired
+    TbFacilityBalanceRepository tbFacilityBalanceRepository;
 
     @Override
     public Page<FacilityListDto> getFacilityTransactionPaging(String vendorName, String facilityType,
@@ -26,7 +30,7 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
 
         // Memanggil repository untuk mendapatkan data transaksi berdasarkan filter
-        Page<FacilityTransactionDto> transactionPage = repository.findFacilityTransactions(
+        Page<FacilityTransactionDto> transactionPage = tbFacilityAssetTransactionRepository.findFacilityTransactions(
                 pageable, vendorName, facilityType, transactionType, tenorDateOnWeekend, startDate, endDate);
 
         // Menghasilkan ringkasan fasilitas (summary)
@@ -42,13 +46,13 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
 
     @Override
     public List<String> getFacilityBalanceTypeList() {
-        return repository.getFacilityBalanceTypeList();
+        return tbFacilityAssetTransactionRepository.getFacilityBalanceTypeList();
     }
 
     private Map<String, Object> generateFacilitySummary(String vendorName, String facilityType,
                                                         String transactionType, boolean tenorDateOnWeekend, Date startDate, Date endDate) {
 
-        List<Object[]> summaryData = repository.findTransactionSummary(vendorName, facilityType,
+        List<Object[]> summaryData = tbFacilityAssetTransactionRepository.findTransactionSummary(vendorName, facilityType,
                 transactionType, tenorDateOnWeekend, startDate, endDate);
 
         Map<String, Object> summary = new HashMap<>();
@@ -59,6 +63,10 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
             BigDecimal totalAmount = (BigDecimal) row[1];
             summary.put(transactionTypeSummary, totalAmount);
         }
+
+        // Collect Facility Type
+        List<Map<String, Object>> facilityBalanceList = tbFacilityBalanceRepository.getBalanceDetail();
+        summary.put("facilityBalanceList", facilityBalanceList);
 
         return summary;
     }

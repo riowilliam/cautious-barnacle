@@ -30,7 +30,7 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
                                                           @Param("startDate") Date startDate,
                                                           @Param("endDate") Date endDate);
 
-    @Query("SELECT t.facilityType AS facilityType, SUM(t.amount) AS totalAmount " +
+    @Query("SELECT t.transactionType AS transactionType, SUM(t.amount) AS totalAmount " +
             "FROM TbFacilityAssetTransaction t " +
             "WHERE (:vendorName IS NULL OR t.vendorName = :vendorName) " +
             "AND (:facilityType IS NULL OR t.facilityType = :facilityType) " +
@@ -38,7 +38,7 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
             "AND (:tenorDateOnWeekend IS NULL OR t.isTenorDateOnWeekend = :tenorDateOnWeekend) " +
             "AND (:startDate IS NULL OR t.tenorDate >= :startDate) " +
             "AND (:endDate IS NULL OR t.tenorDate <= :endDate) " +
-            "GROUP BY t.facilityType")
+            "GROUP BY t.transactionType")
     List<Object[]> findTransactionSummary(@Param("vendorName") String vendorName,
                                           @Param("facilityType") String facilityType,
                                           @Param("transactionType") String transactionType,
