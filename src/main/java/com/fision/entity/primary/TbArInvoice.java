@@ -98,6 +98,9 @@ public class TbArInvoice {
         Date now = new Date();
         this.createdTm = now;
         this.modifiedTm = now;
+        this.ppnAmount = this.ppnAmount == null ? BigDecimal.ZERO : this.ppnAmount;
+        this.dppAmount = this.dppAmount == null ? BigDecimal.ZERO : this.dppAmount;
+        this.pphAmount = this.pphAmount == null ? BigDecimal.ZERO : this.pphAmount;
     }
 
     @PreUpdate

@@ -31,6 +31,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.invoiceDate >= :startDate) " +
             "AND (:endDate IS NULL OR tba.invoiceDate < :endDate) " +
+            "AND tba.invoiceNo NOT LIKE '%NO_INV%' " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.bappDate, tba.dppAmount, tba.retention, tba.downPayment, tba.progress, " +
             "tba.ppnAmount, tba.pphAmount, tba.deduction, " +
@@ -67,7 +68,8 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND (:projectName IS NULL OR tba.project_name LIKE %:projectName%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoice_status = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.created_tm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.created_tm <= :endDate)",
+            "AND (:endDate IS NULL OR tba.created_tm <= :endDate) " +
+            "AND tba.invoice_no NOT LIKE '%NO_INV%' ",
             nativeQuery = true)
     Object getArInvoiceSummary(
             @Param("partnerName") String partnerName,
@@ -87,6 +89,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "WHERE tba.invoiceStatus = 1 " +
             "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
             "AND (tba.paymentStatus IS NULL OR tba.paymentStatus <> 'Fully Paid') " +
+            "AND tba.invoiceNo NOT LIKE '%NO_INV%' " +
             "GROUP BY tba.invoiceNo, tba.partnerName, tba.contractNo, tba.projectName, " +
             "tba.bappNo, tba.bappDate, tba.dppAmount, tba.retention, tba.downPayment, tba.progress, tba.ppnAmount, tba.pphAmount, tba.deduction, " +
             "tba.totalAmount, tba.invoiceStatus, tba.paymentStatus, tba.taxInvoiceNumber, " +
@@ -100,7 +103,8 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "CAST(SUM(CASE WHEN tba.invoiceStatus = 0 THEN 1 ELSE 0 END) AS int)) " +
             "FROM TbArInvoice tba " +
             "WHERE (:startDate IS NULL OR tba.createdTm >= :startDate) " +
-            "AND (:endDate IS NULL OR tba.createdTm < :endDate) ")
+            "AND (:endDate IS NULL OR tba.createdTm < :endDate) " +
+            "AND tba.invoiceNo NOT LIKE '%NO_INV%' ")
     DashboardCardDetailsDto getARInvoiceCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 

@@ -166,6 +166,10 @@ public class CashInController {
                 tbArInvoice.setModifiedBy(username);
                 arInvoiceService.save(tbArInvoice);
 
+                MsBalance msBalance = msBalanceService.getMsBalanceByBankCode(tbCashIn.getPaymentBankCode());
+                msBalance.setBalanceAmount(msBalance.getBalanceAmount().add(tbCashIn.getPaymentAmount()));
+                msBalanceService.save(msBalance);
+
                 return new ResponseDto<>(ConstantsUtils.SUCCESS, HttpStatus.OK);
             } else {
                 return new ResponseDto<>(ConstantsUtils.DATA_NOT_FOUND, HttpStatus.NOT_FOUND);

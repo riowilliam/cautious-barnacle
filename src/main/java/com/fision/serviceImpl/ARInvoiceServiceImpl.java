@@ -46,8 +46,6 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     @Override
     @Transactional
     public void saveArInvoice(String username, ARInvoiceRequestDto arInvoiceRequestDto) {
-        TbPartner tbPartner = partnerService.getPartnerByName(arInvoiceRequestDto.getPartnerName());
-
         TbArInvoice tbArInvoice = new TbArInvoice();
         // Mapping request to TbArInvoice and save
         tbArInvoice.setInvoiceNo(arInvoiceRequestDto.getInvoiceNo());

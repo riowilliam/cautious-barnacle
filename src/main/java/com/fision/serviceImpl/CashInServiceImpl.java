@@ -7,6 +7,7 @@ import com.fision.repository.primary.TbCashInRepository;
 import com.fision.service.ARInvoiceService;
 import com.fision.service.CashInService;
 import com.fision.utils.ConstantsUtils;
+import com.fision.utils.DateTimeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ public class CashInServiceImpl implements CashInService {
 
     @Autowired
     ARInvoiceService arInvoiceService;
-
 
     @Override
     public Page<CashInDetailDto> getCashInDetailsPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String partnerName, String projectName, Integer paymentType, Date startDate, Date endDate) {
@@ -80,19 +80,29 @@ public class CashInServiceImpl implements CashInService {
     }
 
     @Override
+    @Transactional
     public void saveCashInWithoutInvoiceAndContract(CashInRequestDto cashInRequestDto, String username) {
+        String invoiceNo = ConstantsUtils.NO_INVOICE_PREFIX + DateTimeHelper.nowToString();
         TbCashIn tbCashIn = new TbCashIn();
+        tbCashIn.setInvoiceNo(invoiceNo);
         tbCashIn.setCashInStatus(cashInRequestDto.getCashInStatus());
         tbCashIn.setInterestDeduction(cashInRequestDto.getInterestDeduction());
         tbCashIn.setOtherDeduction(cashInRequestDto.getOtherDeduction());
         tbCashIn.setPaymentAmount(cashInRequestDto.getPaymentAmount());
         tbCashIn.setPaymentType(cashInRequestDto.getPaymentType());
-        tbCashIn.setInvoiceNo(cashInRequestDto.getInvoiceNo());
         tbCashIn.setPaymentDate(new Date());
         tbCashIn.setCreatedBy(username);
         tbCashIn.setModifiedBy(username);
         tbCashIn.setPaymentBankCode(cashInRequestDto.getPaymentBankCode());
         save(tbCashIn);
+
+        TbArInvoice tbArInvoice = new TbArInvoice();
+        tbArInvoice.setInvoiceNo(invoiceNo);
+        tbArInvoice.setPartnerName(cashInRequestDto.getPartnerName());
+        tbArInvoice.setDeduction(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction()));
+        tbArInvoice.setProjectName(cashInRequestDto.getProjectName());
+        tbArInvoice.setTotalAmount(cashInRequestDto.getPaymentAmount());
+        arInvoiceService.save(tbArInvoice);
     }
 
     @Override
