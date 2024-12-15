@@ -1,8 +1,10 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.VendorRequestDto;
+import com.fision.entity.primary.MsBank;
 import com.fision.entity.primary.TbVendor;
 import com.fision.repository.primary.TbVendorRepository;
+import com.fision.service.MsBankService;
 import com.fision.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,11 +20,19 @@ public class VendorServiceImpl implements VendorService {
     @Autowired
     TbVendorRepository tbVendorRepository;
 
+    @Autowired
+    MsBankService msBankService;
+
     @Override
     public Page<TbVendor> getVendorListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String vendorName, String bankName, String bankAccount, String bankAccountName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        return tbVendorRepository.getVendorListPaging(vendorName, bankName, bankAccount, bankAccountName, pageable);
+        String bankShortName = null;
+        if (bankName != null && !bankName.isEmpty()) {
+            MsBank msBank = msBankService.getBankByName(bankName);
+            bankShortName = msBank.getBankShortName();
+        }
+        return tbVendorRepository.getVendorListPaging(vendorName, bankShortName, bankAccount, bankAccountName, pageable);
     }
 
     @Override

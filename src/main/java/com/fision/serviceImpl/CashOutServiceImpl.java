@@ -1,6 +1,7 @@
 package com.fision.serviceImpl;
 
 import com.fision.dto.*;
+import com.fision.entity.primary.MsBalance;
 import com.fision.entity.primary.TbCashOut;
 import com.fision.entity.primary.TbDocumentCashOut;
 import com.fision.entity.primary.TmpCashOut;
@@ -9,6 +10,7 @@ import com.fision.repository.primary.TbDocumentCashOutRepository;
 import com.fision.repository.primary.TmpCashOutRepository;
 import com.fision.service.CashOutService;
 import com.fision.service.DocumentCashOutService;
+import com.fision.service.MsBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class CashOutServiceImpl implements CashOutService {
 
     @Autowired
     DocumentCashOutService documentCashOutService;
+
+    @Autowired
+    MsBalanceService msBalanceService;
 
     @Override
     @Transactional
@@ -65,6 +70,11 @@ public class CashOutServiceImpl implements CashOutService {
         tmpCashOutRepository.deleteAll(toBeDelete);
         tmpCashOutRepository.saveAll(tmpCashOutList);
 
+        TbDocumentCashOut tbDocumentCashOut = tbDocumentCashOutRepository.findByDocumentName(cashOutListDto.getDocumentName());
+        tbDocumentCashOut.setTotalAmount(cashOutListDto.getSubTotal());
+        tbDocumentCashOut.setModifiedBy(username);
+        tbDocumentCashOutRepository.save(tbDocumentCashOut);
+
         return cashOutListDto.getDocumentName();
     }
 
@@ -84,6 +94,10 @@ public class CashOutServiceImpl implements CashOutService {
         tbDocumentCashOut.setStatus(status);
         tbDocumentCashOut.setModifiedBy(username);
         tbDocumentCashOutRepository.save(tbDocumentCashOut);
+
+        MsBalance msBalance = msBalanceService.getMsBalanceByBankCode(tbDocumentCashOut.getPaymentBankCode());
+        msBalance.setBalanceAmount(msBalance.getBalanceAmount().subtract(tbDocumentCashOut.getTotalAmount()));
+        msBalanceService.save(msBalance);
     }
 
     @Override

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -146,11 +148,13 @@ public class DashboardServiceImpl implements DashboardService {
             endingBalance = startingBalance.add(currentCashDifference);
         }
 
+        startDate = startDate == null ? DateTimeHelper.convertLocalDateToDate(LocalDate.now().atStartOfDay()) : startDate;
+
         // Build CardDetailsList
         DashboardCardDetailsDto arInvoiceSummary = tbArInvoiceRepository.getARInvoiceCardDetail(startDate, addOneDay);
         DashboardCardDetailsDto cashInSummary = tbCashInRepository.getCashInCardDetail(startDate, addOneDay);
         DashboardCardDetailsDto cashOutDocsSummary = tbDocumentCashOutRepository.getCashOutDocCardDetail(startDate, addOneDay);
-        List<BalanceSummaryDetails> balanceSummaryDetailsList = msBalanceRepository.getBalanceSummaryDetails(startDate, endDate);
+        List<BalanceSummaryDetails> balanceSummaryDetailsList = msBalanceRepository.getBalanceSummaryDetails(startDate, addOneDay);
 
         List<DashboardCardDetailsDto> summaryList = new ArrayList<>();
         summaryList.add(arInvoiceSummary);
