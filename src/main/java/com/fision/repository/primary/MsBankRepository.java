@@ -15,4 +15,5 @@ public interface MsBankRepository extends JpaRepository<MsBank, Long> {
             "WHERE (:bankShortName IS NULL OR mb.bankShortName LIKE %:bankShortName%) " +
             "OR (:bankName IS NULL OR mb.bankName LIKE %:bankName%) ")
     List<Map<String, Object>> getBankList(String bankShortName, String bankName);
+    MsBank findByBankName(String bankName);
 }

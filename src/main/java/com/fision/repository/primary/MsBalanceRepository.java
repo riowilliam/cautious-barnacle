@@ -157,7 +157,7 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "   CASE WHEN b.bankDesc IS NOT NULL THEN CONCAT(b.bankShortName, '-', b.bankDesc) ELSE b.bankShortName END, " +
             "   COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0), " +
             "   COALESCE(SUM(COALESCE(co.amount, 0)), 0), " +
-            "   b.balanceAmount + COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0) - COALESCE(SUM(COALESCE(co.amount, 0)), 0)) " +
+            "   b.balanceAmount ) " +
             "FROM MsBalance b " +
             "LEFT JOIN TbCashIn ci ON b.bankCodeInternal = ci.paymentBankCode " +
             "   AND ci.createdTm >= :startDate " +

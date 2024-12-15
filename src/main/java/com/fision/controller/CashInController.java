@@ -101,6 +101,10 @@ public class CashInController {
             Gson gson = new Gson();
             CashInRequestDto cashInRequestDto = gson.fromJson(requestDto, CashInRequestDto.class);
             if(cashInRequestDto != null) {
+                if(cashInRequestDto.getPaymentBankCode() == null) {
+                    return new ResponseDto<>(ConstantsUtils.PAYMENT_BANK_CODE_NULL, HttpStatus.BAD_REQUEST);
+                }
+
                 TbArInvoice arInvoice = arInvoiceService.getInvoiceByInvoiceNo(cashInRequestDto.getInvoiceNo());
                 BigDecimal incompletedPayment = cashInService.getTotalIncompletedCashIByInvoiceNo(cashInRequestDto.getInvoiceNo());
                 if(arInvoice != null) {
