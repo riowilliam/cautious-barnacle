@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository
 public interface TbFacilityBalanceRepository extends JpaRepository<TbFacilityBalance, Long> {
-    @Query("SELECT new map(f.facilityType as facilityType, f.amount as currentBalance) FROM TbFacilityBalance f")
+    @Query("SELECT new map(f.facilityType as facilityType, f.amount as amount) FROM TbFacilityBalance f")
     List<Map<String, Object>> getBalanceDetail();
     TbFacilityBalance findByFacilityType(String facilityType);
 }
