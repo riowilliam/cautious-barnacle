@@ -55,7 +55,7 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
             @Param("status") boolean status,
             Pageable pageable);
 
-    @Query("SELECT fb.facilityType FROM TbFacilityBalance fb ")
+    @Query("SELECT fb.facilityType FROM TbFacilityBalance fb WHERE fb.isCanAddManual = 1 ")
     List<String> getFacilityBalanceTypeList();
 
     Optional<TbFacilityAssetTransaction> findById(Long id);

@@ -106,7 +106,6 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
         transaction.setProjectName(requestDto.getProjectName());
         transaction.setTransactionDate(requestDto.getTransactionDate());
         transaction.setAmount(requestDto.getAmount() != null ? requestDto.getAmount() : null);
-        transaction.setBankApprovalDate(requestDto.getBankApprovalDate());
         transaction.setTenorDate(requestDto.getTenorDate());
         transaction.setTransactionType("Payment");
         transaction.setFacilityType(requestDto.getFacilityType());
