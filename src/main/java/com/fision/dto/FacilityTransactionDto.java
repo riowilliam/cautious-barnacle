@@ -15,19 +15,21 @@ public class FacilityTransactionDto {
     private BigDecimal amount;
     private String facilityType;
     private String transactionType;
+    private String projectName;
     private String debitAdvice;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date approvalDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date tenorDate;
 
-    public FacilityTransactionDto(Long id, String vendorName, Date transactionDate, BigDecimal amount, String facilityType, String transactionType, String debitAdvice, Date approvalDate, Date tenorDate) {
+    public FacilityTransactionDto(Long id, String vendorName, Date transactionDate, BigDecimal amount, String facilityType, String transactionType, String projectName, String debitAdvice, Date approvalDate, Date tenorDate) {
         this.id = id;
         this.vendorName = vendorName;
         this.transactionDate = transactionDate;
         this.amount = amount;
         this.facilityType = facilityType;
         this.transactionType = transactionType;
+        this.projectName = projectName;
         this.debitAdvice = debitAdvice;
         this.approvalDate = approvalDate;
         this.tenorDate = tenorDate;

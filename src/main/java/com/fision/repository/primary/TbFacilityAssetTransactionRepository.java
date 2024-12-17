@@ -15,18 +15,20 @@ import java.util.Optional;
 public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFacilityAssetTransaction, Long> {
     @Query("SELECT new com.fision.dto.FacilityTransactionDto(" +
             "t.facilityAssetTransactionId, t.vendorName, t.transactionDate, t.amount, t.facilityType, t.transactionType, " +
-            "t.debitAdvice, t.bankApprovalDate, t.tenorDate) " +
+            "t.projectName, t.debitAdvice, t.bankApprovalDate, t.tenorDate) " +
             "FROM TbFacilityAssetTransaction t " +
             "WHERE (:vendorName IS NULL OR t.vendorName = :vendorName) " +
             "AND (:facilityType IS NULL OR t.facilityType = :facilityType) " +
-            "AND (:transactionType IS NULL OR t.transactionType = :transactionType) " +
+            "AND (:projectName IS NULL OR t.projectName = :projectName) " +
+            "AND (:debitAdvice IS NULL OR t.debitAdvice = :debitAdvice) " +
             "AND (:tenorDateOnWeekend IS NULL OR t.isTenorDateOnWeekend = :tenorDateOnWeekend) " +
             "AND (:startDate IS NULL OR t.tenorDate >= :startDate) " +
             "AND (:endDate IS NULL OR t.tenorDate <= :endDate) ")
     Page<FacilityTransactionDto> findFacilityTransactions(Pageable pageable,
                                                           @Param("vendorName") String vendorName,
                                                           @Param("facilityType") String facilityType,
-                                                          @Param("transactionType") String transactionType,
+                                                          @Param("projectName") String projectName,
+                                                          @Param("debitAdvice") String debitAdvice,
                                                           @Param("tenorDateOnWeekend") Boolean tenorDateOnWeekend,
                                                           @Param("startDate") Date startDate,
                                                           @Param("endDate") Date endDate);

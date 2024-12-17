@@ -46,7 +46,8 @@ public class FacilityAssetController {
                                             @RequestParam(defaultValue = "desc") String sortOrder,
                                             @RequestParam(required = false) String vendorName,
                                             @RequestParam(required = false) String facilityType,
-                                            @RequestParam(required = false) String transactionType,
+                                            @RequestParam(required = false) String projectName,
+                                            @RequestParam(required = false) String debitAdvice,
                                             @RequestParam(required = false) boolean tenorDateOnWeekend,
                                             @RequestParam(required = false) String startDate,
                                             @RequestParam(required = false) String endDate) {
@@ -54,7 +55,8 @@ public class FacilityAssetController {
 
             Page<FacilityListDto> facilityListDtoPage = facilityBalanceService.getFacilityTransactionPaging(vendorName != null && !vendorName.isEmpty() ? vendorName : null,
                     facilityType != null && !facilityType.isEmpty() ? facilityType : null,
-                    transactionType != null && !transactionType.isEmpty() ? transactionType : null,
+                    projectName != null && !projectName.isEmpty() ? projectName : null,
+                    debitAdvice != null && !debitAdvice.isEmpty() ? debitAdvice : null,
                     tenorDateOnWeekend,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null,
