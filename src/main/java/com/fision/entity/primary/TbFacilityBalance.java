@@ -42,6 +42,9 @@ public class TbFacilityBalance {
     @Column(name = "tenor_date_config")
     private Integer tenorDateConfig;
 
+    @Column(name = "can_add_manual")
+    private Boolean isCanAddManual;
+
     @PrePersist
     protected void onCreate() {
         Date now = new Date();
