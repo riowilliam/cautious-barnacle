@@ -90,4 +90,7 @@ public class ConstantsUtils {
     public final static String INVOICE_NOTES = "Pembayaran ke - n atas invoice PLACEHOLDER_INVOICE";
     public final static String PLACEHOLDER_INVOICE = "PLACEHOLDER_INVOICE";
     public final static String NO_INVOICE_PREFIX = "NO_INV-";
+
+    // Facility
+    public final static String PAYMENT = "Payment";
 }

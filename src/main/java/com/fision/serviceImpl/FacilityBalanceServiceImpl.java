@@ -5,6 +5,7 @@ import com.fision.dto.FacilityTransactionDto;
 import com.fision.repository.primary.TbFacilityAssetTransactionRepository;
 import com.fision.repository.primary.TbFacilityBalanceRepository;
 import com.fision.service.FacilityBalanceService;
+import com.fision.utils.ConstantsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,7 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
     TbFacilityBalanceRepository tbFacilityBalanceRepository;
 
     @Override
-    public Page<FacilityListDto> getFacilityTransactionPaging(String vendorName, String facilityType,
-                                                              String transactionType, boolean tenorDateOnWeekend, Date startDate, Date endDate,
+    public Page<FacilityListDto> getFacilityTransactionPaging(String vendorName, String facilityType, String projectNamme, String debitAdvice, boolean tenorDateOnWeekend, Date startDate, Date endDate,
                                                               int pageNo, int pageSize, String sortBy, String sortOrder) {
 
         // Membuat Pageable berdasarkan pageNo, pageSize, sortBy, dan sortOrder
@@ -31,10 +31,10 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
 
         // Memanggil repository untuk mendapatkan data transaksi berdasarkan filter
         Page<FacilityTransactionDto> transactionPage = tbFacilityAssetTransactionRepository.findFacilityTransactions(
-                pageable, vendorName, facilityType, transactionType, tenorDateOnWeekend, startDate, endDate);
+                pageable, vendorName, facilityType, projectNamme, debitAdvice, tenorDateOnWeekend, startDate, endDate);
 
         // Menghasilkan ringkasan fasilitas (summary)
-        Map<String, Object> facilitySummary = generateFacilitySummary(vendorName, facilityType, transactionType,
+        Map<String, Object> facilitySummary = generateFacilitySummary(vendorName, facilityType, ConstantsUtils.PAYMENT,
                 tenorDateOnWeekend, startDate, endDate);
 
         // Membuat FacilityListDto dan memasukkan data transaksi dan ringkasan

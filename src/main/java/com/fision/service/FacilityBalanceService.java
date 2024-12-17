@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface FacilityBalanceService {
     Page<FacilityListDto> getFacilityTransactionPaging(String vendorName, String facilityType,
-                                                       String transactionType, boolean tenorDateOnWeekend, Date startDate, Date endDate,
+                                                       String projectName, String debitAdvice,
+                                                       boolean tenorDateOnWeekend, Date startDate, Date endDate,
                                                        int pageNo, int pageSize, String sortBy, String sortOrder);
     List<String> getFacilityBalanceTypeList();
 }
