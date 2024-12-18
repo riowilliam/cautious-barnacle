@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class FacilityTransactionDto {
     private Long id;
-    private String vendorName;
+    private String companyName;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date transactionDate;
     private BigDecimal amount;
@@ -22,9 +22,9 @@ public class FacilityTransactionDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Jakarta")
     private Date tenorDate;
 
-    public FacilityTransactionDto(Long id, String vendorName, Date transactionDate, BigDecimal amount, String facilityType, String transactionType, String projectName, String debitAdvice, Date approvalDate, Date tenorDate) {
+    public FacilityTransactionDto(Long id, String companyName, Date transactionDate, BigDecimal amount, String facilityType, String transactionType, String projectName, String debitAdvice, Date approvalDate, Date tenorDate) {
         this.id = id;
-        this.vendorName = vendorName;
+        this.companyName = companyName;
         this.transactionDate = transactionDate;
         this.amount = amount;
         this.facilityType = facilityType;

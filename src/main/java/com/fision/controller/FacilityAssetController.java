@@ -1,10 +1,8 @@
 package com.fision.controller;
 
-import com.fision.dto.CashInRequestDto;
 import com.fision.dto.FacilityListDto;
 import com.fision.dto.FacilityTransactionRequestDto;
 import com.fision.dto.ResponseDto;
-import com.fision.entity.primary.MsItem;
 import com.fision.entity.primary.TbFacilityAssetTransaction;
 import com.fision.service.FacilityBalanceService;
 import com.fision.service.FacilityTransactionSyncService;
@@ -15,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +39,7 @@ public class FacilityAssetController {
                                             @RequestParam(defaultValue = "10") int pageSize,
                                             @RequestParam(defaultValue = "createdTm") String sortBy,
                                             @RequestParam(defaultValue = "desc") String sortOrder,
-                                            @RequestParam(required = false) String vendorName,
+                                            @RequestParam(required = false) String companyName,
                                             @RequestParam(required = false) String facilityType,
                                             @RequestParam(required = false) String projectName,
                                             @RequestParam(required = false) String debitAdvice,
@@ -53,7 +48,7 @@ public class FacilityAssetController {
                                             @RequestParam(required = false) String endDate) {
         try {
 
-            Page<FacilityListDto> facilityListDtoPage = facilityBalanceService.getFacilityTransactionPaging(vendorName != null && !vendorName.isEmpty() ? vendorName : null,
+            Page<FacilityListDto> facilityListDtoPage = facilityBalanceService.getFacilityTransactionPaging(companyName != null && !companyName.isEmpty() ? companyName : null,
                     facilityType != null && !facilityType.isEmpty() ? facilityType : null,
                     projectName != null && !projectName.isEmpty() ? projectName : null,
                     debitAdvice != null && !debitAdvice.isEmpty() ? debitAdvice : null,

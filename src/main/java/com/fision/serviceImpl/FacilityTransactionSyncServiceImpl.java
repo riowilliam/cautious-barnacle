@@ -102,16 +102,20 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     @Override
     public void saveFacilityTransaction(FacilityTransactionRequestDto requestDto, String username) {
         TbFacilityAssetTransaction transaction = new TbFacilityAssetTransaction();
-        transaction.setVendorName(requestDto.getVendorName());
+        transaction.setCompanyName(requestDto.getPartnerName());
         transaction.setProjectName(requestDto.getProjectName());
         transaction.setTransactionDate(requestDto.getTransactionDate());
         transaction.setAmount(requestDto.getAmount() != null ? requestDto.getAmount() : null);
-        transaction.setTenorDate(requestDto.getTenorDate());
+        transaction.setTenorDate(DateTimeHelper.add14Days(requestDto.getCoverEndDate()));
         transaction.setTransactionType("Payment");
         transaction.setFacilityType(requestDto.getFacilityType());
         transaction.setDebitAdvice(requestDto.getDebitAdvice());
         transaction.setCreatedBy(username);
         transaction.setModifiedBy(username);
+        transaction.setDownPayment(requestDto.getDownPayment());
+        transaction.setQuote(requestDto.getQuote());
+        transaction.setImplementation(requestDto.getImplementation());
+        transaction.setMaintenance(requestDto.getMaintenance());
 
         // Mengambil tenorDateConfig dari tbFacilityBalance
         TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(requestDto.getFacilityType());
@@ -158,7 +162,7 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     private List<TbFacilityAssetTransaction> mapToTransactions(List<FisionOutSourceData> pendingData) {
         return pendingData.stream().map(data -> {
             TbFacilityAssetTransaction transaction = new TbFacilityAssetTransaction();
-            transaction.setVendorName(data.getVendorName());
+            transaction.setCompanyName(data.getVendorName());
             transaction.setProjectName(data.getProjectName());
             transaction.setTransactionDate(data.getTransactionDate());
             transaction.setAmount(data.getAmount() != null ? data.getAmount() : null);
@@ -214,18 +218,21 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     }
 
     private List<TbCashOut> mapToCashout(List<TbFacilityAssetTransaction> calculatedData) {
-        return calculatedData.stream().map(data -> {
-            TbCashOut tbCashOut = new TbCashOut();
-            tbCashOut.setAmount(data.getAmount());
-            tbCashOut.setVendorName(data.getVendorName());
-            tbCashOut.setProjectName(data.getProjectName());
-            tbCashOut.setCreatedBy("System");
-            tbCashOut.setModifiedBy("System");
-            tbCashOut.setDocumentCashOutName("-");
-            tbCashOut.setInvoiceTitle(data.getDebitAdvice());
-            tbCashOut.setTotal(data.getAmount());
-            return tbCashOut;
-        }).collect(Collectors.toList());
+        return calculatedData.stream()
+                .filter(data -> !"BG".equals(data.getFacilityType())) // Memfilter data yang bukan BG
+                .map(data -> {
+                    TbCashOut tbCashOut = new TbCashOut();
+                    tbCashOut.setAmount(data.getAmount());
+                    tbCashOut.setVendorName(data.getCompanyName());
+                    tbCashOut.setProjectName(data.getProjectName());
+                    tbCashOut.setCreatedBy("System");
+                    tbCashOut.setModifiedBy("System");
+                    tbCashOut.setDocumentCashOutName("-");
+                    tbCashOut.setInvoiceTitle(data.getDebitAdvice());
+                    tbCashOut.setTotal(data.getAmount());
+                    return tbCashOut;
+                })
+                .collect(Collectors.toList());
     }
 
     private void updateFacilityBalancesForCashOut(List<TbFacilityAssetTransaction> facilityAssetTransactionList) {

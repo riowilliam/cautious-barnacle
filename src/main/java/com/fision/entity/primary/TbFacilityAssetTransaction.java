@@ -1,4 +1,5 @@
 package com.fision.entity.primary;
+import com.fision.utils.ConstantsUtils;
 import com.fision.utils.DateTimeHelper;
 import lombok.Data;
 import org.exolab.castor.types.DateTime;
@@ -22,8 +23,8 @@ public class TbFacilityAssetTransaction {
     @Column(name = "facility_asset_transaction_id")
     private Long facilityAssetTransactionId;
 
-    @Column(name = "vendor_name")
-    private String vendorName;
+    @Column(name = "company_name")
+    private String companyName;
 
     @Column(name = "transaction_date")
     @Temporal(TemporalType.DATE)
@@ -79,6 +80,18 @@ public class TbFacilityAssetTransaction {
     @Column(name = "debit_advice")
     private String debitAdvice;
 
+    @Column(name = "down_payment", precision = 20, scale = 3)
+    private BigDecimal downPayment;
+
+    @Column(name = "quote", precision = 20, scale = 3)
+    private BigDecimal quote;
+
+    @Column(name = "implementation", precision = 20, scale = 3)
+    private BigDecimal implementation;
+
+    @Column(name = "maintenance", precision = 20, scale = 3)
+    private BigDecimal maintenance;
+
     // Method to check if a date falls on a weekend (Saturday or Sunday)
     private Boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -96,7 +109,7 @@ public class TbFacilityAssetTransaction {
         this.isAddedToCashOut = false;
 
         // Set isTenorDateOnWeekend based on tenorDate
-        if (this.tenorDate != null) {
+        if (this.tenorDate != null && this.facilityType != ConstantsUtils.FACILITY_TYPE_BG) {
             this.isTenorDateOnWeekend = isWeekend(this.tenorDate);
             this.calculateDate = DateTimeHelper.adjustToNextMondayIfWeekend(this.tenorDate);
         }
