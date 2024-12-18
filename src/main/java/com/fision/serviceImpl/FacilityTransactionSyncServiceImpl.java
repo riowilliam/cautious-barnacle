@@ -102,10 +102,12 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
     @Override
     public void saveFacilityTransaction(FacilityTransactionRequestDto requestDto, String username) {
         TbFacilityAssetTransaction transaction = new TbFacilityAssetTransaction();
-        transaction.setCompanyName(requestDto.getPartnerName());
+        transaction.setCompanyName(requestDto.getCompanyName());
         transaction.setProjectName(requestDto.getProjectName());
         transaction.setTransactionDate(requestDto.getTransactionDate());
         transaction.setAmount(requestDto.getAmount() != null ? requestDto.getAmount() : null);
+        transaction.setCoverStartDate(requestDto.getCoverStartDate());
+        transaction.setCoverEndDate(requestDto.getCoverEndDate());
         transaction.setTenorDate(DateTimeHelper.add14Days(requestDto.getCoverEndDate()));
         transaction.setTransactionType("Payment");
         transaction.setFacilityType(requestDto.getFacilityType());

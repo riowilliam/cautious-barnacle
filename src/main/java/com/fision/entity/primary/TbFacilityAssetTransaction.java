@@ -92,6 +92,14 @@ public class TbFacilityAssetTransaction {
     @Column(name = "maintenance", precision = 20, scale = 3)
     private BigDecimal maintenance;
 
+    @Column(name = "cover_start_date")
+    @Temporal(TemporalType.DATE)
+    private Date coverStartDate;
+
+    @Column(name = "cover_end_date")
+    @Temporal(TemporalType.DATE)
+    private Date coverEndDate;
+
     // Method to check if a date falls on a weekend (Saturday or Sunday)
     private Boolean isWeekend(Date date) {
         Calendar calendar = Calendar.getInstance();

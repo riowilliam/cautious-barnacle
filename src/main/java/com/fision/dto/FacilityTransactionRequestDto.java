@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class FacilityTransactionRequestDto {
-    private String partnerName;
+    private String companyName;
     private String projectName;
     private Date transactionDate;
     private BigDecimal amount;
