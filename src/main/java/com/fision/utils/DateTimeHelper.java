@@ -42,6 +42,11 @@ public class DateTimeHelper {
         return Date.from(localStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
+    public static Date add14Days(Date paramDate) {
+        LocalDate localStartDate = paramDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plusDays(14);
+        return Date.from(localStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
     public static Date stringToDate(String paramDate) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(paramDate);

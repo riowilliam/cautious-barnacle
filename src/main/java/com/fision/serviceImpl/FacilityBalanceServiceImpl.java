@@ -22,7 +22,7 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
     TbFacilityBalanceRepository tbFacilityBalanceRepository;
 
     @Override
-    public Page<FacilityListDto> getFacilityTransactionPaging(String vendorName, String facilityType, String projectNamme, String debitAdvice, boolean tenorDateOnWeekend, Date startDate, Date endDate,
+    public Page<FacilityListDto> getFacilityTransactionPaging(String companyName, String facilityType, String projectNamme, String debitAdvice, boolean tenorDateOnWeekend, Date startDate, Date endDate,
                                                               int pageNo, int pageSize, String sortBy, String sortOrder) {
 
         // Membuat Pageable berdasarkan pageNo, pageSize, sortBy, dan sortOrder
@@ -31,10 +31,10 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
 
         // Memanggil repository untuk mendapatkan data transaksi berdasarkan filter
         Page<FacilityTransactionDto> transactionPage = tbFacilityAssetTransactionRepository.findFacilityTransactions(
-                pageable, vendorName, facilityType, projectNamme, debitAdvice, tenorDateOnWeekend, startDate, endDate);
+                pageable, companyName, facilityType, projectNamme, debitAdvice, tenorDateOnWeekend, startDate, endDate);
 
         // Menghasilkan ringkasan fasilitas (summary)
-        Map<String, Object> facilitySummary = generateFacilitySummary(vendorName, facilityType, ConstantsUtils.PAYMENT,
+        Map<String, Object> facilitySummary = generateFacilitySummary(companyName, facilityType, ConstantsUtils.PAYMENT, debitAdvice,
                 tenorDateOnWeekend, startDate, endDate);
 
         // Membuat FacilityListDto dan memasukkan data transaksi dan ringkasan
@@ -49,11 +49,11 @@ public class FacilityBalanceServiceImpl implements FacilityBalanceService {
         return tbFacilityAssetTransactionRepository.getFacilityBalanceTypeList();
     }
 
-    private Map<String, Object> generateFacilitySummary(String vendorName, String facilityType,
-                                                        String transactionType, boolean tenorDateOnWeekend, Date startDate, Date endDate) {
+    private Map<String, Object> generateFacilitySummary(String companyName, String facilityType,
+                                                        String transactionType, String debitAdvice, boolean tenorDateOnWeekend, Date startDate, Date endDate) {
 
-        List<Object[]> summaryData = tbFacilityAssetTransactionRepository.findTransactionSummary(vendorName, facilityType,
-                transactionType, tenorDateOnWeekend, startDate, endDate);
+        List<Object[]> summaryData = tbFacilityAssetTransactionRepository.findTransactionSummary(companyName, facilityType,
+                transactionType,  debitAdvice, tenorDateOnWeekend, startDate, endDate);
 
         Map<String, Object> summary = new HashMap<>();
 

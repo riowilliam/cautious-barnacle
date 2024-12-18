@@ -7,12 +7,17 @@ import java.util.Date;
 
 @Data
 public class FacilityTransactionRequestDto {
-    private String vendorName;
+    private String partnerName;
     private String projectName;
     private Date transactionDate;
     private BigDecimal amount;
-    private Date tenorDate;
+    private Date coverStartDate;
+    private Date coverEndDate;
     private String facilityType;
     private String debitAdvice;
+    private BigDecimal downPayment;
+    private BigDecimal quote;
+    private BigDecimal implementation;
+    private BigDecimal maintenance;
 }
 

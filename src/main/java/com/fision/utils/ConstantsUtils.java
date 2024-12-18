@@ -93,4 +93,5 @@ public class ConstantsUtils {
 
     // Facility
     public final static String PAYMENT = "Payment";
+    public final static String FACILITY_TYPE_BG = "BG";
 }
