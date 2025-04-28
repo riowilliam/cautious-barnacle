@@ -34,7 +34,7 @@ public class BankController {
     MsBankService msBankService;
 
     @GetMapping("getBankListPaging")
-    public ResponseDto<?> getItemListPaging(@RequestParam(defaultValue = "0") int pageNo,
+    public ResponseDto<?> getBankListPaging(@RequestParam(defaultValue = "0") int pageNo,
                                             @RequestParam(defaultValue = "10") int pageSize,
                                             @RequestParam(defaultValue = "createdTm") String sortBy,
                                             @RequestParam(defaultValue = "desc") String sortOrder,
@@ -63,7 +63,7 @@ public class BankController {
             MsBankRequestDto requestBank = gson.fromJson(requestDto, MsBankRequestDto.class);
             MsBank bank = msBankService.getBankByName(requestBank.getBankName());
             if(bank != null) {
-                return new ResponseDto<>(ConstantsUtils.ITEM_NAME_ALREADY_USED, HttpStatus.OK);
+                return new ResponseDto<>(ConstantsUtils.BANK_NAME_ALREADY_USED, HttpStatus.OK);
             } else {
                 msBankService.saveMsBank(username, requestBank);
                 return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class BankController {
             if (bank != null) {
                 MsBank existingBank = msBankService.getBankByName(requestBank.getBankName());
                 if(existingBank != null) {
-                    return new ResponseDto<>(ConstantsUtils.ITEM_NAME_ALREADY_USED, HttpStatus.OK);
+                    return new ResponseDto<>(ConstantsUtils.BANK_NAME_ALREADY_USED, HttpStatus.OK);
                 }
                 msBankService.updateMsBank(username, requestBank, bank);
                 return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);

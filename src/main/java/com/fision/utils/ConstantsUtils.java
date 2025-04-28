@@ -45,6 +45,7 @@ public class ConstantsUtils {
     public static final String PARTNER_NAME_ALREADY_USED = "Partner name already used, please try another name.";
 
     public static final String ITEM_NAME_ALREADY_USED = "Item name already used, please try another name.";
+    public static final String BANK_NAME_ALREADY_USED = "Bank name already used, please try another name.";
     public static final String BANK_ACCOUNT_ALREADY_USED = "Bank account already used.";
     public static final String VENDOR_NAME_ALREADY_USED = "Vendor name already used, please use another username.";
     public static final String INVOICE_NO_DUPLICATE = "Invoice no already generated and the status is approved/not approved.";
