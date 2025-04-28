@@ -1,5 +1,7 @@
 package com.fision.repository.primary;
 
+import com.fision.dto.ProjectCashInProjection;
+import com.fision.dto.ProjectCashOutProjection;
 import com.fision.dto.ProjectListDto;
 import com.fision.dto.ProjectMonitoringDetailDto;
 import com.fision.entity.primary.TbProject;
@@ -10,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -54,16 +57,23 @@ public interface TbProjectRepository extends JpaRepository<TbProject, Long> {
 
     TbProject findByProjectName(String projectName);
 
-    @Query("SELECT new com.fision.dto.ProjectMonitoringDetailDto(pr.projectName, " +
-            "COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0), " +
-            "COALESCE(SUM(COALESCE(co.total, 0)), 0)) " +
+    @Query("SELECT pr.projectName AS projectName, " +
+            "COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0) AS cashInValue " +
             "FROM TbProject pr " +
-            "LEFT JOIN TbArInvoice ai ON pr.projectName = ai.projectName " +
+            "LEFT JOIN TbArInvoice ai ON pr.projectName = ai.projectName AND (ai.invoiceStatus = 1 OR ai.invoiceStatus IS NULL) " +
             "LEFT JOIN TbCashIn ci ON ai.invoiceNo = ci.invoiceNo AND ci.cashInStatus = 'Completed' " +
+            "WHERE pr.status = 1 " +
+            "GROUP BY pr.projectName")
+    List<ProjectCashInProjection> getCashInData();
+
+    @Query("SELECT pr.projectName AS projectName, " +
+            "COALESCE(SUM(COALESCE(co.total, 0)), 0) AS cashOutValue " +
+            "FROM TbProject pr " +
             "LEFT JOIN TbCashOut co ON pr.projectName = co.projectName " +
             "WHERE pr.status = 1 " +
-            "GROUP BY pr.projectName ")
-    List<ProjectMonitoringDetailDto> getProjectMonitoringList();
+            "GROUP BY pr.projectName")
+    List<ProjectCashOutProjection> getCashOutData();
+
 
     // Proyek dengan total cash in terbanyak
     @Query(value = "SELECT pr.project_name " +

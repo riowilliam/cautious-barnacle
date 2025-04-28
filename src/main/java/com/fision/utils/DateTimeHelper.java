@@ -21,16 +21,32 @@ public class DateTimeHelper {
         return calendar.getTime();
     }
 
-    public static Date getLastDayOfTheMonth(String monthYear) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-yyyy", Locale.ENGLISH);
+    public static Date getDayAfterLastDayOfWeek(Date startDate) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
 
-        Date endDate = dateFormat.parse(monthYear);
-        calendar.setTime(endDate);
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        // Set hari pertama minggu ke Senin (optional, default Locale bisa Minggu)
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        // Maju ke akhir minggu (Minggu)
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int daysUntilSunday = Calendar.SATURDAY - dayOfWeek + 1; // jika minggu = hari ke-7
+        calendar.add(Calendar.DAY_OF_MONTH, daysUntilSunday);
+
+        // Tambah 1 hari -> Senin minggu berikutnya
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
 
         return calendar.getTime();
     }
+
+    public static Date getDayAfterLastDayOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
+    }
+
 
     public static String getJakartaDate(Date paramDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID"));

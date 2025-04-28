@@ -37,6 +37,7 @@ public class DashboardController {
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDate(endDate) : null);
             return new ResponseDto<>(ConstantsUtils.SUCCESS, statisticsDto, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

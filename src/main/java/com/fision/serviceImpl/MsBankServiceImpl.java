@@ -5,8 +5,11 @@ import com.fision.entity.primary.MsBank;
 import com.fision.repository.primary.MsBankRepository;
 import com.fision.service.MsBankService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,11 @@ public class MsBankServiceImpl implements MsBankService {
     @Override
     public MsBank getBankById(Long id) {
         return msBankRepository.findById(id).get();
+    }
+
+    @Override
+    public Page<MsBank> getBankListPaging(String bankName, Pageable pageable) {
+        return msBankRepository.getMsBankListPaging(bankName, pageable);
     }
 
     @Override

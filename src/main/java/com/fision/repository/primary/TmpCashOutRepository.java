@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface TmpCashOutRepository extends JpaRepository<TmpCashOut, Long> {
     @Query("SELECT new com.fision.dto.CashOutDetailDto(tco.cashOutId, tco.vendorName, tco.invoiceTitle, tco.projectName, v.bankAccount, " +
-            "v.bankName, v.bankAccountName, tco.amount, tco.transferFee, tco.total) " +
+            "v.bankAccountName, v.bankName, tco.amount, tco.transferFee, tco.total) " +
             "FROM TmpCashOut tco " +
             "LEFT JOIN TbVendor v ON v.vendorName = tco.vendorName " +
             "WHERE tco.documentCashOutName = :docName")

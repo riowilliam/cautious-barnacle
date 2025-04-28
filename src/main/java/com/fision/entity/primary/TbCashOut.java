@@ -57,18 +57,5 @@ public class TbCashOut {
     @Column(name = "modified_by", length = 255)
     private String modifiedBy;
 
-    @PrePersist
-    protected void onCreate() {
-        Date now = new Date();
-        this.createdTm = now;
-        this.modifiedTm = now;
-        if (transferFee == null) this.transferFee = BigDecimal.ZERO;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.modifiedTm = new Date();
-    }
-
 }
 

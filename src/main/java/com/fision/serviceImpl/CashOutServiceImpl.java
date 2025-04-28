@@ -95,9 +95,9 @@ public class CashOutServiceImpl implements CashOutService {
         tbDocumentCashOut.setModifiedBy(username);
         tbDocumentCashOutRepository.save(tbDocumentCashOut);
 
-        MsBalance msBalance = msBalanceService.getMsBalanceByBankCode(tbDocumentCashOut.getPaymentBankCode());
-        msBalance.setBalanceAmount(msBalance.getBalanceAmount().subtract(tbDocumentCashOut.getTotalAmount()));
-        msBalanceService.save(msBalance);
+//        MsBalance msBalance = msBalanceService.getMsBalanceByBankCode(tbDocumentCashOut.getPaymentBankCode());
+//        msBalance.setBalanceAmount(msBalance.getBalanceAmount().subtract(tbDocumentCashOut.getTotalAmount()));
+//        msBalanceService.save(msBalance);
     }
 
     @Override
