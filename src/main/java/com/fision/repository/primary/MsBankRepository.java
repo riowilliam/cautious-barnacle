@@ -22,7 +22,7 @@ public interface MsBankRepository extends JpaRepository<MsBank, Long> {
     MsBank findByBankName(String bankName);
 
     @Query("SELECT mb FROM MsBank mb " +
-            "WHERE (:bankName IS NULL OR mi.bankName LIKE %:bankName%) ")
+            "WHERE (:bankName IS NULL OR mb.bankName LIKE %:bankName%) ")
     Page<MsBank> getMsBankListPaging(@Param("bankName") String bankName,
                                      Pageable pageable);
 }
