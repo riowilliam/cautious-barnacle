@@ -127,5 +127,10 @@ public class TbFacilityAssetTransaction {
     @PreUpdate
     protected void onUpdate() {
         this.modifiedTm = new Date();
+        // Set isTenorDateOnWeekend based on tenorDate
+        if (this.tenorDate != null && this.facilityType != ConstantsUtils.FACILITY_TYPE_BG) {
+            this.isTenorDateOnWeekend = isWeekend(this.tenorDate);
+            this.calculateDate = DateTimeHelper.adjustToNextMondayIfWeekend(this.tenorDate);
+        }
     }
 }

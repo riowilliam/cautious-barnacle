@@ -3,7 +3,9 @@ package com.fision.serviceImpl;
 import com.fision.dto.PartnerListDto;
 import com.fision.dto.PartnerRequestDto;
 import com.fision.entity.primary.TbPartner;
+import com.fision.repository.primary.TbArInvoiceRepository;
 import com.fision.repository.primary.TbConfigRepository;
+import com.fision.repository.primary.TbContractRepository;
 import com.fision.repository.primary.TbPartnerRepository;
 import com.fision.service.PartnerService;
 import com.fision.utils.ConstantsUtils;
@@ -29,6 +31,12 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Autowired
     TbConfigRepository tbConfigRepository;
+
+    @Autowired
+    TbContractRepository tbContractRepository;
+
+    @Autowired
+    TbArInvoiceRepository tbArInvoiceRepository;
 
     @Override
     public Page<PartnerListDto> getPartnerListPaging(int pageNo, int pageSize, String sortBy, String sortOrder,
@@ -64,12 +72,17 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public void updatePartner(String username, TbPartner partner, PartnerRequestDto partnerRequestDto) {
+        String oldPartnerName = partner.getPartnerName();
         partner.setPartnerName(partnerRequestDto.getPartnerName());
         partner.setIsPpnWapu(partnerRequestDto.getPpnWapu());
         partner.setActiveProject(partnerRequestDto.getActiveProject());
         partner.setModifiedBy(username);
 
         tbPartneRepository.save(partner);
+        if(!partnerRequestDto.equals(partner.getPartnerName())) {
+            tbArInvoiceRepository.updatePartnerName(oldPartnerName, partnerRequestDto.getPartnerName(), username);
+            tbContractRepository.updatePartnerName(oldPartnerName, partnerRequestDto.getPartnerName(), username);
+        }
     }
 
     @Override

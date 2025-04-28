@@ -77,9 +77,17 @@ public class CashOutController {
                 throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
             }
 
+            InputStream inputStreamDetailAddress = ResourceUtils.class.getResourceAsStream("/" + "HKA_Address_Details.png");
+            if (inputStreamDetailAddress == null) {
+                throw new IllegalArgumentException("Resource not found: " + "HKA_Address_Details.png");
+            }
+
             File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
             tempFile.deleteOnExit();
-            parameters.put("imgDir", tempFile.getAbsolutePath());
+            File tempFileAddress = Files.createTempFile("temp-", "-" + "HKA_Address_Details.png").toFile();
+            tempFileAddress.deleteOnExit();
+            parameters.put("imgDir", tempFile.getAbsolutePath()/*"src/main/resources/HKA_Logos.png"*/);
+            parameters.put("imgDirDetails", tempFileAddress.getAbsolutePath()/*"src/main/resources/HKA_Address_Details.png"*/);
 
             // Menyalin isi dari InputStream ke file sementara
             try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {

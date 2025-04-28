@@ -4,10 +4,7 @@ import com.fision.dto.*;
 import com.fision.entity.primary.TbContract;
 import com.fision.entity.primary.TbItemDetails;
 import com.fision.entity.primary.TbPartner;
-import com.fision.repository.primary.TbContractRepository;
-import com.fision.repository.primary.TbItemDetailsRepository;
-import com.fision.repository.primary.TbPartnerRepository;
-import com.fision.repository.primary.TxPaidItemRepository;
+import com.fision.repository.primary.*;
 import com.fision.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,11 +32,14 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     TbPartnerRepository tbPartneRepository;
 
+    @Autowired
+    TbArInvoiceRepository tbArInvoiceRepository;
+
     @Override
-    public Page<ContractPagingListDto> getContractListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String contractName, String partnerName, Date startDate, Date endDate) {
+    public Page<ContractPagingListDto> getContractListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String contractNo, String partnerName, Date startDate, Date endDate) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
-        return tbContractRepository.getContractListPaging(contractName, partnerName, startDate, endDate, pageable);
+        return tbContractRepository.getContractListPaging(contractNo, partnerName, startDate, endDate, pageable);
     }
 
     @Override
@@ -81,6 +81,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public void updateContract(String username, TbContract tbContract, ContractRequestDto contractRequest, TbPartner tbPartner) {
+        String oldContractNo = tbContract.getContractNo();
         /* Save Contract */
         TbContract tbContractNew = new TbContract();
         tbContractNew.setContractName(contractRequest.getContractName());
@@ -115,6 +116,12 @@ public class ContractServiceImpl implements ContractService {
             tbItemDetailsList.add(tbItemDetails);
         }
         tbItemDetailsRepository.saveAll(tbItemDetailsList);
+
+        if(!oldContractNo.equals(contractRequest.getContractNo())) {
+            tbArInvoiceRepository.updateContractNo(oldContractNo, contractRequest.getContractNo(), username);
+            tbItemDetailsRepository.updateContractNo(oldContractNo, contractRequest.getContractNo(), username);
+            txPaidItemRepository.updateContractNo(oldContractNo, contractRequest.getContractNo(), username);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.fision.entity.primary.TbFacilityAssetTransaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -61,4 +62,10 @@ public interface TbFacilityAssetTransactionRepository extends JpaRepository<TbFa
     List<String> getFacilityBalanceTypeList();
 
     Optional<TbFacilityAssetTransaction> findById(Long id);
+
+    @Modifying
+    @Query("UPDATE TbFacilityAssetTransaction SET projectName = :projectName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE projectName = :oldProjectName")
+    void updateProjectName(@Param("oldProjectName") String oldVendorName,
+                           @Param("projectName") String vendorName,
+                           @Param("username") String username);
 }

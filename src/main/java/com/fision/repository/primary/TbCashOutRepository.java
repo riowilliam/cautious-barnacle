@@ -6,6 +6,7 @@ import com.fision.entity.primary.TbCashOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -42,7 +43,7 @@ public interface TbCashOutRepository extends JpaRepository<TbCashOut, Long> {
                            @Param("endDate")Date endDate);
 
     @Query("SELECT new com.fision.dto.CashOutDetailDto(tco.cashOutId, tco.vendorName, tco.invoiceTitle, tco.projectName, v.bankAccount, " +
-            "v.bankName, v.bankAccountName, tco.amount, tco.transferFee, tco.total) " +
+            "v.bankAccountName, v.bankName, tco.amount, tco.transferFee, tco.total) " +
             "FROM TbCashOut tco " +
             "LEFT JOIN TbVendor v ON v.vendorName = tco.vendorName " +
             "WHERE tco.documentCashOutName = :docName")
@@ -50,4 +51,16 @@ public interface TbCashOutRepository extends JpaRepository<TbCashOut, Long> {
 
     @Query("SELECT SUM(tco.total) FROM TbCashOut tco WHERE tco.documentCashOutName = :docName ")
     BigDecimal getSubTotalDetail(@Param("docName") String docName);
+
+    @Modifying
+    @Query("UPDATE TbCashOut SET vendorName = :vendorName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE vendorName = :oldVendorName")
+    void updateVendorName(@Param("oldVendorName") String oldVendorName,
+                          @Param("vendorName") String vendorName,
+                          @Param("username") String username);
+
+    @Modifying
+    @Query("UPDATE TbCashOut SET projectName = :projectName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE projectName = :oldProjectName")
+    void updateProjectName(@Param("oldProjectName") String oldVendorName,
+                          @Param("projectName") String vendorName,
+                          @Param("username") String username);
 }

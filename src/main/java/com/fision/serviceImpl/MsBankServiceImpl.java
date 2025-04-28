@@ -1,5 +1,6 @@
 package com.fision.serviceImpl;
 
+import com.fision.dto.MsBankRequestDto;
 import com.fision.entity.primary.MsBank;
 import com.fision.repository.primary.MsBankRepository;
 import com.fision.service.MsBankService;
@@ -22,5 +23,31 @@ public class MsBankServiceImpl implements MsBankService {
     @Override
     public MsBank getBankByName(String bankName) {
         return msBankRepository.findByBankName(bankName);
+    }
+
+    @Override
+    public MsBank getBankById(Long id) {
+        return msBankRepository.findById(id).get();
+    }
+
+    @Override
+    public void saveMsBank(String username, MsBankRequestDto requestDto) {
+        MsBank bank = new MsBank();
+        bank.setBankName(requestDto.getBankName());
+        bank.setBankShortName(requestDto.getBankShortName());
+        bank.setBankCode(requestDto.getBankCode());
+        bank.setCreatedBy(username);
+        bank.setModifiedBy(username);
+        msBankRepository.save(bank);
+    }
+
+    @Override
+    public void updateMsBank(String username, MsBankRequestDto bankRequestDto, MsBank msBank) {
+        msBank.setBankName(bankRequestDto.getBankName());
+        msBank.setBankShortName(bankRequestDto.getBankShortName());
+        msBank.setBankCode(bankRequestDto.getBankCode());
+        msBank.setCreatedBy(username);
+        msBank.setModifiedBy(username);
+        msBankRepository.save(msBank);
     }
 }

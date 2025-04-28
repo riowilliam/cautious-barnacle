@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cash_in_doc" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2ddb020-e714-4b55-b134-022521425d9d">
 	<property name="ireport.zoom" value="2.3579476910000072"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="432"/>
+	<property name="ireport.y" value="509"/>
 	<parameter name="imgDir" class="java.lang.String"/>
 	<parameter name="bankAccount" class="java.lang.String"/>
 	<parameter name="bankName" class="java.lang.String"/>
@@ -23,7 +23,7 @@
 			<staticText>
 				<reportElement mode="Opaque" x="136" y="23" width="419" height="33" backcolor="#FFC000" uuid="95ba5b50-8304-459b-a2d8-ecb281f77a40"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="20" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[BUKTI PENERIMAAN]]></text>
 			</staticText>
@@ -76,14 +76,14 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true" isUnderline="false"/>
+					<font fontName="Arial" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[BANK]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="158" y="4" width="92" height="14" uuid="ee0cbba9-71e3-4731-9ee9-8973e7f6436f"/>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font isBold="true" isUnderline="false"/>
+					<font fontName="Arial" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA["A/C "+$P{bankAccount}]]></textFieldExpression>
 			</textField>
@@ -97,7 +97,7 @@
 			<textField>
 				<reportElement x="92" y="18" width="222" height="14" uuid="1a861d5b-8153-4ab7-a17f-b6a3f998cb7a"/>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font isBold="true" isUnderline="false"/>
+					<font fontName="Arial" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[": "+$P{bankName}]]></textFieldExpression>
 			</textField>
@@ -125,7 +125,7 @@
 			<textField>
 				<reportElement x="110" y="46" width="210" height="14" uuid="9ee7c100-2903-4aef-8173-a79d8596e234"/>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{customerName}]]></textFieldExpression>
 			</textField>
@@ -139,14 +139,14 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="none">
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalAmount}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="110" y="74" width="424" height="26" uuid="9b28c10b-dbdd-4b41-ba30-0f09eab0a954"/>
 				<textElement verticalAlignment="Top" markup="none">
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{numberToWords}]]></textFieldExpression>
 			</textField>
@@ -223,7 +223,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="true" isItalic="false" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Rp]]></text>
 			</staticText>
@@ -290,7 +290,7 @@
 			<staticText>
 				<reportElement x="23" y="113" width="257" height="14" uuid="58fcab5f-66ae-4b10-be3a-7f43881c4120"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="true" isItalic="false" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Jumlah]]></text>
 			</staticText>
@@ -356,7 +356,7 @@
 			<textField pattern="#,##0">
 				<reportElement x="331" y="113" width="201" height="14" uuid="2cff5113-44ca-47dc-94b3-b7ab57ef4760"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalAmount}]]></textFieldExpression>
 			</textField>
@@ -370,7 +370,7 @@
 			<staticText>
 				<reportElement x="23" y="71" width="257" height="14" uuid="d75bf7cd-9e83-4b5c-9987-6816fc7ec582"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="true" isItalic="false" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isItalic="false" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<text><![CDATA[Total Pembayaran]]></text>
 			</staticText>
@@ -384,7 +384,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
-					<font size="8" isBold="true" isUnderline="false"/>
+					<font fontName="Arial" size="8" isBold="true" isUnderline="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalAmount}.add($P{interestDeduction}).add($P{otherDeduction})]]></textFieldExpression>
 			</textField>

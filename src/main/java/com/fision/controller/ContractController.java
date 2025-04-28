@@ -97,7 +97,7 @@ public class ContractController {
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdTm") String sortBy,
             @RequestParam(defaultValue = "desc") String sortOrder,
-            @RequestParam(required = false) String contractName,
+            @RequestParam(required = false) String contractNo,
             @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
@@ -105,7 +105,7 @@ public class ContractController {
         try {
             Page<ContractPagingListDto> contractListPaging = contractService.getContractListPaging(
                     pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
-                    contractName != null && !contractName.isEmpty() ? contractName : null,
+                    contractNo != null && !contractNo.isEmpty() ? contractNo : null,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);

@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @Service
 public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSyncService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FacilityTransactionSyncService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacilityTransactionSyncServiceImpl.class);
 
     @Autowired
     FisionOutSourceDataRepository fisionOutSourceDataRepository;
@@ -128,10 +128,10 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             }
 
             tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().subtract(requestDto.getAmount()));
-            tbFacilityBalance.setModifiedBy("System");
+            tbFacilityBalance.setModifiedBy(ConstantsUtils.SYSTEM);
             tbFacilityAssetTransactionRepository.save(transaction);
         } else {
-            logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+requestDto.getFacilityType());
+            logger.info(ConstantsUtils.FACILITY_NOT_REGISTERED + requestDto.getFacilityType());
         }
     }
 
@@ -173,8 +173,8 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             transaction.setTransactionType("Payment");
             transaction.setFacilityType(data.getFacilityType());
             transaction.setDebitAdvice(data.getDebitAdvice());
-            transaction.setCreatedBy("System");
-            transaction.setModifiedBy("System");
+            transaction.setCreatedBy(ConstantsUtils.SYSTEM);
+            transaction.setModifiedBy(ConstantsUtils.SYSTEM);
 
             // Mengambil tenorDateConfig dari tbFacilityBalance
             TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(data.getFacilityType());
@@ -197,9 +197,9 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(facilityType);
             if (tbFacilityBalance != null) {
                 tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().subtract(totalAmount));
-                tbFacilityBalance.setModifiedBy("System");
+                tbFacilityBalance.setModifiedBy(ConstantsUtils.SYSTEM);
             } else {
-                logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+facilityType);
+                logger.info(ConstantsUtils.FACILITY_NOT_REGISTERED + facilityType);
             }
         });
     }
@@ -227,8 +227,8 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
                     tbCashOut.setAmount(data.getAmount());
                     tbCashOut.setVendorName(data.getCompanyName());
                     tbCashOut.setProjectName(data.getProjectName());
-                    tbCashOut.setCreatedBy("System");
-                    tbCashOut.setModifiedBy("System");
+                    tbCashOut.setCreatedBy(ConstantsUtils.SYSTEM);
+                    tbCashOut.setModifiedBy(ConstantsUtils.SYSTEM);
                     tbCashOut.setDocumentCashOutName("-");
                     tbCashOut.setInvoiceTitle(data.getDebitAdvice());
                     tbCashOut.setTotal(data.getAmount());
@@ -248,9 +248,9 @@ public class FacilityTransactionSyncServiceImpl implements FacilityTransactionSy
             TbFacilityBalance tbFacilityBalance = tbFacilityBalanceRepository.findByFacilityType(facilityType);
             if (tbFacilityBalance != null) {
                 tbFacilityBalance.setAmount(tbFacilityBalance.getAmount().add(totalAmount));
-                tbFacilityBalance.setModifiedBy("System");
+                tbFacilityBalance.setModifiedBy(ConstantsUtils.SYSTEM);
             } else {
-                logger.info("Data Facility Type tidak terdaftar di FISION, Facility Type : "+facilityType);
+                logger.info(ConstantsUtils.FACILITY_NOT_REGISTERED + facilityType);
             }
         });
     }

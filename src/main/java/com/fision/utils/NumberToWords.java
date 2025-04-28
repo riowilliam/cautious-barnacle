@@ -41,15 +41,26 @@ public class NumberToWords {
         } else if (number < 20) {
             return TEENS[(int) (number - 10)];
         } else if (number < 100) {
-            return TENS[(int) (number / 10)] + " " + UNITS[(int) (number % 10)];
+            return TENS[(int) (number / 10)] + (number % 10 != 0 ? " " + UNITS[(int) (number % 10)] : "");
         } else if (number < 1000) {
-            return UNITS[(int) (number / 100)] + " Ratus " + convert(number % 100);
+            if (number / 100 == 1) {
+                return "Seratus" + (number % 100 != 0 ? " " + convert(number % 100) : "");
+            } else {
+                return UNITS[(int) (number / 100)] + " Ratus" + (number % 100 != 0 ? " " + convert(number % 100) : "");
+            }
         } else if (number < 1000000) {
-            return convert(number / 1000) + " Ribu " + convert(number % 1000);
+            if (number / 1000 == 1) {
+                return "Seribu" + (number % 1000 != 0 ? " " + convert(number % 1000) : "");
+            } else {
+                return convert(number / 1000) + " Ribu" + (number % 1000 != 0 ? " " + convert(number % 1000) : "");
+            }
         } else if (number < 1000000000) {
-            return convert(number / 1000000) + " Juta " + convert(number % 1000000);
+            return convert(number / 1000000) + " Juta" + (number % 1000000 != 0 ? " " + convert(number % 1000000) : "");
+        } else if (number < 1000000000000L) {
+            return convert(number / 1000000000) + " Miliar" + (number % 1000000000 != 0 ? " " + convert(number % 1000000000) : "");
         }
         return "";
     }
+
 }
 

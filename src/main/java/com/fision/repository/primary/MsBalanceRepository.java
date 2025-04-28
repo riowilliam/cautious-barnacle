@@ -1,8 +1,6 @@
 package com.fision.repository.primary;
 
-import com.fision.dto.BalanceListDto;
-import com.fision.dto.BalanceSummaryDetails;
-import com.fision.dto.StatisticsDetailsDto;
+import com.fision.dto.*;
 import com.fision.entity.primary.MsBalance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -169,5 +167,35 @@ public interface MsBalanceRepository extends JpaRepository<MsBalance, Long> {
             "GROUP BY b.bankCodeInternal, b.bankShortName, b.bankDesc, b.balanceAmount " +
             "ORDER BY b.bankShortName")
     List<BalanceSummaryDetails> getBalanceSummaryDetails(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+    @Query(value = "SELECT " +
+            "CASE WHEN b.bank_desc IS NOT NULL THEN CONCAT(b.bank_short_name, '-', b.bank_desc) " +
+            "     ELSE b.bank_short_name END AS bankName, " +
+            "COALESCE(SUM(COALESCE(ci.payment_amount, 0)), 0) AS totalCashInValue, " +
+            "b.balance_amount AS totalBalance " +
+            "FROM ms_balance b " +
+            "LEFT JOIN tb_cash_in ci ON b.bank_code_internal = ci.payment_bank_code " +
+            "AND ci.created_tm >= :startDate " +
+            "AND ci.created_tm < :endDate " +
+            "AND ci.cash_in_status = 'Completed' " +
+            "GROUP BY b.bank_code_internal, b.bank_short_name, b.bank_desc, b.balance_amount",
+            nativeQuery = true)
+    List<BalanceCashInProjection> getCashInByBank(@Param("startDate") Date startDate,
+                                                  @Param("endDate") Date endDate);
+
+    @Query(value = "SELECT " +
+            "CASE WHEN b.bank_desc IS NOT NULL THEN CONCAT(b.bank_short_name, '-', b.bank_desc) " +
+            "     ELSE b.bank_short_name END AS bankName, " +
+            "COALESCE(SUM(COALESCE(co.amount, 0)), 0) AS totalCashOutValue, " +
+            "b.balance_amount AS totalBalance " +
+            "FROM ms_balance b " +
+            "LEFT JOIN tb_cash_out co ON b.bank_code_internal = co.payment_bank_code " +
+            "AND co.created_tm >= :startDate " +
+            "AND co.created_tm < :endDate " +
+            "GROUP BY b.bank_code_internal, b.bank_short_name, b.bank_desc, b.balance_amount",
+            nativeQuery = true)
+    List<BalanceCashOutProjection> getCashOutByBank(@Param("startDate") Date startDate,
+                                                    @Param("endDate") Date endDate);
+
 
 }

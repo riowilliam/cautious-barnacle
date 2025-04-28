@@ -15,6 +15,7 @@ public interface VendorService {
     void saveVendor(String username, VendorRequestDto vendorRequestDto);
     void updateVendor(String username, TbVendor tbVendor, VendorRequestDto vendorRequestDto);
 
-    boolean vendorDataCheck(VendorRequestDto vendorRequestDto, TbVendor tbVendor);
+    boolean vendorDataCheck(VendorRequestDto vendorRequestDto);
+    boolean vendorDataCheckForUpdate(VendorRequestDto vendorRequestDto, TbVendor tbVendor);
     List<TbVendor> getVendorList(String vendorName);
 }
