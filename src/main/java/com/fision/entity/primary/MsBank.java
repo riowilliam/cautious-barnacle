@@ -38,4 +38,15 @@ public class MsBank {
     @Column(name = "modified_by", nullable = false)
     private String modifiedBy;
 
+    @PrePersist
+    protected void onCreate() {
+        Date now = new Date();
+        this.createdTm = now;
+        this.modifiedTm = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.modifiedTm = new Date();
+    }
 }

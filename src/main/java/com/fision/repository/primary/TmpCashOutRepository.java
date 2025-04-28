@@ -3,6 +3,7 @@ package com.fision.repository.primary;
 import com.fision.dto.CashOutDetailDto;
 import com.fision.entity.primary.TmpCashOut;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,16 @@ public interface TmpCashOutRepository extends JpaRepository<TmpCashOut, Long> {
     BigDecimal getSubTotal(@Param("docName") String docName);
 
     List<TmpCashOut> findByDocumentCashOutName(String docName);
+
+    @Modifying
+    @Query("UPDATE TmpCashOut SET vendorName = :vendorName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE vendorName = :oldVendorName")
+    void updateVendorName(@Param("oldVendorName") String oldVendorName,
+                          @Param("vendorName") String vendorName,
+                          @Param("username") String username);
+
+    @Modifying
+    @Query("UPDATE TmpCashOut SET projectName = :projectName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE projectName = :oldProjectName")
+    void updateProjectName(@Param("oldProjectName") String oldVendorName,
+                           @Param("projectName") String vendorName,
+                           @Param("username") String username);
 }

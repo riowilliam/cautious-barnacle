@@ -41,8 +41,9 @@ public class VendorController {
 
             Gson gson = new Gson();
             VendorRequestDto vendorRequestDto = gson.fromJson(requestDto, VendorRequestDto.class);
-            if(vendorRequestDto != null) {
-                boolean vendorDataCheck = vendorService.vendorDataCheck(vendorRequestDto, null);
+            TbVendor tbVendor = vendorService.getVendorByVendorName(vendorRequestDto.getVendorName());
+            if(tbVendor == null) {
+                boolean vendorDataCheck = vendorService.vendorDataCheck(vendorRequestDto);
                 if(!vendorDataCheck) {
                     vendorService.saveVendor(username, vendorRequestDto);
                     return new ResponseDto<>(ConstantsUtils.DATA_SAVED, HttpStatus.OK);
@@ -51,9 +52,10 @@ public class VendorController {
                 }
 
             } else {
-                return new ResponseDto<>(ConstantsUtils.INVALID_REQUEST, HttpStatus.BAD_REQUEST);
+                return new ResponseDto<>(ConstantsUtils.VENDOR_NAME_ALREADY_USED, HttpStatus.OK);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             logger.info(e.getMessage());
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,7 +72,7 @@ public class VendorController {
             VendorRequestDto vendorRequestDto = gson.fromJson(requestDto, VendorRequestDto.class);
             TbVendor tbVendor = vendorService.getVendorById(vendorRequestDto.getVendorId());
             if (tbVendor != null) {
-                boolean vendorDataCheck = vendorService.vendorDataCheck(vendorRequestDto, tbVendor);
+                boolean vendorDataCheck = vendorService.vendorDataCheckForUpdate(vendorRequestDto, tbVendor);
                 if(vendorDataCheck) {
                     return new ResponseDto<>(ConstantsUtils.BANK_ACCOUNT_ALREADY_USED, HttpStatus.OK);
                 }

@@ -5,6 +5,7 @@ import com.fision.entity.primary.TbContract;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -31,11 +32,11 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
             "c.modifiedBy) " +
             "FROM TbContract c " +
             "WHERE c.revision = (SELECT MAX(c2.revision) FROM TbContract c2 WHERE c2.contractNo = c.contractNo) " +
-            "AND (:contractName IS NULL OR c.contractName LIKE %:contractName%) " +
+            "AND (:contractNo IS NULL OR c.contractNo LIKE %:contractNo%) " +
             "AND (:partnerName IS NULL OR c.partnerName LIKE %:partnerName%) " +
             "AND (:startDate is null OR c.contractDate >= :startDate) " +
             "AND (:endDate is null OR c.contractDate <= :endDate) ")
-    Page<ContractPagingListDto> getContractListPaging(@Param("contractName") String contractName,
+    Page<ContractPagingListDto>  getContractListPaging(@Param("contractNo") String contractNo,
                                                       @Param("partnerName") String partnerName,
                                                       @Param("startDate") Date startDate,
                                                       @Param("endDate") Date endDate,
@@ -66,4 +67,10 @@ public interface TbContractRepository extends JpaRepository<TbContract, Long> {
             "WHERE (:contractNo IS NULL OR c.contractNo LIKE %:contractNo%) " +
             "AND c.revision > 0 ")
     List<Object[]> findContractRevisionList(@Param("contractNo") String contractNo);
+
+    @Modifying
+    @Query("UPDATE TbContract SET partnerName = :partnerName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE partnerName = :oldPartnerName")
+    void updatePartnerName(@Param("oldPartnerName") String oldPartnerName,
+                           @Param("partnerName") String partnerName,
+                           @Param("username") String username);
 }

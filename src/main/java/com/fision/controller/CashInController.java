@@ -238,8 +238,9 @@ public class CashInController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            String documentName = "Cash-In-Docs-" + tbCashIn.getInvoiceNo() + "-" +tbCashIn.getPaymentProgressNum();
-            String notes = ConstantsUtils.INVOICE_NOTES.replace("n", tbCashIn.getPaymentProgressNum().toString()).replace(ConstantsUtils.PLACEHOLDER_INVOICE, tbCashIn.getInvoiceNo());
+            String sanitizedInvoiceNo = tbCashIn.getInvoiceNo().replaceAll("[\\\\/:*?\"<>|]", "_");
+            String documentName = "Cash-In-Docs-" + sanitizedInvoiceNo + "-" + tbCashIn.getPaymentProgressNum();
+            String notes = ConstantsUtils.INVOICE_NOTES.replace(ConstantsUtils.PLACEHOLDER_PROGRESS, tbCashIn.getPaymentProgressNum().toString()).replace(ConstantsUtils.PLACEHOLDER_INVOICE, tbCashIn.getInvoiceNo());
 
             // Prepare parameters for Jasper Report
             Map<String, Object> parameters = new HashMap<>();

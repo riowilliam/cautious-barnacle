@@ -2,6 +2,8 @@ package com.fision.serviceImpl;
 
 import com.fision.entity.primary.MsItem;
 import com.fision.repository.primary.MsItemRepository;
+import com.fision.repository.primary.TbItemDetailsRepository;
+import com.fision.repository.primary.TxPaidItemRepository;
 import com.fision.service.MsItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,12 @@ public class MsItemImpl implements MsItemService {
 
     @Autowired
     MsItemRepository msItemRepository;
+
+    @Autowired
+    TbItemDetailsRepository tbItemDetailsRepository;
+
+    @Autowired
+    TxPaidItemRepository txPaidItemRepository;
 
     @Override
     public Page<MsItem> getItemListPaging(String itemName, Pageable pageable) {
@@ -46,9 +54,15 @@ public class MsItemImpl implements MsItemService {
 
     @Override
     public void updateItem(String username, MsItem item, String newItemName) {
+        String oldItemName = item.getItemName();
         item.setItemName(newItemName);
         item.setModifiedBy(username);
         msItemRepository.save(item);
+
+        if(!oldItemName.equals(newItemName)) {
+            tbItemDetailsRepository.updateItemName(oldItemName, newItemName, username);
+            txPaidItemRepository.updateItemName(oldItemName, newItemName, username);
+        }
     }
 
     @Override

@@ -111,7 +111,7 @@ public class UserController {
 
             Gson gson = new Gson();
             UserProfileDto userProfileDto = gson.fromJson(requestDto, UserProfileDto.class);
-            UserProfileDto existingUser = userService.getUserProfile(username);
+            UserProfileDto existingUser = userService.getUserProfile(userProfileDto.getUsername());
             if(existingUser != null) {
                 return new ResponseDto<>(ConstantsUtils.USERNAME_ALREADY_USED, HttpStatus.OK);
             } else {
@@ -133,7 +133,7 @@ public class UserController {
 
             Gson gson = new Gson();
             UserProfileDto userProfileDto = gson.fromJson(requestDto, UserProfileDto.class);
-            UserProfileDto requesterUser = userService.getUserProfile(username);
+            UserProfileDto requesterUser = userService.getUserProfile(userProfileDto.getUsername());
             if(requesterUser != null && (requesterUser.getRoleCode().equalsIgnoreCase(ConstantsUtils.SUPER_ADM)
                     || requesterUser.getRoleCode().equalsIgnoreCase(ConstantsUtils.ADMIN)) && userProfileDto != null) {
                 userService.editUserRole(username, userProfileDto);

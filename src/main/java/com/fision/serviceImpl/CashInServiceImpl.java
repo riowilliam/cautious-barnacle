@@ -102,6 +102,8 @@ public class CashInServiceImpl implements CashInService {
         tbArInvoice.setDeduction(cashInRequestDto.getInterestDeduction().add(cashInRequestDto.getOtherDeduction()));
         tbArInvoice.setProjectName(cashInRequestDto.getProjectName());
         tbArInvoice.setTotalAmount(cashInRequestDto.getPaymentAmount());
+        tbArInvoice.setCreatedBy(username);
+        tbArInvoice.setModifiedBy(username);
         arInvoiceService.save(tbArInvoice);
     }
 

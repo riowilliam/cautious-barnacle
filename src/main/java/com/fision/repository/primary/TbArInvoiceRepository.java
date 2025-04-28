@@ -6,6 +6,7 @@ import com.fision.entity.primary.TbArInvoice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -107,5 +108,21 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "AND tba.invoiceNo NOT LIKE '%NO_INV%' ")
     DashboardCardDetailsDto getARInvoiceCardDetail(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    @Modifying
+    @Query("UPDATE TbArInvoice SET partnerName = :partnerName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE partnerName = :oldPartnerName")
+    void updatePartnerName(@Param("oldPartnerName") String oldPartnerName,
+                           @Param("partnerName") String partnerName,
+                           @Param("username") String username);
 
+    @Modifying
+    @Query("UPDATE TbArInvoice SET contractNo = :contractNo, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE contractNo = :oldContractNo")
+    void updateContractNo(@Param("oldContractNo") String oldContractNo,
+                          @Param("contractNo") String contractNo,
+                          @Param("username") String username);
+
+    @Modifying
+    @Query("UPDATE TbArInvoice SET projectName = :projectName, modifiedBy = :username, modifiedTm = CURRENT_TIMESTAMP WHERE projectName = :oldProjectName")
+    void updateProjectName(@Param("oldProjectName") String oldVendorName,
+                           @Param("projectName") String vendorName,
+                           @Param("username") String username);
 }
