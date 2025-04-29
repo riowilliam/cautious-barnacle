@@ -102,11 +102,11 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     }
 
     @Override
-    public Page<ARInvoiceListDto> getArInvoiceListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String partnerName, String projectName, Integer invoiceStatus, Date startDate, Date endDate) {
+    public Page<ARInvoiceListDto> getArInvoiceListPaging(int pageNo, int pageSize, String sortBy, String sortOrder, String partnerName, String projectName, String invoiceNo, Integer invoiceStatus, Date startDate, Date endDate) {
         Pageable pageable = PageRequest.of(pageNo, pageSize,
                 sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending());
 
-        Page<ARInvoiceDetailDto> arInvoicePaging = tbArInvoiceRepository.getArInvoicePaging(partnerName, projectName, invoiceStatus, startDate, endDate, pageable);
+        Page<ARInvoiceDetailDto> arInvoicePaging = tbArInvoiceRepository.getArInvoicePaging(partnerName, projectName, invoiceNo, invoiceStatus, startDate, endDate, pageable);
         ARInvoiceSummaryDto arInvoiceSummaryDto = getARInvoiceSummary(partnerName, projectName, invoiceStatus, startDate, endDate);
 
         ARInvoiceListDto arInvoiceListDto = new ARInvoiceListDto(arInvoicePaging.getContent(), arInvoiceSummaryDto);
