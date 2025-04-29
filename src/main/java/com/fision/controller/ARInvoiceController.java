@@ -79,6 +79,7 @@ public class ARInvoiceController {
             @RequestParam(defaultValue = "desc") String sortOrder,
             @RequestParam(required = false) String partnerName,
             @RequestParam(required = false) String projectName,
+            @RequestParam(required = false) String invoiceNo,
             @RequestParam(required = false) Integer invoiceStatus,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate
@@ -87,6 +88,7 @@ public class ARInvoiceController {
             Page<ARInvoiceListDto> arInvoiceListDtoPage = arInvoiceService.getArInvoiceListPaging(pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     projectName != null && !projectName.isEmpty() ? projectName : null,
+                    projectName != null && !projectName.isEmpty() ? invoiceNo : null,
                     invoiceStatus,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);

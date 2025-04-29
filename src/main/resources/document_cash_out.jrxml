@@ -176,7 +176,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
-				<text><![CDATA[TOTALPEMBAYARAN]]></text>
+				<text><![CDATA[TOTAL PEMBAYARAN]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="103" y="14" width="753" height="14" uuid="26223533-dbe8-41df-ab2d-6f81ddd2e5d5"/>

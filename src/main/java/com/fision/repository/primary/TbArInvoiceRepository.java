@@ -29,6 +29,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "LEFT JOIN TbCashIn tci ON tba.invoiceNo = tci.invoiceNo AND tci.cashInStatus = 'Completed' " +
             "WHERE (:partnerName IS NULL OR tba.partnerName LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.projectName LIKE %:projectName%) " +
+            "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoiceStatus = :invoiceStatus) " +
             "AND (:startDate IS NULL OR tba.invoiceDate >= :startDate) " +
             "AND (:endDate IS NULL OR tba.invoiceDate < :endDate) " +
@@ -40,6 +41,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "tba.invoiceDate, tba.createdTm, tba.createdBy, tba.modifiedTm, tba.modifiedBy, tba.paidItemDetails")
     Page<ARInvoiceDetailDto> getArInvoicePaging(@Param("partnerName") String partnerName,
                                                 @Param("projectName") String projectName,
+                                                @Param("invoiceNo") String invoiceNo,
                                                 @Param("invoiceStatus") Integer invoiceStatus,
                                                 @Param("startDate") Date startDate,
                                                 @Param("endDate") Date endDate,
