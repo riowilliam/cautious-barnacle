@@ -88,7 +88,7 @@ public class ARInvoiceController {
             Page<ARInvoiceListDto> arInvoiceListDtoPage = arInvoiceService.getArInvoiceListPaging(pageNo, pageSize, sortBy.equalsIgnoreCase("createdDate") ? "createdTm" : sortBy, sortOrder,
                     partnerName != null && !partnerName.isEmpty() ? partnerName : null,
                     projectName != null && !projectName.isEmpty() ? projectName : null,
-                    projectName != null && !projectName.isEmpty() ? invoiceNo : null,
+                    invoiceNo != null && !invoiceNo.isEmpty() ? invoiceNo : null,
                     invoiceStatus,
                     startDate != null && !startDate.isEmpty() ? DateTimeHelper.stringToDate(startDate) : null,
                     endDate != null && !endDate.isEmpty() ? DateTimeHelper.stringToDateAddOneDay(endDate) : null);

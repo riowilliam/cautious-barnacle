@@ -86,8 +86,8 @@ public class CashOutController {
             tempFile.deleteOnExit();
             File tempFileAddress = Files.createTempFile("temp-", "-" + "HKA_Address_Details.png").toFile();
             tempFileAddress.deleteOnExit();
-            parameters.put("imgDir", tempFile.getAbsolutePath()/*"src/main/resources/HKA_Logos.png"*/);
-            parameters.put("imgDirDetails", tempFileAddress.getAbsolutePath()/*"src/main/resources/HKA_Address_Details.png"*/);
+            parameters.put("imgDir", /*tempFile.getAbsolutePath()*/"/home/fision/app/fision-be/HKA_Logos.png");
+            parameters.put("imgDirDetails", /*tempFileAddress.getAbsolutePath()*/"/home/fision/app/fision-be/HKA_Address_Details.png");
 
             // Menyalin isi dari InputStream ke file sementara
             try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
