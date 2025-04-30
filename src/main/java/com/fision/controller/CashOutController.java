@@ -71,32 +71,12 @@ public class CashOutController {
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
 
-            // Copy image temp
-            InputStream inputStream = ResourceUtils.class.getResourceAsStream("/" + "HKA_Logos.png");
-            if (inputStream == null) {
-                throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
-            }
-
-            InputStream inputStreamDetailAddress = ResourceUtils.class.getResourceAsStream("/" + "HKA_Address_Details.png");
-            if (inputStreamDetailAddress == null) {
-                throw new IllegalArgumentException("Resource not found: " + "HKA_Address_Details.png");
-            }
-
-            File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
-            tempFile.deleteOnExit();
-            File tempFileAddress = Files.createTempFile("temp-", "-" + "HKA_Address_Details.png").toFile();
-            tempFileAddress.deleteOnExit();
-            parameters.put("imgDir", /*tempFile.getAbsolutePath()*/"/home/fision/app/fision-be/HKA_Logos.png");
-            parameters.put("imgDirDetails", /*tempFileAddress.getAbsolutePath()*/"/home/fision/app/fision-be/HKA_Address_Details.png");
-
-            // Menyalin isi dari InputStream ke file sementara
-            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
+            // Local Gilang
+//            parameters.put("imgDir", "src/main/resources/HKA_Logos.png");
+//            parameters.put("imgDirDetails", "src/main/resources/HKA_Address_Details.png");
+            // Prod
+            parameters.put("imgDir", "/home/fision/app/fision-be/HKA_Logos.png");
+            parameters.put("imgDirDetails", "/home/fision/app/fision-be/HKA_Address_Details.png");
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
@@ -167,24 +147,12 @@ public class CashOutController {
             parameters.put("docDate", DateTimeHelper.getJakartaDate(new Date()));
             parameters.put("REPORT_LOCALE", indonesiaLocale);
 
-            // Copy image temp
-            InputStream inputStream = ResourceUtils.class.getResourceAsStream("/" + "HKA_Logos.png");
-            if (inputStream == null) {
-                throw new IllegalArgumentException("Resource not found: " + "HKA_Logos.png");
-            }
-
-            File tempFile = Files.createTempFile("temp-", "-" + "HKA_Logos.png").toFile();
-            tempFile.deleteOnExit();
-            parameters.put("imgDir", tempFile.getAbsolutePath());
-
-            // Menyalin isi dari InputStream ke file sementara
-            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
+//            // Local Gilang
+//            parameters.put("imgDir", "src/main/resources/HKA_Logos.png");
+//            parameters.put("imgDirDetails", "src/main/resources/HKA_Address_Details.png");
+            // Prod
+            parameters.put("imgDir", "/home/fision/app/fision-be/HKA_Logos.png");
+            parameters.put("imgDirDetails", "/home/fision/app/fision-be/HKA_Address_Details.png");
 
             // Convert cashOutDetailList to JRBeanCollectionDataSource
             List<CashOutDetailDto> cashOutDetails = cashOutListDto.getCashOutDetailList();
