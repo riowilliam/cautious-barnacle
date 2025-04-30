@@ -70,7 +70,7 @@ public interface TbArInvoiceRepository extends JpaRepository<TbArInvoice, Long> 
             "WHERE (:partnerName IS NULL OR tba.partner_name LIKE %:partnerName%) " +
             "AND (:projectName IS NULL OR tba.project_name LIKE %:projectName%) " +
             "AND (:invoiceStatus IS NULL OR tba.invoice_status = :invoiceStatus) " +
-            "AND (:invoiceNo IS NULL OR tba.invoiceNo LIKE %:invoiceNo%) " +
+            "AND (:invoiceNo IS NULL OR tba.invoice_no LIKE %:invoiceNo%) " +
             "AND (:startDate IS NULL OR tba.created_tm >= :startDate) " +
             "AND (:endDate IS NULL OR tba.created_tm <= :endDate) " +
             "AND tba.invoice_no NOT LIKE '%NO_INV%' ",
