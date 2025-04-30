@@ -118,9 +118,9 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
         return tbArInvoiceRepository.getArInvoiceDetailList(invoiceNo);
     }
 
-    private ARInvoiceSummaryDto getARInvoiceSummary(String partnerName, String projectName, Integer invoiceStatus,
+    private ARInvoiceSummaryDto getARInvoiceSummary(String partnerName, String projectName, String invoiceNo, Integer invoiceStatus,
                                                          Date startDate, Date endDate) {
-        Object[] resultArray = (Object[]) tbArInvoiceRepository.getArInvoiceSummary(partnerName, projectName, invoiceStatus, startDate, endDate);
+        Object[] resultArray = (Object[]) tbArInvoiceRepository.getArInvoiceSummary(partnerName, projectName, invoiceNo, invoiceStatus, startDate, endDate);
         return new ARInvoiceSummaryDto(
                 (BigDecimal) resultArray[0],  // total for invoice_status = 1
                 (BigDecimal) resultArray[1],  // total for invoice_status = 0
