@@ -106,4 +106,46 @@ public interface TbProjectRepository extends JpaRepository<TbProject, Long> {
             "LIMIT 1", nativeQuery = true)
     String findMvpProject();
 
+    @Query("SELECT new com.fision.dto.ProjectMonitoringDetailDto(pr.projectName, " +
+            "COALESCE(SUM(COALESCE(ci.paymentAmount, 0)), 0), " +
+            "COALESCE(SUM(COALESCE(co.amount, 0)), 0)) " +
+            "FROM TbProject pr " +
+            "LEFT JOIN TbArInvoice ai ON pr.projectName = ai.projectName " +
+            "LEFT JOIN TbCashIn ci ON ai.invoiceNo = ci.invoiceNo AND ci.cashInStatus = 'Completed' AND FUNCTION('YEAR', ci.createdTm) = :year " +
+            "LEFT JOIN TbCashOut co ON pr.projectName = co.projectName AND FUNCTION('YEAR', co.createdTm) = :year " +
+            "GROUP BY pr.projectName")
+    List<ProjectMonitoringDetailDto> getProjectMonitoringListYearly(@Param("year") int year);
+
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_ar_invoice ai ON pr.project_name = ai.project_name " +
+            "LEFT JOIN tb_cash_in ci ON ai.invoice_no = ci.invoice_no " +
+            "    AND ci.cash_in_status = 'Completed' " +
+            "    AND EXTRACT(YEAR FROM ci.created_tm) = :year " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY COALESCE(SUM(ci.payment_amount), 0) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMostCashInProjectYearly(@Param("year") int year);
+
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_cash_out co ON pr.project_name = co.project_name " +
+            "    AND EXTRACT(YEAR FROM co.created_tm) = :year " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY COALESCE(SUM(co.amount), 0) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMostCashOutProjectYearly(@Param("year") int year);
+
+    @Query(value = "SELECT pr.project_name " +
+            "FROM tb_project pr " +
+            "LEFT JOIN tb_ar_invoice ai ON pr.project_name = ai.project_name " +
+            "LEFT JOIN tb_cash_in ci ON ai.invoice_no = ci.invoice_no " +
+            "    AND ci.cash_in_status = 'Completed' " +
+            "    AND EXTRACT(YEAR FROM ci.created_tm) = :year " +
+            "LEFT JOIN tb_cash_out co ON pr.project_name = co.project_name " +
+            "    AND EXTRACT(YEAR FROM co.created_tm) = :year " +
+            "GROUP BY pr.project_name " +
+            "ORDER BY (COALESCE(SUM(ci.payment_amount), 0) - COALESCE(SUM(co.amount), 0)) DESC " +
+            "LIMIT 1", nativeQuery = true)
+    String findMvpProjectYearly(@Param("year") int year);
 }

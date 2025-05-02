@@ -119,7 +119,7 @@ public class ARInvoiceServiceImpl implements ARInvoiceService {
     }
 
     private ARInvoiceSummaryDto getARInvoiceSummary(String partnerName, String projectName, String invoiceNo, Integer invoiceStatus,
-                                                    Date startDate, Date endDate) {
+                                                         Date startDate, Date endDate) {
         Object[] resultArray = (Object[]) tbArInvoiceRepository.getArInvoiceSummary(partnerName, projectName, invoiceNo, invoiceStatus, startDate, endDate);
         return new ARInvoiceSummaryDto(
                 (BigDecimal) resultArray[0],  // total for invoice_status = 1
