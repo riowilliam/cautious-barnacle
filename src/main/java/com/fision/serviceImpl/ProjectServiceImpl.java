@@ -131,4 +131,17 @@ public class ProjectServiceImpl implements ProjectService {
         return new ProjectMonitoringSummaryDto(mostMvpProject, mostCashInProject, mostCashOutProject);
     }
 
+    @Override
+    public List<ProjectMonitoringDetailDto> getProjectMonitoringDetailListYearly(Integer year) {
+        return tbProjectRepository.getProjectMonitoringListYearly(year);
+    }
+
+    @Override
+    public ProjectMonitoringSummaryDto getProjectMonitoringSummaryYearly(Integer year) {
+        String mostCashInProject = tbProjectRepository.findMostCashInProjectYearly(year);
+        String mostCashOutProject = tbProjectRepository.findMostCashOutProjectYearly(year);
+        String mostMvpProject = tbProjectRepository.findMvpProjectYearly(year);
+        return new ProjectMonitoringSummaryDto(mostMvpProject, mostCashInProject, mostCashOutProject);
+    }
+
 }

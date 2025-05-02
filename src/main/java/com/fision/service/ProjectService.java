@@ -20,4 +20,6 @@ public interface ProjectService {
     List<Map<String, Object>> getProjectList(String projectName, String partnerName);
     List<ProjectMonitoringDetailDto> getProjectMonitoringDetailList();
     ProjectMonitoringSummaryDto getProjectMonitoringSummary();
+    List<ProjectMonitoringDetailDto> getProjectMonitoringDetailListYearly(Integer year);
+    ProjectMonitoringSummaryDto getProjectMonitoringSummaryYearly(Integer year);
 }

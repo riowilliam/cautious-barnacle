@@ -38,4 +38,21 @@ public class ProjectMonitoringController {
             return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("getProjectListYearly")
+    public ResponseDto<?> getProjectListYearly(@RequestParam Integer year) {
+        try {
+            if(year == null) {
+                return new ResponseDto<>("Invalid Request.", null, HttpStatus.BAD_REQUEST);
+            }
+
+            List<ProjectMonitoringDetailDto> projectMonitoringDetailDtoList = projectService.getProjectMonitoringDetailListYearly(year);
+            ProjectMonitoringSummaryDto projectMonitoringSummaryDto = projectService.getProjectMonitoringSummaryYearly(year);
+            ProjectMonitoringDetailListDto projectList = new ProjectMonitoringDetailListDto(projectMonitoringDetailDtoList, projectMonitoringSummaryDto);
+            return new ResponseDto<>(ConstantsUtils.SUCCESS, projectList, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            return new ResponseDto<>(ConstantsUtils.ERROR_SYSTEM, null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
